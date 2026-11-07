@@ -168,6 +168,22 @@ predecessor and permanently closes after an order violation or reader error.
 into the heap. Initialization and iteration errors close every owned input;
 they never leave an operation resumable with a missing heap head.
 
+`merge(Fst[])` creates independent concrete streams from already validated
+graphs, so it advances them directly without repeating external-source order
+checks or boxing each entry through a trait adapter. `MergeStream::new` and
+`merge_sources` retain the checked path for caller-provided streams. Both paths
+produce independently owned keys and value groups that remain valid after the
+merge advances or closes; the source-number ordering is identical.
+
+For exactly two fresh FST streams, the merge compares their current mutable
+key buffers directly. It copies one key only when returning a result, before
+advancing the matching input streams. Equal keys produce source 0 then source
+1 in a new value array. This avoids a heap and discarded duplicate head copies
+without exposing borrowed buffers. Other source counts retain the heap. Small
+heap groups construct their first one or two values without an intermediate
+array expansion. Materializing reductions close all inputs if a value policy,
+callback or builder fails.
+
 Filtering and value mapping preserve the input key order. Windowing skips a
 bounded prefix and returns at most its limit; constructing an adapter performs
 no reads, including for a zero limit. The checked/filter/map/window adapters

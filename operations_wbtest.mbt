@@ -214,3 +214,53 @@ test "fresh merge results own their keys and value groups through advance and cl
   @debug.assert_eq(fst.get(b"a"), Some(18446744073709551615UL))
   @debug.assert_eq(fst.stream().collect(), records)
 }
+
+///|
+fn operations_pair_key(suffix : Array[Byte]) -> Bytes {
+  let bytes = Array::make(257, b'\xfe')
+  for byte in suffix {
+    bytes.push(byte)
+  }
+  Bytes::from_array(bytes)
+}
+
+///|
+test "fresh pair merges compare borrowed binary prefixes and exhaust either side" {
+  let left : Array[Entry] = [
+    { key: b"", value: 9UL, },
+    { key: operations_pair_key([]), value: 17UL, },
+    { key: operations_pair_key([b'\x00', b'\x01']), value: 0UL, },
+    { key: operations_pair_key([b'\x80']), value: 18446744073709551615UL, },
+  ]
+  let right : Array[Entry] = [
+    { key: b"\x00", value: 31UL, },
+    { key: operations_pair_key([b'\x00']), value: 23UL, },
+    { key: operations_pair_key([b'\x80']), value: 0UL, },
+    { key: operations_pair_key([b'\xff']), value: 41UL, },
+    { key: b"\xff", value: 43UL, },
+  ]
+  let cases : Array[Array[Array[Entry]]] = [
+    [left, right],
+    [right, left],
+    [left, []],
+    [[], right],
+    [[], []],
+  ]
+  for inputs in cases {
+    let graphs = inputs.map(records => {
+      FstMap::from_sorted(records, registry_capacity=7).as_fst()
+    })
+    for operation in [Union, Intersection, Difference, SymmetricDifference] {
+      let merged = merge(graphs, operation)
+      assert_true(merged.inputs is FstPair(_))
+      @debug.assert_eq(
+        merged.collect(),
+        operations_reference(inputs, operation),
+      )
+      assert_true(merged.finished)
+      merged.close()
+      merged.close()
+      @debug.assert_eq(merged.next(), None)
+    }
+  }
+}

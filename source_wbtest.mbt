@@ -401,3 +401,123 @@ test "window closes once when the external reader fails during skip or take" {
     assert_eq(probe.closes, 1)
   }
 }
+
+///|
+fn source_assert_closed_merge(
+  merged : MergeStream,
+  left : SourceProbe,
+  right : SourceProbe,
+  expected_calls : Int32,
+) -> Unit raise {
+  assert_true(left.closed)
+  assert_true(right.closed)
+  assert_eq(left.closes, 1)
+  assert_eq(right.closes, 1)
+  assert_eq(left.calls, expected_calls)
+  assert_eq(right.calls, expected_calls)
+  @debug.assert_eq(merged.next(), None)
+  merged.close()
+  merged.close()
+  @debug.assert_eq(merged.next(), None)
+  assert_eq(left.calls, expected_calls)
+  assert_eq(right.calls, expected_calls)
+  assert_eq(left.closes, 1)
+  assert_eq(right.closes, 1)
+}
+
+///|
+test "merge into_map closes sources after overflow or duplicate reduction" {
+  for overflow in [true, false] {
+    let left = source_probe([
+      { key: b"a", value: 18446744073709551615UL, },
+      { key: b"b", value: 2UL, },
+    ])
+    let right = source_probe([
+      { key: b"a", value: 1UL, },
+      { key: b"c", value: 3UL, },
+    ])
+    let merged = merge_sources([left, right], Union)
+    let policy = if overflow { Sum } else { Reject }
+    let error = source_test_error(() => merged.into_map(policy))
+    if overflow {
+      assert_true(error is Some(Overflow))
+    } else {
+      assert_true(error is Some(DuplicateKey(_)))
+    }
+    // Both readers still have a buffered tail, so EOF cannot hide a missing
+    // close in the materializing consumer's error path.
+    source_assert_closed_merge(merged, left, right, 2)
+  }
+}
+
+///|
+test "merge reduce_with closes every source after a later callback failure" {
+  let left = source_probe([
+    { key: b"a", value: 1UL, },
+    { key: b"b", value: 2UL, },
+    { key: b"d", value: 4UL, },
+  ])
+  let right = source_probe([
+    { key: b"a", value: 10UL, },
+    { key: b"b", value: 20UL, },
+    { key: b"e", value: 50UL, },
+  ])
+  let merged = merge_sources([left, right], Union)
+  let mut callbacks = 0
+  let error = source_test_error(() => {
+    merged.reduce_with(group => {
+      callbacks = callbacks + 1
+      if group.key == b"b" {
+        raise InvalidArgument("merge reduction callback failed")
+      }
+      group.reduce(Sum).value
+    })
+  })
+  assert_true(error is Some(InvalidArgument(_)))
+  assert_eq(callbacks, 2)
+  source_assert_closed_merge(merged, left, right, 3)
+  assert_eq(callbacks, 2)
+}
+
+///|
+test "merge closes both sources when the second matching head fails on refill" {
+  let left = source_probe([
+    { key: b"a", value: 1UL, },
+    { key: b"b", value: 2UL, },
+  ])
+  let right = source_probe(
+    [{ key: b"a", value: 10UL, }, { key: b"c", value: 3UL, }],
+    fail_at=1,
+  )
+  let merged = merge_sources([left, right], Union)
+  assert_true(source_test_error(() => merged.next()) is Some(InvalidFormat(_)))
+  // The first matching source has already advanced normally, but no group
+  // may escape after refilling the second source fails.
+  source_assert_closed_merge(merged, left, right, 2)
+}
+
+///|
+test "merge materializing reductions preserve normal results and EOF closure" {
+  for callback in [false, true] {
+    let left = source_probe([
+      { key: b"a", value: 2UL, },
+      { key: b"c", value: 5UL, },
+    ])
+    let right = source_probe([
+      { key: b"a", value: 7UL, },
+      { key: b"b", value: 11UL, },
+    ])
+    let merged = merge_sources([left, right], Union)
+    let result = if callback {
+      merged.reduce_with(group => group.reduce(Sum).value)
+    } else {
+      merged.into_map(Sum)
+    }
+    @debug.assert_eq(result.as_fst().stream().collect(), [
+      Entry::{ key: b"a", value: 9UL, },
+      { key: b"b", value: 11UL, },
+      { key: b"c", value: 5UL, },
+    ])
+    source_assert_closed_merge(merged, left, right, 3)
+  }
+}

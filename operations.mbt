@@ -34,15 +34,25 @@ priv struct HeapItem {
 }
 
 ///|
+/// Fresh two-way merges retain borrowed heads in each stream's key buffer.
+priv struct PairStreams {
+  left : Stream
+  right : Stream
+  mut left_ready : Bool
+  mut right_ready : Bool
+}
+
+///|
 /// Only merge(Fst[]) owns freshly opened streams whose ordering follows from
 /// the verified graph. Public application sources retain their checked path.
 priv enum MergeInputs {
+  FstPair(PairStreams)
   FstStreams(Array[Stream])
   Checked(Array[&EntrySource])
 }
 
 ///|
-/// Streaming heap merge, using O(number of sources) heads plus each stream's
+/// Streaming merge, using O(number of sources) heads plus each stream's
 /// active path. Inputs are consumed and must not be shared during iteration.
 pub struct MergeStream {
   priv inputs : MergeInputs
@@ -151,6 +161,24 @@ pub fn merge(
   for input in inputs {
     sources.push(input.stream(range~))
   }
+  if sources.length() == 2 {
+    let left = sources[0]
+    let right = sources[1]
+    let left_ready = left.advance()
+    if !left_ready {
+      left.close()
+    }
+    let right_ready = right.advance()
+    if !right_ready {
+      right.close()
+    }
+    return {
+      inputs: FstPair({ left, right, left_ready, right_ready, }),
+      heap: [],
+      operation,
+      finished: false,
+    }
+  }
   let heap = []
   for source = 0; source < sources.length(); source = source + 1 {
     let stream = sources[source]
@@ -166,6 +194,7 @@ pub fn merge(
 ///|
 fn MergeStream::input_count(self : MergeStream) -> Int32 {
   match self.inputs {
+    FstPair(_) => 2
     FstStreams(streams) => streams.length()
     Checked(sources) => sources.length()
   }
@@ -177,6 +206,7 @@ fn MergeStream::input_count(self : MergeStream) -> Int32 {
 fn MergeStream::advance_root(self : MergeStream) -> Unit raise FstError {
   let source = self.heap[0].source
   let available = match self.inputs {
+    FstPair(_) => abort("two-way merge has no heap heads")
     FstStreams(streams) => {
       let stream = streams[source]
       if stream.advance() {
@@ -207,6 +237,84 @@ fn MergeStream::advance_root(self : MergeStream) -> Unit raise FstError {
 }
 
 ///|
+/// Compare borrowed buffers without constructing either head's owned key.
+fn pair_key_order(left : Stream, right : Stream) -> Int32 {
+  let mut index = 0
+  while index < left.key.length() && index < right.key.length() {
+    let order = left.key[index].to_int() - right.key[index].to_int()
+    if order != 0 {
+      return order
+    }
+    index = index + 1
+  }
+  left.key.length() - right.key.length()
+}
+
+///|
+fn MergeStream::next_pair(
+  self : MergeStream,
+  pair : PairStreams,
+) -> MergedEntry? raise FstError {
+  while pair.left_ready || pair.right_ready {
+    let order = if !pair.left_ready {
+      1
+    } else if !pair.right_ready {
+      -1
+    } else {
+      pair_key_order(pair.left, pair.right)
+    }
+    let keep = match self.operation {
+      Union => true
+      Intersection => order == 0
+      Difference => order < 0
+      SymmetricDifference => order != 0
+    }
+    // Copy only a returned key, before advancing its mutable source buffer.
+    // Each group owns its values, including equal-key source order 0 then 1.
+    let group = if keep {
+      let key = Bytes::from_array(
+        if order <= 0 {
+          pair.left.key
+        } else {
+          pair.right.key
+        },
+      )
+      let values : Array[IndexedValue] = if order == 0 {
+        [
+          { index: 0, value: pair.left.current_value, },
+          { index: 1, value: pair.right.current_value, },
+        ]
+      } else if order < 0 {
+        [{ index: 0, value: pair.left.current_value, }]
+      } else {
+        [{ index: 1, value: pair.right.current_value, }]
+      }
+      Some({ key, values, })
+    } else {
+      None
+    }
+    // Refill before yielding, preserving the heap path's failure boundary.
+    if order <= 0 {
+      pair.left_ready = pair.left.advance()
+      if !pair.left_ready {
+        pair.left.close()
+      }
+    }
+    if order >= 0 {
+      pair.right_ready = pair.right.advance()
+      if !pair.right_ready {
+        pair.right.close()
+      }
+    }
+    if group is Some(_) {
+      return group
+    }
+  }
+  self.finished = true
+  None
+}
+
+///|
 pub fn MergeStream::next(self : MergeStream) -> MergedEntry? raise FstError {
   errdefer self.close()
   self.next_group()
@@ -219,13 +327,31 @@ fn MergeStream::next_group(self : MergeStream) -> MergedEntry? raise FstError {
   if self.finished {
     return None
   }
+  if self.inputs is FstPair(pair) {
+    return self.next_pair(pair)
+  }
   while !self.heap.is_empty() {
     let first = self.heap[0]
     let key = first.entry.key
-    let values = [
-      IndexedValue::{ index: first.source, value: first.entry.value, },
-    ]
+    let first_value : IndexedValue = {
+      index: first.source,
+      value: first.entry.value,
+    }
     self.advance_root()
+    // Keep the first two values in scalars until group size is known. A
+    // singleton keeps its exact-sized array; a pair needs no grow-and-copy.
+    // Larger groups retain ordinary array growth and the same source order.
+    let values = if !self.heap.is_empty() && self.heap[0].entry.key == key {
+      let second = self.heap[0]
+      let second_value : IndexedValue = {
+        index: second.source,
+        value: second.entry.value,
+      }
+      self.advance_root()
+      [first_value, second_value]
+    } else {
+      [first_value]
+    }
     while !self.heap.is_empty() && self.heap[0].entry.key == key {
       let item = self.heap[0]
       values.push({ index: item.source, value: item.entry.value, })
@@ -251,6 +377,12 @@ fn MergeStream::next_group(self : MergeStream) -> MergedEntry? raise FstError {
 ///|
 pub fn MergeStream::close(self : MergeStream) -> Unit {
   match self.inputs {
+    FstPair(pair) => {
+      pair.left_ready = false
+      pair.right_ready = false
+      pair.left.close()
+      pair.right.close()
+    }
     FstStreams(streams) =>
       for stream in streams {
         stream.close()
@@ -331,6 +463,7 @@ pub fn MergeStream::into_set(
   self : MergeStream,
   registry_capacity~ : Int32 = 20000,
 ) -> FstSet raise FstError {
+  errdefer self.close()
   let builder = Builder::set(registry_capacity~)
   while self.next() is Some(entry) {
     builder.add(entry.key)
@@ -345,6 +478,7 @@ pub fn MergeStream::into_map(
   policy : DuplicatePolicy,
   registry_capacity~ : Int32 = 20000,
 ) -> FstMap raise FstError {
+  errdefer self.close()
   let builder = Builder::map(registry_capacity~)
   while self.next() is Some(group) {
     let entry = group.reduce(policy)
@@ -359,6 +493,7 @@ pub fn MergeStream::reduce_with(
   self : MergeStream,
   f : (MergedEntry) -> UInt64 raise?,
 ) -> FstMap raise {
+  errdefer self.close()
   let builder = Builder::map()
   while self.next() is Some(entry) {
     builder.insert(entry.key, f(entry))
