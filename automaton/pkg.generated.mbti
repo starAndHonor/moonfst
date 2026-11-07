@@ -1,0 +1,110 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonfst/fst/automaton"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn accepts(&Automaton, Bytes) -> Bool
+
+pub fn always() -> Matcher
+
+pub fn byte_length(Int32, maximum? : Int32, max_states? : Int32) -> Matcher raise AutomatonError
+
+pub fn byte_range(Byte, Byte) -> Matcher raise AutomatonError
+
+pub fn complement(Matcher, max_states? : Int32) -> Matcher raise AutomatonError
+
+pub let default_state_limit : Int32
+
+pub fn dfa_from_table(Int32, Array[Array[Int32]], Array[Bool], eof? : Array[Int32?], max_states? : Int32) -> Matcher raise AutomatonError
+
+pub fn exact(String) -> Matcher
+
+pub fn exact_bytes(Bytes) -> Matcher
+
+pub fn intersection(Matcher, Matcher, max_states? : Int32) -> Matcher raise AutomatonError
+
+pub fn levenshtein(String, Int32, max_states? : Int32, max_work? : Int32) -> Matcher raise AutomatonError
+
+pub fn never() -> Matcher
+
+pub fn prefix(String) -> Matcher
+
+pub fn prefix_bytes(Bytes) -> Matcher
+
+pub fn starts_with(Matcher, max_states? : Int32) -> Matcher raise AutomatonError
+
+pub fn subsequence(String) -> Matcher
+
+pub fn subsequence_bytes(Bytes) -> Matcher
+
+pub fn union(Matcher, Matcher, max_states? : Int32) -> Matcher raise AutomatonError
+
+// Errors
+#derive(Eq, @debug.Debug)
+pub(all) suberror AutomatonError {
+  InvalidArgument(String)
+  StateLimit(limit~ : Int32)
+  WorkLimit(limit~ : Int32)
+  InvalidState(Int32)
+  DuplicateTransition(state~ : Int32, byte~ : Int32)
+}
+pub fn AutomatonError::equal(Self, Self) -> Bool
+pub fn AutomatonError::not_equal(Self, Self) -> Bool
+pub fn AutomatonError::to_repr(Self) -> @debug.Repr
+
+// Types and methods
+pub struct DfaBuilder {
+  // private fields
+}
+pub fn DfaBuilder::add_range(Self, Int32, Byte, Byte, Int32) -> Unit raise AutomatonError
+pub fn DfaBuilder::add_state(Self, Bool) -> Int32 raise AutomatonError
+pub fn DfaBuilder::add_transition(Self, Int32, Byte, Int32) -> Unit raise AutomatonError
+pub fn DfaBuilder::build(Self) -> Matcher raise AutomatonError
+pub fn DfaBuilder::new(max_states? : Int32) -> Self raise AutomatonError
+pub fn DfaBuilder::remove_transition(Self, Int32, Byte) -> Unit raise AutomatonError
+pub fn DfaBuilder::set_eof(Self, Int32, Int32?) -> Unit raise AutomatonError
+pub fn DfaBuilder::set_match(Self, Int32, Bool) -> Unit raise AutomatonError
+pub fn DfaBuilder::set_start(Self, Int32) -> Unit raise AutomatonError
+pub fn DfaBuilder::state_count(Self) -> Int32
+
+#derive(Eq, @debug.Debug)
+pub(all) struct LevenshteinStats {
+  scalar_states : Int32
+  utf8_states : Int32
+  alphabet_classes : Int32
+  query_scalars : Int32
+  dp_cells : Int32
+}
+pub fn LevenshteinStats::equal(Self, Self) -> Bool
+pub fn LevenshteinStats::not_equal(Self, Self) -> Bool
+pub fn LevenshteinStats::to_repr(Self) -> @debug.Repr
+
+pub struct Matcher {
+  // private fields
+}
+pub fn Matcher::accept(Self, Int32, Byte) -> Int32
+pub fn Matcher::accept_eof(Self, Int32) -> Int32?
+pub fn Matcher::can_match(Self, Int32) -> Bool
+pub fn Matcher::is_match(Self, Int32) -> Bool
+pub fn Matcher::levenshtein_stats(Self) -> LevenshteinStats?
+pub fn Matcher::matches(Self, Bytes) -> Bool
+pub fn Matcher::matches_string(Self, String) -> Bool
+pub fn Matcher::start(Self) -> Int32
+pub fn Matcher::state_count(Self) -> Int32
+pub fn Matcher::will_always_match(Self, Int32) -> Bool
+pub impl Automaton for Matcher
+
+// Type aliases
+
+// Traits
+pub(open) trait Automaton {
+  fn start(Self) -> Int32
+  fn accept(Self, Int32, Byte) -> Int32
+  fn is_match(Self, Int32) -> Bool
+  fn can_match(Self, Int32) -> Bool
+  fn will_always_match(Self, Int32) -> Bool
+  fn accept_eof(Self, Int32) -> Int32?
+}
