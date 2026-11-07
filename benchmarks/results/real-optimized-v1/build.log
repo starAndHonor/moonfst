@@ -1,0 +1,9 @@
+$ moon -C /home/starandhonor/.moon/lib/core bundle --target native --warn-list -a --quiet
+
+$ moon build benchmarks/workload --target native --release --deny-warn
+Artifacts:
+  starAndHonor/fst/benchmarks/workload  native  /media/starandhonor/Data/code/moonbit hack/month11/_build/native/release/build/benchmarks/workload/workload.exe
+Finished. moon: no work to do
+
+$ cargo build --locked --release --manifest-path oracle/Cargo.toml --bin fst_workload
+    Finished `release` profile [optimized] target(s) in 0.02s

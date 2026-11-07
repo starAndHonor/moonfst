@@ -6,7 +6,7 @@
 
 ## 安装与快速运行
 
-发布目标为 `starAndHonor/fst@0.1.0`，当前仍在发布验收中。正式发布后，在消费项目根目录安装：
+在消费项目根目录安装 `starAndHonor/fst@0.1.0`：
 
 ```sh
 moon add starAndHonor/fst@0.1.0
@@ -181,7 +181,9 @@ python3 scripts/workload_benchmark.py \
 
 工具按固定提交与 SHA256 读取 MIT 授权的 Jieba 词典，保留词频，从 349,045 个唯一词条中抽样；A/B 各 N 条、重叠 N/2。每词一次查询，比较排序与固定种子打乱的顺序，以及 50% 命中混合请求。近似未命中是在完整 UTF-8 词条后追加 `FF`；这些请求不是实际查询日志，也没有按词频加权。Python 独立校验 A/B、并集、查询顺序及操作结果。
 
-已完成的[真实词典基线](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/results/real-baseline-v1/REPORT.md)保留各项耗时、编码大小和内存数据；其结论限于该次源码指纹与环境。语料来源和许可证见[语料说明](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/corpora/README.md)。
+2026-11-07 的[优化后真实词典报告](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/results/real-optimized-v1/REPORT.md)采用测量方法 revision 2：两端共享不可变输入键，查询只保留批次级防优化处理，每项 3 轮 × 7 次采样。shuffled 运行组中，1 万、10 万、20 万条并集耗时分别为 Rust 的 **80.8%、78.9%、83.4%**；sorted 运行组的 10 万条并集基本持平。20 万条 shuffled 命中/未命中/混合查询耗时分别为 Rust 的 73.2%、73.9%、53.2%。三档编码逐字节相同，分别为 123,328、1,035,223、1,949,554 B。这些是单机中位数，完整分位数与限制见报告。
+
+[旧真实词典基线](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/results/real-baseline-v1/REPORT.md)保留原始证据；它使用旧 Rust 输入深拷贝和逐查询屏障，不能与 revision 2 混合汇总。实现改动与受控前后比较见[并集优化说明](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/results/real-optimized-v1/OPTIMIZATION.md)。语料来源和许可证见[语料说明](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/corpora/README.md)。
 
 内存测量为 baseline/build/load/union 各自启动新进程，读取 Linux `/proc/self/status` 的 `VmRSS` 与 `VmHWM`，保留操作前、操作后和内容验证后的快照。RSS 包含输入表示、分配器保留及运行时；高水位包含准备阶段，不能视为精确堆分配或操作净内存。load 使用预先导出的 FST：Rust 打开并校验 CRC，MoonBit 还验证完整可达图，两者工作量不同。全新进程不等于冷缓存，以上均为单机 native 热运行，不外推到磁盘吞吐或其他后端。
 
