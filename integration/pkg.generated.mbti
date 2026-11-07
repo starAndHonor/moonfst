@@ -1,0 +1,13 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonfst/fst/integration"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Fixture
+
+// Type aliases
+
+// Traits

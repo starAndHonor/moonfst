@@ -1,0 +1,7 @@
+import {
+  "moonfst/fst",
+  "moonbitlang/core/json",
+  "moonbitlang/core/string",
+}
+
+pkgtype(kind: "executable")
