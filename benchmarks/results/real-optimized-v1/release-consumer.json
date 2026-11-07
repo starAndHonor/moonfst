@@ -1,0 +1,75 @@
+{
+  "results": [
+    {
+      "command": [
+        "moon",
+        "-C",
+        "<isolated-consumer>",
+        "update"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "Registry index updated successfully\nSymbols updated successfully\n"
+    },
+    {
+      "command": [
+        "moon",
+        "-C",
+        "<isolated-consumer>",
+        "test",
+        ".",
+        "--target",
+        "native",
+        "--deny-warn"
+      ],
+      "exit_code": 0,
+      "stdout": "Total tests: 1, passed: 1, failed: 0.\n",
+      "stderr": "Downloading starAndHonor/fst@0.1.0\n"
+    },
+    {
+      "command": [
+        "moon",
+        "-C",
+        "<isolated-consumer>",
+        "test",
+        ".",
+        "--target",
+        "js",
+        "--deny-warn"
+      ],
+      "exit_code": 0,
+      "stdout": "Total tests: 1, passed: 1, failed: 0.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "moon",
+        "-C",
+        "<isolated-consumer>",
+        "test",
+        ".",
+        "--target",
+        "wasm-gc",
+        "--deny-warn"
+      ],
+      "exit_code": 0,
+      "stdout": "Total tests: 1, passed: 1, failed: 0.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "moon",
+        "-C",
+        "<isolated-consumer>",
+        "test",
+        ".",
+        "--target",
+        "wasm",
+        "--deny-warn"
+      ],
+      "exit_code": 0,
+      "stdout": "Total tests: 1, passed: 1, failed: 0.\n",
+      "stderr": ""
+    }
+  ]
+}
