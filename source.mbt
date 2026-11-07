@@ -124,7 +124,9 @@ pub impl EntrySource for CheckedSource with fn next(self) {
         }
       }
       self.previous = Some(entry.key)
-      Some(entry)
+      // Preserve the underlying Option instead of unboxing and rebuilding it.
+      // Its owned entry and key remain valid after the next read.
+      next
     }
   }
 }

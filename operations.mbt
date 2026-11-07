@@ -34,10 +34,18 @@ priv struct HeapItem {
 }
 
 ///|
+/// Only merge(Fst[]) owns freshly opened streams whose ordering follows from
+/// the verified graph. Public application sources retain their checked path.
+priv enum MergeInputs {
+  FstStreams(Array[Stream])
+  Checked(Array[&EntrySource])
+}
+
+///|
 /// Streaming heap merge, using O(number of sources) heads plus each stream's
 /// active path. Inputs are consumed and must not be shared during iteration.
 pub struct MergeStream {
-  priv sources : Array[&EntrySource]
+  priv inputs : MergeInputs
   priv heap : Array[HeapItem]
   priv operation : Operation
   priv mut finished : Bool
@@ -126,7 +134,7 @@ pub fn merge_sources(
       heap_push(heap, { source: index, entry, })
     }
   }
-  { sources: checked, heap, operation, finished: false, }
+  { inputs: Checked(checked), heap, operation, finished: false, }
 }
 
 ///|
@@ -136,21 +144,59 @@ pub fn merge(
   operation : Operation,
   range~ : KeyRange = KeyRange::all(),
 ) -> MergeStream raise FstError {
-  let sources = []
+  let sources : Array[Stream] = []
+  errdefer (for stream in sources {
+    stream.close()
+  })
   for input in inputs {
     sources.push(input.stream(range~))
   }
-  MergeStream::new(sources, operation)
+  let heap = []
+  for source = 0; source < sources.length(); source = source + 1 {
+    let stream = sources[source]
+    if stream.advance() {
+      heap_push(heap, { source, entry: stream.current_entry(), })
+    } else {
+      stream.close()
+    }
+  }
+  { inputs: FstStreams(sources), heap, operation, finished: false, }
 }
 
 ///|
-/// Refill the minimum head in place. CheckedSource enforces that its next key
-/// is greater, so only one downward heap repair is required after replacement.
+fn MergeStream::input_count(self : MergeStream) -> Int32 {
+  match self.inputs {
+    FstStreams(streams) => streams.length()
+    Checked(sources) => sources.length()
+  }
+}
+
+///|
+/// Refill the minimum head in place. Verified FST traversal or CheckedSource
+/// guarantees increasing keys, so one downward heap repair is sufficient.
 fn MergeStream::advance_root(self : MergeStream) -> Unit raise FstError {
   let source = self.heap[0].source
-  if self.sources[source].next() is Some(entry) {
-    self.heap[0] = { source, entry, }
-  } else {
+  let available = match self.inputs {
+    FstStreams(streams) => {
+      let stream = streams[source]
+      if stream.advance() {
+        self.heap[0] = { source, entry: stream.current_entry(), }
+        true
+      } else {
+        stream.close()
+        false
+      }
+    }
+    Checked(sources) =>
+      match sources[source].next() {
+        Some(entry) => {
+          self.heap[0] = { source, entry, }
+          true
+        }
+        None => false
+      }
+  }
+  if !available {
     let last = self.heap.length() - 1
     if last > 0 {
       self.heap[0] = self.heap[last]
@@ -187,10 +233,10 @@ fn MergeStream::next_group(self : MergeStream) -> MergedEntry? raise FstError {
     }
     // The heap compares (key, source), so equal-key heads arrive in source
     // order. Refilling one source cannot add the same key again because every
-    // input is checked as strictly increasing. No group sort is necessary.
+    // input is strictly increasing. No group sort is necessary.
     let keep = match self.operation {
       Union => true
-      Intersection => values.length() == self.sources.length()
+      Intersection => values.length() == self.input_count()
       Difference => values.length() == 1 && values[0].index == 0
       SymmetricDifference => values.length() % 2 == 1
     }
@@ -204,8 +250,15 @@ fn MergeStream::next_group(self : MergeStream) -> MergedEntry? raise FstError {
 
 ///|
 pub fn MergeStream::close(self : MergeStream) -> Unit {
-  for stream in self.sources {
-    stream.close()
+  match self.inputs {
+    FstStreams(streams) =>
+      for stream in streams {
+        stream.close()
+      }
+    Checked(sources) =>
+      for source in sources {
+        source.close()
+      }
   }
   self.heap.clear()
   self.finished = true
