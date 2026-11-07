@@ -1,0 +1,9 @@
+$ moon -C /home/starandhonor/.moon/lib/core bundle --target native --warn-list -a --quiet
+
+$ moon build benchmarks/runner --target native --release --deny-warn
+Artifacts:
+  moonfst/fst/benchmarks/runner  native  /media/starandhonor/Data/code/moonbit hack/month11/_build/native/release/build/benchmarks/runner/runner.exe
+Finished. moon: ran 5 tasks, now up to date
+
+$ cargo build --locked --release --manifest-path oracle/Cargo.toml --bin fst_bench
+    Finished `release` profile [optimized] target(s) in 0.05s
