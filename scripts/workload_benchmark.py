@@ -28,6 +28,7 @@ BINARIES = {
 MOON_BUILD = ["moon", "build", "benchmarks/workload", "--target", "native", "--release", "--deny-warn"]
 RUST_BUILD = ["cargo", "build", "--locked", "--release", "--manifest-path", "oracle/Cargo.toml", "--bin", "fst_workload"]
 MEMORY_MODES = ("memory-baseline", "memory-build", "memory-load", "memory-union")
+MEASUREMENT_REVISION = 2
 
 
 def clean_environment(**overrides):
@@ -37,7 +38,8 @@ def clean_environment(**overrides):
 def validate_timing(payload, expected, engine, samples, warmups):
     if not isinstance(payload, dict):
         raise ValueError("timing payload must be an object")
-    fields = {"schema": 1, "engine": engine, "mode": "timing", "samples": samples, "warmups": warmups}
+    fields = {"schema": 1, "measurement_revision": MEASUREMENT_REVISION,
+              "engine": engine, "mode": "timing", "samples": samples, "warmups": warmups}
     fields.update({key: expected[key] for key in (
         "n", "total", "order", "query_seed", "order_hash", "dataset_hash", "b_hash", "union_hash", "input_key_bytes",
     )})
@@ -68,7 +70,8 @@ def validate_memory(payload, expected, engine, mode, size):
     if not isinstance(payload, dict):
         raise ValueError("memory payload must be an object")
     checksum, count = (expected["union_hash"], expected["total"]) if mode == "memory-union" else (expected["dataset_hash"], expected["n"])
-    fields = {"schema": 1, "engine": engine, "mode": mode, "n": expected["n"], "memory_source": "proc-self-status",
+    fields = {"schema": 1, "measurement_revision": MEASUREMENT_REVISION,
+              "engine": engine, "mode": mode, "n": expected["n"], "memory_source": "proc-self-status",
               "checksum": checksum, "result_count": count,
               "fst_bytes": 0 if mode == "memory-baseline" else size}
     for key, value in fields.items():
@@ -144,6 +147,8 @@ def summarize(raw):
 
 
 def report(output, raw):
+    if raw["config"].get("measurement_revision") != MEASUREMENT_REVISION:
+        raise ValueError("refusing to label a legacy workload report as measurement revision 2")
     rows, memory_rows = summarize(raw)
     benchmark.write_json(output/"summary.json", {"schema": 1, "timing": rows, "memory": memory_rows})
     cfg = raw["config"]
@@ -152,6 +157,8 @@ def report(output, raw):
              "", "数据：固定版本 Jieba 中文词典，保留真实词频；349,045 个唯一词条，去除一条相同重复记录。",
              "从按 UTF-8 字节排序的完整词典做固定种子 Fisher–Yates 抽样；A/B 各 N 条、重叠 N/2。",
              "每个实现使用自己构建的 FST；两边导出文件另作逐字节比较，详见 raw.json 的 encoding_checks。",
+             "测量方法 revision 2：Rust 输入使用 Arc<[u8]>，MoonBit 使用不可变 Bytes；A/B/union 与 hit/mixed 查询共享键，miss 各建新键并供 mixed 共享。",
+             "两个 runner 均从运行时文件读取输入，保留批次结果以防优化；查询循环不设置逐 key 优化屏障。拥有所有权的遍历/并集仍为每条结果复制 key。",
              "", f"native release，CPU {cfg['cpu']}；每项 {cfg['rounds']} 轮 × {cfg['samples']} 次采样，每轮预热 {cfg['warmups']} 次。",
              "sorted/shuffled 只改变查询顺序。mixed 请求按该顺序交替命中/近似未命中，命中率 50%。",
              "每词一次请求，未命中键为完整 UTF-8 词条后追加 FF；查询没有按词频加权，也不是实际查询日志。",
@@ -180,6 +187,8 @@ def report(output, raw):
               "- 全新进程用于区分内存阶段，不等于操作系统冷缓存。内存采样与计时进程分开。",
               "- C 辅助代码仅服务开发工具的文件 I/O 和 Linux RSS；发布的 FST 运行库仍为纯 MoonBit。",
               "- 输入、排序、查询准备、完整校验、结果 hash 和最终结果销毁不计入计时。两边遍历/并集都返回拥有 key 的记录。",
+              "- 输入共享策略已对齐；Arc/Bytes 的头部、原子引用计数、容器布局与分配器仍不同，进程 RSS 不等于运行库独有内存。",
+              "- 历史 real-baseline-v1 使用旧 Rust Vec 输入深拷贝与逐 query black_box，不应与 revision 2 混合汇总或用于当前 RSS 公平性结论。",
               "- 语料版本、SHA256、抽样种子、查询顺序 hash、源码/二进制指纹、原始样本见 [raw.json](raw.json)。",
               "- 语料来源与 MIT 版权见仓库 benchmarks/corpora/；RSS 总量包含语言运行时、分配器保留和输入表示差异。", ""]
     temporary = output/"REPORT.md.tmp"
@@ -215,6 +224,7 @@ def main(argv=None):
     exports.mkdir(parents=True, exist_ok=True)
     raw = {"schema": 1, "started_at": benchmark.stamp(), "finished_at": None, "complete": False,
            "config": dict(sizes=args.sizes, orders=args.orders, query_seed=args.query_seed,
+                          measurement_revision=MEASUREMENT_REVISION,
                           samples=args.samples, warmups=args.warmups, rounds=args.rounds,
                           memory_rounds=args.memory_rounds, cpu=cpu, build_commands=commands,
                           invocation=[sys.executable, *sys.argv]),

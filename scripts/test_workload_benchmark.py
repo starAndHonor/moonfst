@@ -24,7 +24,8 @@ def payload():
     result = {key: expected[key] for key in (
         "n", "total", "order", "query_seed", "order_hash", "dataset_hash", "b_hash", "union_hash", "input_key_bytes",
     )}
-    result.update(schema=1, engine="moonbit", mode="timing", fst_bytes=123, samples=2, warmups=1)
+    result.update(schema=1, measurement_revision=runner.MEASUREMENT_REVISION,
+                  engine="moonbit", mode="timing", fst_bytes=123, samples=2, warmups=1)
     result["metrics"] = []
     for name in workload.METRICS:
         checksum, count = ["123", 4] if name == "build" else expected["expected"][name]
@@ -94,15 +95,27 @@ class CorpusTests(unittest.TestCase):
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_report_cannot_relabel_legacy_measurements(self):
+        with tempfile.TemporaryDirectory() as directory:
+            destination = Path(directory)
+            with self.assertRaises(ValueError):
+                runner.report(destination, {"config": {}})
+            self.assertEqual(list(destination.iterdir()), [])
+
     def test_valid_payload_and_query_order_failure(self):
         value, expected = payload()
         runner.validate_timing(value, expected, "moonbit", 2, 1)
         for key, wrong in (("order_hash", expected["dataset_hash"]), ("mode", "memory-build"),
+                           ("measurement_revision", 1),
                            ("query_seed", 1), ("total", 4), ("fst_bytes", True), ("n", 4.0)):
             bad = copy.deepcopy(value)
             bad[key] = wrong
             with self.subTest(key=key), self.assertRaises(ValueError):
                 runner.validate_timing(bad, expected, "moonbit", 2, 1)
+        legacy = copy.deepcopy(value)
+        del legacy["measurement_revision"]
+        with self.assertRaises(ValueError):
+            runner.validate_timing(legacy, expected, "moonbit", 2, 1)
 
     def test_each_operation_result_and_timing_must_validate(self):
         value, expected = payload()
@@ -125,7 +138,8 @@ class ProtocolTests(unittest.TestCase):
     def test_memory_identity_checksum_and_monotonic_peak(self):
         _, expected = payload()
         for mode in runner.MEMORY_MODES:
-            value = dict(schema=1, engine="moonbit", mode=mode, n=4, memory_source="proc-self-status",
+            value = dict(schema=1, measurement_revision=runner.MEASUREMENT_REVISION,
+                         engine="moonbit", mode=mode, n=4, memory_source="proc-self-status",
                          checksum=expected["union_hash"] if mode == "memory-union" else expected["dataset_hash"],
                          result_count=6 if mode == "memory-union" else 4,
                          fst_bytes=0 if mode == "memory-baseline" else 123,
@@ -133,6 +147,7 @@ class ProtocolTests(unittest.TestCase):
                          validation_after_rss_kib=130, validation_peak_rss_kib=135)
             runner.validate_memory(value, expected, "moonbit", mode, 123)
             for key, wrong in (("checksum", "0"), ("result_count", True), ("baseline_rss_kib", 0),
+                               ("measurement_revision", 1),
                                ("peak_rss_kib", 109), ("after_rss_kib", -1)):
                 bad = dict(value, **{key: wrong})
                 with self.subTest(mode=mode, key=key), self.assertRaises(ValueError):

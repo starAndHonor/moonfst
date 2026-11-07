@@ -3,6 +3,8 @@
 //! The binary corpus, sorting, query preparation, checks, owned-output hashes,
 //! and destruction of each final result are outside timing. Memory snapshots
 //! report process RSS/HWM, including retained input and allocator state.
+//! Revision 2 shares immutable input/query key allocations, matching MoonBit
+//! Bytes, while each timed stream/union result still owns a fresh Vec key.
 
 use fst::{Map, MapBuilder, Streamer};
 use serde_json::{json, Value};
@@ -10,9 +12,11 @@ use std::env;
 use std::fs;
 use std::hint::black_box;
 use std::path::PathBuf;
+use std::sync::Arc;
 use std::time::Instant;
 
-type Entry = (Vec<u8>, u64);
+type InputEntry = (Arc<[u8]>, u64);
+type OwnedEntry = (Vec<u8>, u64);
 const MAGIC: &[u8; 8] = b"MFSTW001";
 const FNV_OFFSET: u64 = 14_695_981_039_346_656_037;
 const FNV_PRIME: u64 = 1_099_511_628_211;
@@ -122,9 +126,9 @@ impl Config {
 struct Dataset {
     // Retained through memory snapshots; the parser does not consume the file.
     raw: Vec<u8>,
-    a: Vec<Entry>,
-    b: Vec<Entry>,
-    union: Vec<Entry>,
+    a: Vec<InputEntry>,
+    b: Vec<InputEntry>,
+    union: Vec<InputEntry>,
 }
 
 fn take<'a>(data: &'a [u8], at: &mut usize, count: usize) -> Result<&'a [u8], String> {
@@ -168,7 +172,7 @@ fn parse_dataset(raw: Vec<u8>) -> Result<Dataset, String> {
     for _ in 0..total {
         let length = read_u32(&raw, &mut at)? as usize;
         let value = read_u64(&raw, &mut at)?;
-        let key = take(&raw, &mut at, length)?.to_vec();
+        let key: Arc<[u8]> = Arc::from(take(&raw, &mut at, length)?);
         all.push((key, value));
     }
     if at != raw.len() {
@@ -212,9 +216,9 @@ fn hash_record(mut hash: u64, key: &[u8], value: u64) -> u64 {
     hash
 }
 
-fn entries_hash(records: &[Entry]) -> u64 {
+fn entries_hash<K: AsRef<[u8]>>(records: &[(K, u64)]) -> u64 {
     records.iter().fold(FNV_OFFSET, |hash, (key, value)| {
-        hash_record(hash, key, *value)
+        hash_record(hash, key.as_ref(), *value)
     })
 }
 
@@ -231,9 +235,9 @@ fn query_order(n: usize, order: Order, mut state: u32) -> Vec<usize> {
 }
 
 struct Queries {
-    hits: Vec<Vec<u8>>,
-    misses: Vec<Vec<u8>>,
-    mixed: Vec<Vec<u8>>,
+    hits: Vec<Arc<[u8]>>,
+    misses: Vec<Arc<[u8]>>,
+    mixed: Vec<Arc<[u8]>>,
     order_hash: u64,
     hit_sum: u64,
     mixed_sum: u64,
@@ -254,14 +258,15 @@ fn prepare_queries(dataset: &Dataset, config: &Config) -> Queries {
         if position % 2 == 0 {
             mixed_sum = mixed_sum.wrapping_add(*value);
         }
-        let mut miss = key.clone();
+        let mut miss = key.as_ref().to_vec();
         miss.push(0xff);
+        let miss: Arc<[u8]> = Arc::from(miss);
         mixed.push(if position % 2 == 0 {
-            key.clone()
+            Arc::clone(key)
         } else {
-            miss.clone()
+            Arc::clone(&miss)
         });
-        hits.push(key.clone());
+        hits.push(Arc::clone(key));
         misses.push(miss);
     }
     Queries {
@@ -274,15 +279,17 @@ fn prepare_queries(dataset: &Dataset, config: &Config) -> Queries {
     }
 }
 
-fn build(records: &[Entry]) -> Vec<u8> {
+fn build(records: &[InputEntry]) -> Vec<u8> {
     let mut builder = MapBuilder::memory();
     for (key, value) in records {
-        builder.insert(key, *value).expect("sorted unique corpus");
+        builder
+            .insert(key.as_ref(), *value)
+            .expect("sorted unique corpus");
     }
     builder.into_inner().expect("in-memory builder")
 }
 
-fn stream_owned(map: &Map<Vec<u8>>) -> Vec<Entry> {
+fn stream_owned(map: &Map<Vec<u8>>) -> Vec<OwnedEntry> {
     let mut stream = map.stream();
     let mut output = Vec::new();
     while let Some((key, value)) = stream.next() {
@@ -291,7 +298,7 @@ fn stream_owned(map: &Map<Vec<u8>>) -> Vec<Entry> {
     output
 }
 
-fn union_owned(a: &Map<Vec<u8>>, b: &Map<Vec<u8>>) -> Vec<Entry> {
+fn union_owned(a: &Map<Vec<u8>>, b: &Map<Vec<u8>>) -> Vec<OwnedEntry> {
     let mut stream = a.op().add(b).union();
     let mut output = Vec::new();
     while let Some((key, values)) = stream.next() {
@@ -305,10 +312,18 @@ fn union_owned(a: &Map<Vec<u8>>, b: &Map<Vec<u8>>) -> Vec<Entry> {
     output
 }
 
-fn validated_map(bytes: Vec<u8>, expected: &[Entry]) -> Map<Vec<u8>> {
+fn assert_records_eq(actual: &[OwnedEntry], expected: &[InputEntry], context: &str) {
+    assert_eq!(actual.len(), expected.len(), "{context}: record count");
+    for ((key, value), (expected_key, expected_value)) in actual.iter().zip(expected) {
+        assert_eq!(key.as_slice(), expected_key.as_ref(), "{context}: key");
+        assert_eq!(value, expected_value, "{context}: value");
+    }
+}
+
+fn validated_map(bytes: Vec<u8>, expected: &[InputEntry]) -> Map<Vec<u8>> {
     let map = Map::new(bytes).expect("reference map");
     map.as_fst().verify().expect("reference CRC");
-    assert_eq!(stream_owned(&map), expected, "reference full records");
+    assert_records_eq(&stream_owned(&map), expected, "reference full records");
     map
 }
 
@@ -327,19 +342,20 @@ struct Summary {
     count: usize,
 }
 
-fn owned_summary(records: &[Entry]) -> Summary {
+fn owned_summary<K: AsRef<[u8]>>(records: &[(K, u64)]) -> Summary {
     Summary {
         checksum: entries_hash(records),
         count: records.len(),
     }
 }
 
-fn lookup(map: &Map<Vec<u8>>, keys: &[Vec<u8>]) -> Summary {
-    let map = black_box(map);
+fn lookup(map: &Map<Vec<u8>>, keys: &[Arc<[u8]>]) -> Summary {
     let mut checksum = 0u64;
     let mut count = 0;
-    for key in black_box(keys) {
-        if let Some(value) = map.get(black_box(key)) {
+    // Keys originate in a runtime file. The whole result is consumed and
+    // black-boxed by measure; no per-query optimization barrier is needed.
+    for key in keys {
+        if let Some(value) = map.get(key.as_ref()) {
             checksum = checksum.wrapping_add(value);
             count += 1;
         }
@@ -380,11 +396,19 @@ fn timing(config: &Config, dataset: &Dataset) -> Result<Value, String> {
     for (position, &index) in indices.iter().enumerate() {
         let (key, value) = &dataset.a[index];
         assert_eq!(&queries.hits[position], key, "prepared hit order");
-        assert_eq!(a.get(&queries.hits[position]), Some(*value));
-        let mut miss = key.clone();
+        assert_eq!(a.get(queries.hits[position].as_ref()), Some(*value));
+        let mut miss = key.as_ref().to_vec();
         miss.push(0xff);
-        assert_eq!(queries.misses[position], miss, "prepared miss order");
-        assert_eq!(a.get(&queries.misses[position]), None, "FF key must miss");
+        assert_eq!(
+            queries.misses[position].as_ref(),
+            miss.as_slice(),
+            "prepared miss order"
+        );
+        assert_eq!(
+            a.get(queries.misses[position].as_ref()),
+            None,
+            "FF key must miss"
+        );
         let expected_key = if position % 2 == 0 {
             key
         } else {
@@ -395,7 +419,7 @@ fn timing(config: &Config, dataset: &Dataset) -> Result<Value, String> {
             "prepared mixed order"
         );
         assert_eq!(
-            a.get(&queries.mixed[position]),
+            a.get(queries.mixed[position].as_ref()),
             if position % 2 == 0 {
                 Some(*value)
             } else {
@@ -404,10 +428,13 @@ fn timing(config: &Config, dataset: &Dataset) -> Result<Value, String> {
         );
     }
     assert!(
-        queries.misses.iter().all(|key| a.get(key).is_none()),
+        queries
+            .misses
+            .iter()
+            .all(|key| a.get(key.as_ref()).is_none()),
         "appending FF must produce a missing key for this corpus"
     );
-    assert_eq!(union_owned(&a, &b), dataset.union);
+    assert_records_eq(&union_owned(&a, &b), &dataset.union, "reference union");
     write_fst(&a)?;
     let n = dataset.a.len();
     let fst_bytes = a.as_fst().as_bytes().len();
@@ -419,7 +446,7 @@ fn timing(config: &Config, dataset: &Dataset) -> Result<Value, String> {
                 checksum: fst_bytes as u64,
                 count: n,
             },
-            || build(black_box(&dataset.a)),
+            || build(&dataset.a),
             |bytes| {
                 assert_eq!(
                     bytes.as_slice(),
@@ -466,13 +493,9 @@ fn timing(config: &Config, dataset: &Dataset) -> Result<Value, String> {
             "stream_owned",
             config,
             owned_summary(&dataset.a),
-            || stream_owned(black_box(&a)),
+            || stream_owned(&a),
             |records| {
-                assert_eq!(
-                    records.as_slice(),
-                    dataset.a.as_slice(),
-                    "stream sample records"
-                );
+                assert_records_eq(records, &dataset.a, "stream sample records");
                 owned_summary(records)
             },
         ),
@@ -480,19 +503,15 @@ fn timing(config: &Config, dataset: &Dataset) -> Result<Value, String> {
             "union_owned",
             config,
             owned_summary(&dataset.union),
-            || union_owned(black_box(&a), black_box(&b)),
+            || union_owned(&a, &b),
             |records| {
-                assert_eq!(
-                    records.as_slice(),
-                    dataset.union.as_slice(),
-                    "union sample records"
-                );
+                assert_records_eq(records, &dataset.union, "union sample records");
                 owned_summary(records)
             },
         ),
     ];
     Ok(
-        json!({"schema": 1, "engine": "rust", "mode": "timing", "n": n,
+        json!({"schema": 1, "measurement_revision": 2, "engine": "rust", "mode": "timing", "n": n,
         "total": dataset.union.len(), "order": config.order.as_str(), "query_seed": config.query_seed,
         "order_hash": queries.order_hash.to_string(), "dataset_hash": entries_hash(&dataset.a).to_string(),
         "b_hash": entries_hash(&dataset.b).to_string(),
@@ -544,7 +563,7 @@ fn memory_report(
     after: Rss,
     validation: Rss,
 ) -> Value {
-    json!({"schema": 1, "engine": "rust", "mode": mode.as_str(), "n": n,
+    json!({"schema": 1, "measurement_revision": 2, "engine": "rust", "mode": mode.as_str(), "n": n,
         "memory_source": "proc-self-status",
         "fst_bytes": fst_bytes, "checksum": summary.checksum.to_string(), "result_count": summary.count,
         "baseline_rss_kib": baseline.current, "baseline_peak_rss_kib": baseline.peak,
@@ -572,7 +591,7 @@ fn memory_dataset(mode: Mode, dataset: &Dataset) -> Result<Value, String> {
             let map = Map::new(bytes).expect("memory build map");
             map.as_fst().verify().expect("memory build CRC");
             let records = stream_owned(&map);
-            assert_eq!(records, dataset.a, "memory build reference");
+            assert_records_eq(&records, &dataset.a, "memory build reference");
             let summary = owned_summary(&records);
             let validation = rss_snapshot()?;
             write_fst(&map)?;
@@ -596,7 +615,7 @@ fn memory_dataset(mode: Mode, dataset: &Dataset) -> Result<Value, String> {
             let output = union_owned(&a, &b);
             let after = rss_snapshot()?;
             let summary = owned_summary(&output);
-            assert_eq!(output, dataset.union, "memory union reference");
+            assert_records_eq(&output, &dataset.union, "memory union reference");
             let validation = rss_snapshot()?;
             black_box((
                 &dataset.raw,
@@ -685,10 +704,21 @@ mod tests {
         let dataset = parse_dataset(raw.clone()).unwrap();
         assert_eq!(dataset.raw, raw);
         assert_eq!(
-            dataset.a,
-            vec![(b"".to_vec(), 0), (b"z".to_vec(), u64::MAX)]
+            dataset
+                .a
+                .iter()
+                .map(|(key, value)| (key.as_ref(), *value))
+                .collect::<Vec<_>>(),
+            vec![(b"".as_slice(), 0), (b"z".as_slice(), u64::MAX)]
         );
-        assert_eq!(dataset.b, vec![(b"".to_vec(), 0), (b"a".to_vec(), 7)]);
+        assert_eq!(
+            dataset
+                .b
+                .iter()
+                .map(|(key, value)| (key.as_ref(), *value))
+                .collect::<Vec<_>>(),
+            vec![(b"".as_slice(), 0), (b"a".as_slice(), 7)]
+        );
         assert_eq!(dataset.union.len(), 3);
     }
 
@@ -768,7 +798,90 @@ mod tests {
         .unwrap();
         let a = validated_map(build(&dataset.a), &dataset.a);
         let b = validated_map(build(&dataset.b), &dataset.b);
-        assert_eq!(union_owned(&a, &b), dataset.union);
+        assert_records_eq(&union_owned(&a, &b), &dataset.union, "test union records");
         assert_eq!(entries_hash(&stream_owned(&a)), entries_hash(&dataset.a));
+    }
+
+    #[test]
+    fn input_and_queries_share_keys_but_owned_outputs_copy_them() {
+        let dataset = parse_dataset(corpus(
+            4,
+            &[
+                (b"f", 6),
+                (b"a", 1),
+                (b"e", 5),
+                (b"b", 2),
+                (b"d", 4),
+                (b"c", 3),
+            ],
+        ))
+        .unwrap();
+        for records in [&dataset.a, &dataset.b] {
+            for (key, _) in records {
+                let original = &dataset
+                    .union
+                    .iter()
+                    .find(|entry| entry.0.as_ref() == key.as_ref())
+                    .unwrap()
+                    .0;
+                assert!(
+                    Arc::ptr_eq(key, original),
+                    "A/B must share the union key allocation"
+                );
+            }
+        }
+        let config = Config {
+            mode: Mode::Timing,
+            order: Order::Shuffled,
+            query_seed: 305_419_896,
+            samples: 1,
+            warmups: 0,
+        };
+        let queries = prepare_queries(&dataset, &config);
+        for (position, index) in query_order(4, config.order, config.query_seed)
+            .into_iter()
+            .enumerate()
+        {
+            assert!(Arc::ptr_eq(&queries.hits[position], &dataset.a[index].0));
+            assert!(!Arc::ptr_eq(
+                &queries.misses[position],
+                &queries.hits[position]
+            ));
+            assert_eq!(queries.misses[position].last(), Some(&0xff));
+            assert_eq!(
+                &queries.misses[position][..queries.misses[position].len() - 1],
+                queries.hits[position].as_ref()
+            );
+            let expected = if position % 2 == 0 {
+                &queries.hits[position]
+            } else {
+                &queries.misses[position]
+            };
+            assert!(Arc::ptr_eq(&queries.mixed[position], expected));
+        }
+        let map = validated_map(build(&dataset.a), &dataset.a);
+        let output = stream_owned(&map);
+        assert_records_eq(&output, &dataset.a, "owned copies");
+        for ((key, _), (input_key, _)) in output.iter().zip(&dataset.a) {
+            assert_ne!(
+                key.as_ptr(),
+                input_key.as_ptr(),
+                "owned result must copy key bytes"
+            );
+        }
+        assert_eq!(
+            lookup(&map, &queries.hits),
+            Summary {
+                checksum: 14,
+                count: 4
+            }
+        );
+        assert_eq!(
+            lookup(&map, &queries.misses),
+            Summary {
+                checksum: 0,
+                count: 0
+            }
+        );
     }
 }

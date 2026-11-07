@@ -145,12 +145,33 @@ python3 scripts/workload_benchmark.py \
 checksum、命中数、请求顺序 hash、A/B/并集 hash 均由 Python 独立验证，
 每个 runner 在计时外对样本结果逐条比较。最后导出两边的 FST 作逐字节对照。
 
+真实负载工具当前使用测量方法 `measurement_revision = 2`，二进制语料协议
+仍为 `MFSTW001`。Rust 的输入记录使用 `Arc<[u8]>`，MoonBit 使用不可变
+`Bytes`；A/B/并集与 hit 查询共享原词条的 key，miss 为每条请求新建追加 FF
+的 key，mixed 共享已有 hit/miss key。Rust 的 timed stream/union 输出仍为
+每条记录新建 `Vec<u8>`，MoonBit 对应输出也复制 key，未因输入共享减少
+输出拥有所有权所需的工作。
+
+两侧输入均来自运行时文件，查询循环消费每次 get 的结果并累计 sum/count。
+Rust 保留批次结果的 `black_box`，不在逐 key 查询或输入参数上插入额外
+屏障；MoonBit 在计时结束后用 `Bench.keep` 保留批次结果。两者的批次
+防优化机制仍有实现差异，屏障不产生逐词成本。协调器严格校验 revision，
+旧 runner 即使通过 `--skip-build` 启动也会被拒绝。
+
+[历史真实基线 real-baseline-v1](results/real-baseline-v1/REPORT.md) 使用旧
+Rust 输入布局：A/B/并集和查询数组深拷贝 `Vec<u8>` key，并对逐 key 查询
+设置 `black_box`。该报告与原始数据保持不变，只能作为旧方法快照；其 RSS
+和时间不能与 revision 2 混合汇总或直接解释为当前实现的语言差异。
+
 内存用独立进程分阶段测量 `memory-baseline`、`memory-build`、
 `memory-load`、`memory-union`。输入/输出一直保留到操作后快照；build 在
 完整装载验证前记录快照，load 从预先导出的 FST 开始，不在该进程构建词典。
 两侧读取 Linux `/proc/self/status` 的 VmRSS 与 VmHWM，记录操作前、操作后
 和内容验证后的数据。高水位包含进程准备历史，RSS 包含输入表示、分配器
 保留与语言运行时，不能把 `peak-before` 解释成精确库内存。
+共享策略对齐后，Arc/Bytes 的头部、原子引用计数、容器布局和分配器仍不同，
+总 RSS 仍不能直接归因于运行库。build 的装载验证后快照可能远高于构建
+操作后快照；union 的进程高水位也可能在准备两个 FST 时已经达到。
 
 MoonBit 装载验证完整可达图，Rust 对照装载只打开并校验 CRC；报告会明确
 这项工作量差异。真实词典不等于真实查询日志：每词一次请求，未命中在键

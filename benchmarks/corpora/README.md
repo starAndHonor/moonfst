@@ -32,3 +32,19 @@ mixed workload alternates a hit and a miss in the selected query order.
 It models a controlled 50% hit workload, not observed production traffic.
 All input hashes, expected output hashes and query order hashes are computed
 independently by Python and checked against both language runners.
+
+The corpus wire format and hashes do not prescribe a language's allocation
+layout. Workload measurement revision 2 aligns input sharing: Rust records use
+`Arc<[u8]>` and MoonBit records use immutable `Bytes`. A/B/union and hit queries
+share the original keys. Each miss gets a new FF-suffixed key; mixed queries
+share the corresponding hit/miss key. Timed stream/union outputs still copy
+every result key into independently owned storage in both runners. Rust no
+longer inserts a `black_box` for each query; only complete batch results are
+black-boxed, with all correctness checks retained outside timing.
+
+The historical `results/real-baseline-v1` report used Rust `Vec<u8>` deep copies
+for input/query keys and per-query barriers. Its raw files remain unchanged;
+do not merge those samples with revision 2 or read its total RSS as a library
+memory comparison. Even with aligned sharing, container headers, reference
+counting and allocators differ. RSS/HWM include those costs and preparation
+history, rather than only live library allocations.

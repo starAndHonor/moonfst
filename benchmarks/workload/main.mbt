@@ -404,6 +404,7 @@ fn run_timing(config : Config, dataset : Dataset) -> Json raise {
   ]
   Json::object({
     "schema": @json.to_json(1),
+    "measurement_revision": @json.to_json(2),
     "engine": Json::string("moonbit"),
     "mode": Json::string("timing"),
     "n": @json.to_json(dataset.n),
@@ -435,6 +436,7 @@ fn memory_report(
 ) -> Json {
   Json::object({
     "schema": @json.to_json(1),
+    "measurement_revision": @json.to_json(2),
     "engine": Json::string("moonbit"),
     "mode": Json::string(mode),
     "memory_source": Json::string("proc-self-status"),
