@@ -1,0 +1,6 @@
+import {
+  "moonfst/fst/codec",
+  "moonfst/fst/automaton",
+  "moonbitlang/core/encoding/utf8",
+  "moonbitlang/core/debug",
+}
