@@ -1,6 +1,6 @@
 import {
-  "moonfst/fst/codec",
-  "moonfst/fst/automaton",
+  "starAndHonor/fst/codec",
+  "starAndHonor/fst/automaton",
   "moonbitlang/core/encoding/utf8",
   "moonbitlang/core/debug",
 }

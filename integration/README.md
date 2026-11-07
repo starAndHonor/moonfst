@@ -1,6 +1,6 @@
 # Cross-language binary acceptance harness
 
-`main.mbt` uses only the public `moonfst/fst` API. A small tracked
+`main.mbt` uses only the public `starAndHonor/fst` API. A small tracked
 `fixtures_generated.mbt` placeholder contains one empty-set case, allowing a
 fresh checkout to compile and run without generation. Python temporarily
 replaces it with the complete committed fixtures and expected records, so the

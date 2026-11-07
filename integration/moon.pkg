@@ -1,5 +1,5 @@
 import {
-  "moonfst/fst",
+  "starAndHonor/fst",
   "moonbitlang/core/json",
   "moonbitlang/core/string",
 }

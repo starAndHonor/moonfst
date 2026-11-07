@@ -158,8 +158,8 @@ def prepare():
     runner.mkdir()
     (runner / "main.mbt").write_text(prefix[0] + MAIN)
     (runner / "moon.pkg").write_text('''import {
-  "moonfst/fst",
-  "moonfst/fst/codec",
+  "starAndHonor/fst",
+  "starAndHonor/fst/codec",
   "moonbitlang/core/env",
   "moonbitlang/core/json",
   "moonbitlang/core/string",

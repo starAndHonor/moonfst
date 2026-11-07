@@ -1,44 +1,33 @@
-# moonfst
+# MoonFST
 
-`moonfst/fst` 将 Rust [`fst 0.4.7`](https://github.com/BurntSushi/fst/tree/fbd5992376f176c35af2644d74efad58f5656e5c) 的紧凑有序集合与映射移植到 MoonBit。键是任意字节串，值覆盖完整 `UInt64` 范围；相同前缀和等价后缀可以共享图结构，适合构建只读词典、自动补全索引、符号表和静态路由表。
+`starAndHonor/fst` 将 Rust [`fst 0.4.7`](https://github.com/BurntSushi/fst/tree/fbd5992376f176c35af2644d74efad58f5656e5c) 的紧凑有序集合与映射移植到 MoonBit。键是任意字节串，值覆盖完整 `UInt64` 范围；相同前缀和等价后缀可以共享图结构，适合构建只读词典、自动补全索引、符号表和静态路由表。
 
-运行库使用纯 MoonBit，不链接 Rust/C 库，也不依赖 JavaScript FFI。Rust 参考程序和 Python 脚本只用于开发验收。当前仓库是源码项目，尚未声明已发布到 Mooncakes。
+运行库使用纯 MoonBit，不链接 Rust/C 库，也不依赖 JavaScript FFI。Rust 参考程序、Python 脚本及真实负载工具的 C 文件仅用于开发验收；C 代码只负责文件 I/O 和 Linux RSS 读数，不参与 FST 算法。
 
-## 快速运行
+## 安装与快速运行
 
-在仓库根目录运行词典示例：
+发布目标为 `starAndHonor/fst@0.1.0`，当前仍在发布验收中。正式发布后，在消费项目根目录安装：
 
 ```sh
-moon run examples/dictionary --target wasm-gc
+moon add starAndHonor/fst@0.1.0
 ```
 
-示例演示建表、中文前缀、Unicode 模糊查询、rank/page、最高词频和词频合计。也可以用 `--target native` 或 `--target js`。
-
-本地消费项目使用新版 `moon.mod` 与 `moon.work`。例如将仓库 `moonfst/` 与消费项目 `consumer/` 放在同一目录，在它们的父目录创建 `moon.work`：
-
-```text
-members = [
-  "./moonfst",
-  "./consumer",
-]
-```
-
-在 `consumer/moon.mod` 中声明依赖：
+也可以在 `consumer/moon.mod` 中声明依赖：
 
 ```text
 name = "demo/consumer"
 
 import {
-  "moonfst/fst@0.1.0",
+  "starAndHonor/fst@0.1.0",
 }
 ```
 
-工作区按模块名解析本地成员，版本号不会触发 Mooncakes 下载。此配置遵循 MoonBit 的[本地依赖说明](https://docs.moonbitlang.com/en/latest/toolchain/moon/module.html#dependency-management)。在 `consumer/moon.pkg` 中添加测试导入：
+在 `consumer/moon.pkg` 中添加测试导入：
 
 ```text
 import {
-  "moonfst/fst" @fst,
-  "moonfst/fst/automaton" @automaton,
+  "starAndHonor/fst" @fst,
+  "starAndHonor/fst/automaton" @automaton,
 } for "test"
 ```
 
@@ -94,7 +83,30 @@ test {
 }
 ```
 
-在父目录运行 `moon -C consumer test . --target wasm-gc --deny-warn`。
+在消费项目根目录运行 `moon test . --target wasm-gc --deny-warn`。
+
+### 本地工作区
+
+发布前或需要修改源码时，可以使用本地工作区。将仓库 `moonfst/` 与消费项目 `consumer/` 放在同一目录，在它们的父目录创建 `moon.work`：
+
+```text
+members = [
+  "./moonfst",
+  "./consumer",
+]
+```
+
+消费项目仍使用上面的依赖与导入配置；工作区按模块名解析本地成员，版本号不会触发 Mooncakes 下载。此配置遵循 MoonBit 的[本地依赖说明](https://docs.moonbitlang.com/en/latest/toolchain/moon/module.html#dependency-management)。在父目录运行 `moon -C consumer test . --target wasm-gc --deny-warn`。
+
+### 词典示例
+
+在源码仓库根目录运行：
+
+```sh
+moon run examples/dictionary --target wasm-gc
+```
+
+示例演示建表、中文前缀、Unicode 模糊查询、rank/page、最高词频和词频合计。也可以用 `--target native` 或 `--target js`。
 
 ## 数据与顺序
 
@@ -142,15 +154,38 @@ Levenshtein 只接受严格有效的 UTF-8：截断、多余 continuation byte�
 
 ## 验证
 
+以下开发命令从[源码仓库](https://github.com/starAndHonor/moonfst)根目录运行。Mooncakes 发布归档保留运行库、单元测试、示例及说明文档；基准、外部语料、Rust/Python 工具和跨语言集成入口仅在源码仓库提供。
+
+### 合成数据基准
+
 与 Rust `fst 0.4.7` 的可复现 native release 基准：
 
 ```sh
 python3 scripts/benchmark.py --output benchmarks/results/my-run
 ```
 
-覆盖构建、命中/近似未命中查询、完整遍历、前缀查询、并集和编码大小；默认两种数据分布、三个规模，每项 21 个样本，并验证两边结果。测量方法见 [benchmarks/README.md](benchmarks/README.md)，优化后实测见 [基准报告](benchmarks/results/optimized-v1/REPORT.md)，原始慢版本的 [基线报告](benchmarks/results/latest/REPORT.md) 保留用于对照。
+覆盖构建、命中/近似未命中查询、完整遍历、前缀查询、并集和编码大小；默认两种数据分布、三个规模，每项 21 个样本，并验证两边结果。测量方法见 [benchmarks/README.md](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/README.md)，2026-11-06 查询优化后的实测见[基准报告](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/results/optimized-v1/REPORT.md)，原始慢版本的[基线报告](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/results/latest/REPORT.md)保留用于对照。
 
-本轮两种分布、三个规模的命中与近似未命中查询均快于 Rust，编码文件尺寸相同；10 万条时查询加速约 1.55～2.08 倍。全量遍历基本持平，并集仍有差距。具体实现、安全前提、逐字节互操作和防优化屏障控制实验见 [优化与验收说明](benchmarks/results/optimized-v1/OPTIMIZATION.md)。
+该次合成数据测量中，两种分布、三个规模的排序命中与近似未命中查询均快于 Rust，编码文件尺寸相同；10 万条时查询加速约 1.55～2.08 倍。全量遍历基本持平，并集仍有差距。具体实现、安全前提、逐字节互操作和防优化屏障控制实验见[优化与验收说明](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/results/optimized-v1/OPTIMIZATION.md)。这些数字对应报告记录的源码与环境，不代表后续改动后的重新测量。
+
+### 真实词典、查询顺序与 RSS
+
+在 Linux 上运行真实负载工具：
+
+```sh
+python3 scripts/workload_benchmark.py \
+  --sizes 10000 100000 200000 --orders sorted shuffled \
+  --samples 7 --warmups 2 --rounds 3 --memory-rounds 3 \
+  --output benchmarks/results/my-real-run
+```
+
+工具按固定提交与 SHA256 读取 MIT 授权的 Jieba 词典，保留词频，从 349,045 个唯一词条中抽样；A/B 各 N 条、重叠 N/2。每词一次查询，比较排序与固定种子打乱的顺序，以及 50% 命中混合请求。近似未命中是在完整 UTF-8 词条后追加 `FF`；这些请求不是实际查询日志，也没有按词频加权。Python 独立校验 A/B、并集、查询顺序及操作结果。
+
+已完成的[真实词典基线](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/results/real-baseline-v1/REPORT.md)保留各项耗时、编码大小和内存数据；其结论限于该次源码指纹与环境。语料来源和许可证见[语料说明](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/corpora/README.md)。
+
+内存测量为 baseline/build/load/union 各自启动新进程，读取 Linux `/proc/self/status` 的 `VmRSS` 与 `VmHWM`，保留操作前、操作后和内容验证后的快照。RSS 包含输入表示、分配器保留及运行时；高水位包含准备阶段，不能视为精确堆分配或操作净内存。load 使用预先导出的 FST：Rust 打开并校验 CRC，MoonBit 还验证完整可达图，两者工作量不同。全新进程不等于冷缓存，以上均为单机 native 热运行，不外推到磁盘吞吐或其他后端。
+
+### 正确性复验
 
 当前实测工具链为 `moon 0.1.20261104` 与 `moonc v0.10.20+65efd5b93`。配置采用 `moon.mod` / `moon.pkg`，整型索引采用 `Int32`，公开 trait 方法使用显式 `extend`。JavaScript 测试还需要 Node.js，native 测试需要工具链要求的 C 编译器。
 
@@ -172,6 +207,6 @@ python3 scripts/interop.py --target native --target js --target wasm-gc
 python3 scripts/random_interop.py --target native
 ```
 
-测试材料覆盖任意字节、完整 u64 边界、共享后缀、稠密分支、长路径、损坏输入和固定种子的随机差分。自动机另有独立标量 DP 对照和严格 UTF-8 解码对照。具体参考协议见 [oracle/README.md](oracle/README.md)，二进制样本见 [fixtures/README.md](fixtures/README.md)。
+测试材料覆盖任意字节、完整 u64 边界、共享后缀、稠密分支、长路径、损坏输入和固定种子的随机差分。自动机另有独立标量 DP 对照和严格 UTF-8 解码对照。具体参考协议见 [oracle/README.md](https://github.com/starAndHonor/moonfst/blob/main/oracle/README.md)，二进制样本见 [fixtures/README.md](https://github.com/starAndHonor/moonfst/blob/main/fixtures/README.md)，完整复验步骤见[开发工具说明](https://github.com/starAndHonor/moonfst/blob/main/scripts/README.md)。
 
 `python3 scripts/count_loc.py` 将生产 MoonBit、测试、生成文件和其他语言工具分开统计。实现细节见 [ARCHITECTURE.md](ARCHITECTURE.md)；来源与许可见 [THIRD_PARTY.md](THIRD_PARTY.md) 和 [LICENSE](LICENSE)。

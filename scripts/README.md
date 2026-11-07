@@ -1,5 +1,10 @@
 # Validation tooling
 
+Run these commands from a source checkout. The Mooncakes `starAndHonor/fst`
+archive excludes `scripts/`, `oracle/`, `benchmarks/`, external fixtures and
+cross-language integration harnesses; the library, its unit tests, examples
+and license/architecture documentation remain available in the archive.
+
 The current compiler target is MoonBit **`v0.10.20+65efd5b93`**, with
 `moon`/`moonrun` **`0.1.20261104`** and the matching compiler core package.
 The CI workflow installs the exact compiler/core release through the official
@@ -17,6 +22,7 @@ Other validation tools:
 | Python | Standard library only, Python 3.10+; CI: 3.12 |
 | Node.js | Node.js 22; local differential checks also use 22.14.0 |
 | Native compiler | `cc` available; CI uses Ubuntu 24.04's compiler |
+| Operating system | Linux for the workload smoke and RSS measurements; the library itself supports all four tested backends |
 
 Run the complete local acceptance sequence:
 
@@ -30,12 +36,67 @@ regeneration, fixture integrity/query/corruption checks, and MoonBit
 native binary compatibility in both directions on the 19 committed fixtures
 and 64 fixed-seed structured/random cases.
 
-It also runs the benchmark coordinator's protocol and statistics unit tests.
-Performance measurements run separately with `python3 scripts/benchmark.py
---output benchmarks/results/my-run`; see [the benchmark methodology](../benchmarks/README.md).
+It also runs **27 standard-library Python tests**: 16 synthetic benchmark
+protocol/statistics tests and 11 real-workload preparation/protocol tests.
+These cover frozen wire/checksum vectors, corpus integrity, query order,
+invalid results/times and RSS payload validation without collecting performance
+samples or downloading the real corpus:
+
+```sh
+python3 -m unittest scripts/test_benchmark.py scripts/test_workload_benchmark.py
+```
+
+The acceptance command then runs the offline-data workload smoke:
+
+```sh
+python3 scripts/workload_smoke.py
+```
+
+This builds both native release runners and uses six manually encoded UTF-8
+records, including a supplementary-plane character. It checks sorted and
+shuffled queries, mixed hits/misses, all four memory modes and byte-identical
+output. No Jieba download is needed. To run with networking disabled, install
+the toolchains and cache Cargo dependencies first. This is a correctness check;
+the tiny workload's timings are not performance evidence. Its inputs and
+results stay under ignored `oracle/target/validation/workload-smoke/`.
+
+Performance measurements run separately:
+
+```sh
+python3 scripts/benchmark.py --output benchmarks/results/my-run
+python3 scripts/workload_benchmark.py \
+  --sizes 10000 100000 200000 --orders sorted shuffled \
+  --samples 7 --warmups 2 --rounds 3 --memory-rounds 3 \
+  --output benchmarks/results/my-real-run
+```
+
+Use a fresh output directory for each measurement. See
+[the benchmark methodology](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/README.md)
+and the completed
+[real-dictionary baseline](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/results/real-baseline-v1/REPORT.md).
+The baseline describes its own recorded source fingerprint, not later changes.
 The optional `scripts/plot_benchmark.py` requires Matplotlib; sampling and
 statistics use only the Python standard library. Benchmark sources are excluded
 from production MoonBit line counts.
+
+The real workload is pinned by revision and SHA256 in
+[`benchmarks/corpora/`](https://github.com/starAndHonor/moonfst/tree/main/benchmarks/corpora).
+It samples Jieba dictionary entries and keeps their original frequencies;
+query order is controlled separately. Each word is requested once, misses
+append `FF`, and mixed requests alternate hits/misses. These are controlled
+queries over real words, not observed traffic or frequency-weighted requests.
+Downloads and prepared binary inputs stay in ignored `benchmarks/data/`.
+
+Linux RSS phases run in separate processes. `VmRSS` and `VmHWM` include the
+runtime, retained input representations and allocator behavior; the high-water
+mark can originate during preparation. Snapshots distinguish the operation
+from later content validation. Load starts from exported bytes, with no corpus
+construction in that process; MoonBit validates the complete reachable graph,
+whereas the Rust reference opens the map and checks CRC. The two load phases
+therefore perform different work. Fresh processes do not imply cold OS caches.
+The native-only C helper in `benchmarks/workload/io.c` performs file I/O and
+Linux RSS reads for development tools. It is excluded from the published
+archive; the FST library remains pure MoonBit without Rust/C bindings.
 
 The official installer initially bundles Wasm-GC core. `check.sh` explicitly
 bundles the matching core for every tested backend. For a custom installation,
@@ -53,8 +114,8 @@ Run these commands sequentially. They temporarily replace the small tracked
 integration placeholder with generated fixture embeddings and restore it in a
 `finally` block, including on a test failure. Ordinary `moon check`/`moon test`
 work on a fresh checkout without running any generator. See
-[the integration protocol](../integration/README.md) and
-[the Rust oracle protocol](../oracle/README.md).
+[the integration protocol](https://github.com/starAndHonor/moonfst/blob/main/integration/README.md) and
+[the Rust oracle protocol](https://github.com/starAndHonor/moonfst/blob/main/oracle/README.md).
 
 Source size is reported separately:
 

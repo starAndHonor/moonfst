@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "moonfst/fst/codec"
+package "starAndHonor/fst/codec"
 
 import {
   "moonbitlang/core/debug",

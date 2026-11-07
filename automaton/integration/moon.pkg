@@ -1,4 +1,4 @@
 import {
-  "moonfst/fst",
-  "moonfst/fst/automaton" @a,
+  "starAndHonor/fst",
+  "starAndHonor/fst/automaton" @a,
 } for "test"

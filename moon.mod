@@ -1,8 +1,10 @@
-name = "moonfst/fst"
+name = "starAndHonor/fst"
 
 version = "0.1.0"
 
 readme = "README.md"
+
+repository = "https://github.com/starAndHonor/moonfst"
 
 license = "MIT"
 

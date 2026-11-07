@@ -1,0 +1,21 @@
+# Preserve the repository's privacy and generated-output exclusions. A
+# .moonignore replaces, rather than extends, the .gitignore in this directory.
+/_build/
+/target/
+/.mooncakes/
+/oracle/target/
+/artifacts/
+/benchmarks/data/
+*.core
+__pycache__/
+*.py[cod]
+
+# Development evidence and external tools stay in the GitHub repository.
+# Keep library sources, unit tests, examples, architecture and license files.
+/benchmarks/
+/fixtures/
+/oracle/
+/scripts/
+/integration/
+/automaton/integration/
+/.github/
