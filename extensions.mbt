@@ -58,6 +58,12 @@ pub extend MergedEntry with Eq::{equal, not_equal}
 pub extend MergedEntry with @debug.Debug::{to_repr}
 
 ///|
+pub extend ValueStatistics with Eq::{equal, not_equal}
+
+///|
+pub extend ValueStatistics with @debug.Debug::{to_repr}
+
+///|
 pub extend ArraySource with EntrySource::{next, close}
 
 ///|
