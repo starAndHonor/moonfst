@@ -1,0 +1,377 @@
+///|
+/// Multiway operations on sorted streams. Difference subtracts every stream
+/// after the first. SymmetricDifference keeps keys with odd source count.
+#derive(Eq, @debug.Debug)
+pub(all) enum Operation {
+  Union
+  Intersection
+  Difference
+  SymmetricDifference
+}
+
+///|
+/// The value and zero-based source index of a key in a merge result.
+#valtype
+#derive(Eq, @debug.Debug)
+pub(all) struct IndexedValue {
+  index : Int32
+  value : UInt64
+}
+
+///|
+/// Values are ordered by ascending source index.
+#derive(Eq, @debug.Debug)
+pub(all) struct MergedEntry {
+  key : Bytes
+  values : Array[IndexedValue]
+}
+
+///|
+#valtype
+priv struct HeapItem {
+  entry : Entry
+  source : Int32
+}
+
+///|
+/// Streaming heap merge, using O(number of sources) heads plus each stream's
+/// active path. Inputs are consumed and must not be shared during iteration.
+pub struct MergeStream {
+  priv sources : Array[&EntrySource]
+  priv heap : Array[HeapItem]
+  priv operation : Operation
+  priv mut finished : Bool
+}
+
+///|
+fn heap_before(a : HeapItem, b : HeapItem) -> Bool {
+  let order = a.entry.key.lexical_compare(b.entry.key)
+  order < 0 || (order == 0 && a.source < b.source)
+}
+
+///|
+fn heap_push(heap : Array[HeapItem], item : HeapItem) -> Unit {
+  heap.push(item)
+  let mut index = heap.length() - 1
+  while index > 0 {
+    let parent = (index - 1) / 2
+    if !heap_before(item, heap[parent]) {
+      break
+    }
+    heap[index] = heap[parent]
+    index = parent
+  }
+  heap[index] = item
+}
+
+///|
+/// Only the root changed, and its replacement cannot precede the old root.
+/// Move the smaller child into the hole until the replacement fits. Values
+/// remain in the flat array; no temporary Option/HeapItem boxes are needed.
+fn heap_sift_down(heap : Array[HeapItem]) -> Unit {
+  if heap.length() < 2 {
+    return
+  }
+  let item = heap[0]
+  let mut index = 0
+  while index < heap.length() / 2 {
+    let left = index * 2 + 1
+    let right = left + 1
+    let child = if right < heap.length() && heap_before(heap[right], heap[left]) {
+      right
+    } else {
+      left
+    }
+    if !heap_before(heap[child], item) {
+      break
+    }
+    heap[index] = heap[child]
+    index = child
+  }
+  heap[index] = item
+}
+
+///|
+/// Each supplied stream must be independent; ownership is transferred by
+/// convention. Zero inputs produce an empty result for every operation.
+pub fn MergeStream::new(
+  sources : Array[Stream],
+  operation : Operation,
+) -> MergeStream raise FstError {
+  let inputs : Array[&EntrySource] = []
+  for stream in sources {
+    inputs.push(stream)
+  }
+  merge_sources(inputs, operation)
+}
+
+///|
+/// Merge external readers as well as FST streams. Inputs are validated as
+/// consumed, so invalid ordering cannot silently corrupt the result.
+pub fn merge_sources(
+  sources : Array[&EntrySource],
+  operation : Operation,
+) -> MergeStream raise FstError {
+  let checked : Array[&EntrySource] = []
+  for source in sources {
+    checked.push(CheckedSource::new(source))
+  }
+  let heap = []
+  errdefer (for source in checked {
+    source.close()
+  })
+  for index = 0; index < checked.length(); index = index + 1 {
+    let next = checked[index].next()
+    if next is Some(entry) {
+      heap_push(heap, { source: index, entry, })
+    }
+  }
+  { sources: checked, heap, operation, finished: false, }
+}
+
+///|
+/// Create independent streams, even if the same FST appears more than once.
+pub fn merge(
+  inputs : Array[Fst],
+  operation : Operation,
+  range~ : KeyRange = KeyRange::all(),
+) -> MergeStream raise FstError {
+  let sources = []
+  for input in inputs {
+    sources.push(input.stream(range~))
+  }
+  MergeStream::new(sources, operation)
+}
+
+///|
+/// Refill the minimum head in place. CheckedSource enforces that its next key
+/// is greater, so only one downward heap repair is required after replacement.
+fn MergeStream::advance_root(self : MergeStream) -> Unit raise FstError {
+  let source = self.heap[0].source
+  if self.sources[source].next() is Some(entry) {
+    self.heap[0] = { source, entry, }
+  } else {
+    let last = self.heap.length() - 1
+    if last > 0 {
+      self.heap[0] = self.heap[last]
+    }
+    self.heap.truncate(last)
+  }
+  heap_sift_down(self.heap)
+}
+
+///|
+pub fn MergeStream::next(self : MergeStream) -> MergedEntry? raise FstError {
+  errdefer self.close()
+  self.next_group()
+}
+
+///|
+/// A merge cannot safely resume after a reader fails: its popped head may
+/// already be absent from the heap. The public entrypoint closes all inputs.
+fn MergeStream::next_group(self : MergeStream) -> MergedEntry? raise FstError {
+  if self.finished {
+    return None
+  }
+  while !self.heap.is_empty() {
+    let first = self.heap[0]
+    let key = first.entry.key
+    let values = [
+      IndexedValue::{ index: first.source, value: first.entry.value, },
+    ]
+    self.advance_root()
+    while !self.heap.is_empty() && self.heap[0].entry.key == key {
+      let item = self.heap[0]
+      values.push({ index: item.source, value: item.entry.value, })
+      self.advance_root()
+    }
+    // The heap compares (key, source), so equal-key heads arrive in source
+    // order. Refilling one source cannot add the same key again because every
+    // input is checked as strictly increasing. No group sort is necessary.
+    let keep = match self.operation {
+      Union => true
+      Intersection => values.length() == self.sources.length()
+      Difference => values.length() == 1 && values[0].index == 0
+      SymmetricDifference => values.length() % 2 == 1
+    }
+    if keep {
+      return Some({ key, values, })
+    }
+  }
+  self.finished = true
+  None
+}
+
+///|
+pub fn MergeStream::close(self : MergeStream) -> Unit {
+  for stream in self.sources {
+    stream.close()
+  }
+  self.heap.clear()
+  self.finished = true
+}
+
+///|
+pub fn MergeStream::collect(
+  self : MergeStream,
+) -> Array[MergedEntry] raise FstError {
+  let result = []
+  while self.next() is Some(entry) {
+    result.push(entry)
+  }
+  result
+}
+
+///|
+pub fn MergeStream::take(
+  self : MergeStream,
+  count : Int32,
+) -> Array[MergedEntry] raise FstError {
+  if count < 0 {
+    raise InvalidArgument("take count must be nonnegative")
+  }
+  let result = []
+  while result.length() < count {
+    match self.next() {
+      Some(entry) => result.push(entry)
+      None => break
+    }
+  }
+  result
+}
+
+///|
+pub fn MergeStream::count(self : MergeStream) -> UInt64 raise FstError {
+  let mut count = 0UL
+  while self.next() is Some(_) {
+    count = checked_add(count, 1UL)
+  }
+  count
+}
+
+///|
+/// Collapse grouped outputs using a checked arithmetic policy.
+pub fn MergedEntry::reduce(
+  self : MergedEntry,
+  policy : DuplicatePolicy,
+) -> Entry raise FstError {
+  if self.values.is_empty() {
+    raise InvalidArgument("cannot reduce an empty output group")
+  }
+  let mut value = self.values[0].value
+  for index = 1; index < self.values.length(); index = index + 1 {
+    let next = self.values[index].value
+    value = match policy {
+      Reject => raise DuplicateKey(self.key)
+      KeepFirst => value
+      KeepLast => next
+      Sum => checked_add(value, next)
+      Minimum => if value < next { value } else { next }
+      Maximum => if value > next { value } else { next }
+    }
+  }
+  { key: self.key, value, }
+}
+
+///|
+pub fn MergeStream::into_set(
+  self : MergeStream,
+  registry_capacity~ : Int32 = 20000,
+) -> FstSet raise FstError {
+  let builder = Builder::set(registry_capacity~)
+  while self.next() is Some(entry) {
+    builder.add(entry.key)
+  }
+  builder.into_set()
+}
+
+///|
+/// Choose how to combine shared keys explicitly; no silent UInt64 overflow.
+pub fn MergeStream::into_map(
+  self : MergeStream,
+  policy : DuplicatePolicy,
+  registry_capacity~ : Int32 = 20000,
+) -> FstMap raise FstError {
+  let builder = Builder::map(registry_capacity~)
+  while self.next() is Some(group) {
+    let entry = group.reduce(policy)
+    builder.insert(entry.key, entry.value)
+  }
+  builder.into_map()
+}
+
+///|
+/// Custom reductions can use source indices for priority or weighted merging.
+pub fn MergeStream::reduce_with(
+  self : MergeStream,
+  f : (MergedEntry) -> UInt64 raise?,
+) -> FstMap raise {
+  let builder = Builder::map()
+  while self.next() is Some(entry) {
+    builder.insert(entry.key, f(entry))
+  }
+  builder.into_map()
+}
+
+///|
+pub fn FstSet::union(self : FstSet, other : FstSet) -> FstSet raise FstError {
+  merge([self.fst, other.fst], Union).into_set()
+}
+
+///|
+pub fn FstSet::intersection(
+  self : FstSet,
+  other : FstSet,
+) -> FstSet raise FstError {
+  merge([self.fst, other.fst], Intersection).into_set()
+}
+
+///|
+pub fn FstSet::difference(
+  self : FstSet,
+  other : FstSet,
+) -> FstSet raise FstError {
+  merge([self.fst, other.fst], Difference).into_set()
+}
+
+///|
+pub fn FstSet::symmetric_difference(
+  self : FstSet,
+  other : FstSet,
+) -> FstSet raise FstError {
+  merge([self.fst, other.fst], SymmetricDifference).into_set()
+}
+
+///|
+pub fn FstMap::union(
+  self : FstMap,
+  other : FstMap,
+  policy : DuplicatePolicy,
+) -> FstMap raise FstError {
+  merge([self.fst, other.fst], Union).into_map(policy)
+}
+
+///|
+pub fn FstMap::intersection(
+  self : FstMap,
+  other : FstMap,
+  policy : DuplicatePolicy,
+) -> FstMap raise FstError {
+  merge([self.fst, other.fst], Intersection).into_map(policy)
+}
+
+///|
+pub fn FstMap::difference(
+  self : FstMap,
+  other : FstMap,
+) -> FstMap raise FstError {
+  merge([self.fst, other.fst], Difference).into_map(KeepFirst)
+}
+
+///|
+pub fn FstMap::symmetric_difference(
+  self : FstMap,
+  other : FstMap,
+) -> FstMap raise FstError {
+  merge([self.fst, other.fst], SymmetricDifference).into_map(KeepFirst)
+}

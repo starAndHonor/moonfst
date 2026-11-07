@@ -38,3 +38,36 @@ pub extend BuilderStatistics with Eq::{equal, not_equal}
 
 ///|
 pub extend BuilderStatistics with @debug.Debug::{to_repr}
+
+///|
+pub extend Operation with Eq::{equal, not_equal}
+
+///|
+pub extend Operation with @debug.Debug::{to_repr}
+
+///|
+pub extend IndexedValue with Eq::{equal, not_equal}
+
+///|
+pub extend IndexedValue with @debug.Debug::{to_repr}
+
+///|
+pub extend MergedEntry with Eq::{equal, not_equal}
+
+///|
+pub extend MergedEntry with @debug.Debug::{to_repr}
+
+///|
+pub extend ArraySource with EntrySource::{next, close}
+
+///|
+pub extend CheckedSource with EntrySource::{next, close}
+
+///|
+pub extend FilterSource with EntrySource::{next, close}
+
+///|
+pub extend MapSource with EntrySource::{next, close}
+
+///|
+pub extend WindowSource with EntrySource::{next, close}
