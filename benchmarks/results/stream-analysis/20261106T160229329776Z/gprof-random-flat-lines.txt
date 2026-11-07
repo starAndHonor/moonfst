@@ -1,0 +1,38 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+ 36.25      0.29     0.29                             _M0MP27moonfst3fst6Stream4next (stream.mbt:122 @ 3ee17)
+ 16.25      0.42     0.13                             _M0FP27moonfst3fst15traversal__node (traversal.mbt:21 @ 3ed23)
+  6.88      0.47     0.06                             _M0MP27moonfst3fst6Stream4next (stream.mbt:135 @ 3edbe)
+  6.88      0.53     0.06                             _M0MP27moonfst3fst6Stream4next (stream.mbt:128 @ 3edc6)
+  6.25      0.58     0.05                             _M0MP27moonfst3fst6Stream4next (stream.mbt:135 @ 3edcf)
+  2.50      0.60     0.02                             _M0FP27moonfst3fst12packed__read (packed.mbt:7 @ 3f1ab)
+  2.50      0.62     0.02                             _M0MP27moonfst3fst6Stream4next (stream.mbt:137 @ 3e77e)
+  2.50      0.64     0.02                             _M0MP27moonfst3fst6Stream4next (stream.mbt:122 @ 3e9a3)
+  1.25      0.65     0.01                             _M0FP27moonfst3fst15traversal__node (traversal.mbt:124 @ 1da64)
+  1.25      0.66     0.01                             _M0FP27moonfst3fst15traversal__node (traversal.mbt:80 @ 1db20)
+  1.25      0.67     0.01                             _M0FP27moonfst3fst15traversal__node (traversal.mbt:80 @ 1db35)
+  1.25      0.68     0.01                             _M0MP27moonfst3fst6Stream4next (stream.mbt:164 @ 3e7ac)
+  1.25      0.69     0.01                             _M0MP27moonfst3fst6Stream4next (stream.mbt:122 @ 3e7c8)
+  1.25      0.70     0.01                             _M0MP27moonfst3fst6Stream4next (stream.mbt:133 @ 3ea29)
+  1.25      0.71     0.01                             _M0MP27moonfst3fst6Stream4next (stream.mbt:125 @ 3ea57)
+  1.25      0.72     0.01                             _M0MP27moonfst3fst6Stream4next (stream.mbt:145 @ 3edf8)
+  1.25      0.73     0.01                             _M0MP27moonfst3fst6Stream4next (stream.mbt:119 @ 3f1d0)
+  1.25      0.74     0.01                             _M0MPC15array5Array4pushGRP27moonfst3fst5FrameE (array.mbt:413 @ 3e160)
+  1.25      0.75     0.01                             _M0MPC15array5Array8truncateGyE (array.mbt:2705 @ 3ec6f)
+  1.25      0.76     0.01                             _init
+  1.25      0.77     0.01                             mi_malloc
+  0.62      0.78     0.01                             _M0FP27moonfst3fst15traversal__node (traversal.mbt:61 @ 1db53)
+  0.62      0.78     0.01                             _M0FP27moonfst3fst15traversal__node (traversal.mbt:48 @ 1db56)
+  0.62      0.79     0.01                             _M0MP27moonfst3fst6Stream4next (stream.mbt:136 @ 3e988)
+  0.62      0.79     0.01                             _M0MP27moonfst3fst6Stream4next (stream.mbt:202 @ 3e98b)
+  0.62      0.80     0.01                             _M0MP27moonfst3fst6Stream4next (stream.mbt:143 @ 3f0b9)
+  0.62      0.80     0.01                             _M0MP27moonfst3fst6Stream4next (stream.mbt:120 @ 3f0bf)
+  0.00      0.80     0.00 40533120     0.00     0.00  _M0IP27moonfst3fst13CheckedSourceP27moonfst3fst11EntrySource51close_2edyncall__as___40moonfst_2ffst_2eEntrySource (traits.mbt:404 @ 1d9a0)
+  0.00      0.80     0.00  3901950     0.00     0.00  _M0FP47moonfst3fst10benchmarks6runner3runC12861l314 (main.mbt:304 @ 3ded0)
+  0.00      0.80     0.00  3000450     0.00     0.00  _M0IPC15array5ArrayPC15debug5Debug8to__reprGRP27moonfst3fst5EntryE (debug.mbt:139 @ 2dbd0)
+  0.00      0.80     0.00  3000030     0.00     0.00  _M0MP27moonfst3fst3Fst14stream_2einner (stream.mbt:158 @ 3e1e0)
+  0.00      0.80     0.00  3000000     0.00     0.00  _M0MPC15bytes5Bytes11from__array.constprop.0 (array.mbt:68 @ 1ffb0)
+  0.00      0.80     0.00      120     0.00     0.00  _M0FPC15debug24compact__lines_2edyncall (profile.c:9573 @ 30e90)

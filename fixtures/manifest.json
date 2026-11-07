@@ -1,0 +1,224 @@
+{
+  "format": "moonfst-reference-fixtures-v1",
+  "reference": {
+    "crate": "fst",
+    "ok": true,
+    "protocol": 1,
+    "upstream_commit": "fbd5992376f176c35af2644d74efad58f5656e5c",
+    "version": "0.4.7"
+  },
+  "generator": "scripts/generate_fixtures.py",
+  "prng": "SplitMix64, modulo-2^64 arithmetic, little-endian bytes",
+  "seed_hex": "6d6f6f6e66737407",
+  "cases": [
+    {
+      "name": "set_empty",
+      "kind": "set",
+      "data_file": "set_empty.fst",
+      "expected_file": "set_empty.expected.json",
+      "length": 0,
+      "bytes": 39,
+      "max_key_bytes": 0,
+      "sha256": "037bb2d762b9fe609608d11f8c665ab3aad3dcb3936ead915e6618c7c82d48f9",
+      "purpose": "No accepted key; distinct from a set containing the empty key."
+    },
+    {
+      "name": "set_empty_key",
+      "kind": "set",
+      "data_file": "set_empty_key.fst",
+      "expected_file": "set_empty_key.expected.json",
+      "length": 1,
+      "bytes": 36,
+      "max_key_bytes": 0,
+      "sha256": "0d3e0c0030f1d0ce56986a48cf17396fa5fe6af18031e3f40bf3ce2ff2adbd2c",
+      "purpose": "Empty key and the implicit empty-final state."
+    },
+    {
+      "name": "map_empty",
+      "kind": "map",
+      "data_file": "map_empty.fst",
+      "expected_file": "map_empty.expected.json",
+      "length": 0,
+      "bytes": 39,
+      "max_key_bytes": 0,
+      "sha256": "037bb2d762b9fe609608d11f8c665ab3aad3dcb3936ead915e6618c7c82d48f9",
+      "purpose": "Empty map and a zero-key checksum-bearing file."
+    },
+    {
+      "name": "map_empty_key_max",
+      "kind": "map",
+      "data_file": "map_empty_key_max.fst",
+      "expected_file": "map_empty_key_max.expected.json",
+      "length": 1,
+      "bytes": 47,
+      "max_key_bytes": 0,
+      "sha256": "a46804792739e34f292e7e45416c7726b3c45a9a7d2bd1e0eea978e09fc05dae",
+      "purpose": "Empty-key final output uses the full u64 domain."
+    },
+    {
+      "name": "set_ascii",
+      "kind": "set",
+      "data_file": "set_ascii.fst",
+      "expected_file": "set_ascii.expected.json",
+      "length": 9,
+      "bytes": 83,
+      "max_key_bytes": 7,
+      "sha256": "58cdfea3f73affae916d5be992e4eddd03f68a922f6059f3e6e9d1a52c1c1731",
+      "purpose": "Shared prefix, final nodes with children, and unsorted-length keys."
+    },
+    {
+      "name": "map_ascii",
+      "kind": "map",
+      "data_file": "map_ascii.fst",
+      "expected_file": "map_ascii.expected.json",
+      "length": 9,
+      "bytes": 100,
+      "max_key_bytes": 7,
+      "sha256": "4521140c5eab28f7e6c85d0d6ad82f7d1a0b2eb0738776f4644b1576ac3c37bb",
+      "purpose": "Nonmonotonic map outputs exercise output factoring."
+    },
+    {
+      "name": "set_raw_bytes",
+      "kind": "set",
+      "data_file": "set_raw_bytes.fst",
+      "expected_file": "set_raw_bytes.expected.json",
+      "length": 15,
+      "bytes": 93,
+      "max_key_bytes": 6,
+      "sha256": "301c0065ee4f29b2dc3772ff3d94410c1ee742b6e2a5d6bd655732c9582402d0",
+      "purpose": "NUL, invalid UTF-8, non-ASCII UTF-8 and 0xff are ordinary key bytes."
+    },
+    {
+      "name": "map_raw_bytes",
+      "kind": "map",
+      "data_file": "map_raw_bytes.fst",
+      "expected_file": "map_raw_bytes.expected.json",
+      "length": 15,
+      "bytes": 243,
+      "max_key_bytes": 6,
+      "sha256": "5c833c653eb2c25a492488961faa6913e755a92f6503382b994dfe2d384b5d5c",
+      "purpose": "Arbitrary-byte keys and random full-width outputs."
+    },
+    {
+      "name": "set_all_256",
+      "kind": "set",
+      "data_file": "set_all_256.fst",
+      "expected_file": "set_all_256.expected.json",
+      "length": 256,
+      "bytes": 807,
+      "max_key_bytes": 1,
+      "sha256": "b3f9425c0cbfbd59b861c73b97a41cf41713b0df84a2a8e7286d302e63108a70",
+      "purpose": "A state has exactly 256 outgoing transitions, including 0 and 255."
+    },
+    {
+      "name": "map_all_256",
+      "kind": "map",
+      "data_file": "map_all_256.fst",
+      "expected_file": "map_all_256.expected.json",
+      "length": 256,
+      "bytes": 1575,
+      "max_key_bytes": 1,
+      "sha256": "c809ebb78ffc8f593c760157c24833b7625b04af4e9666568a79a188d5032ee1",
+      "purpose": "Full 256-way branch with distinct outputs and transition-index encoding."
+    },
+    {
+      "name": "map_u64_boundaries",
+      "kind": "map",
+      "data_file": "map_u64_boundaries.fst",
+      "expected_file": "map_u64_boundaries.expected.json",
+      "length": 22,
+      "bytes": 268,
+      "max_key_bytes": 2,
+      "sha256": "9c1d62c6ee43912222b2552c273a1d0a4c0fce46bba1e933cd7bd53ff7037294",
+      "purpose": "Every output byte-width boundary, high-bit values, maximum u64 and descending outputs."
+    },
+    {
+      "name": "set_shared_affixes",
+      "kind": "set",
+      "data_file": "set_shared_affixes.fst",
+      "expected_file": "set_shared_affixes.expected.json",
+      "length": 1152,
+      "bytes": 162,
+      "max_key_bytes": 36,
+      "sha256": "1cd70ca0b61fad86577d64998e9cc0df17ca4676887bb5c79c54749dfa83cd16",
+      "purpose": "Repeated prefixes and suffixes permit suffix-state sharing."
+    },
+    {
+      "name": "map_shared_affixes",
+      "kind": "map",
+      "data_file": "map_shared_affixes.fst",
+      "expected_file": "map_shared_affixes.expected.json",
+      "length": 1152,
+      "bytes": 185,
+      "max_key_bytes": 36,
+      "sha256": "94b845825f7420358d3c6dca0f78f19cab52321f45e9ec5f69b666e2e3fbc930",
+      "purpose": "Repeated weighted suffixes and output normalization across many prefixes."
+    },
+    {
+      "name": "set_long_keys",
+      "kind": "set",
+      "data_file": "set_long_keys.fst",
+      "expected_file": "set_long_keys.expected.json",
+      "length": 6,
+      "bytes": 7234,
+      "max_key_bytes": 4098,
+      "sha256": "b4908b6922623d04a3e438b6ac95312bfd938474dc6afe70cb90f3769fead895",
+      "purpose": "4098-byte keys, long single-transition chains and final-prefix keys."
+    },
+    {
+      "name": "map_long_keys",
+      "kind": "map",
+      "data_file": "map_long_keys.fst",
+      "expected_file": "map_long_keys.expected.json",
+      "length": 5,
+      "bytes": 7259,
+      "max_key_bytes": 4098,
+      "sha256": "daf7da8a1e2e7abe3ddb243f1bf3e71951a8b620d6efb56c836131e82a2ef19b",
+      "purpose": "Long chains with differing outputs, zero output and a full-width leaf output."
+    },
+    {
+      "name": "set_seeded_random",
+      "kind": "set",
+      "data_file": "set_seeded_random.fst",
+      "expected_file": "set_seeded_random.expected.json",
+      "length": 512,
+      "bytes": 15334,
+      "max_key_bytes": 31,
+      "sha256": "b9d4e46095b048ca260827edc4989460eb83fdc3211a9c08cd9d4d67cd903f8a",
+      "purpose": "Fixed-seed byte keys with varied lengths and branching."
+    },
+    {
+      "name": "map_seeded_random",
+      "kind": "map",
+      "data_file": "map_seeded_random.fst",
+      "expected_file": "map_seeded_random.expected.json",
+      "length": 512,
+      "bytes": 21313,
+      "max_key_bytes": 31,
+      "sha256": "98e7e44fb32baaf539db03f35e6f1def88edc2ab9f15c49cc06e61656c3620df",
+      "purpose": "Fixed-seed random map spans the complete unsigned output range."
+    },
+    {
+      "name": "set_large_index",
+      "kind": "set",
+      "data_file": "set_large_index.fst",
+      "expected_file": "set_large_index.expected.json",
+      "length": 6000,
+      "bytes": 256194,
+      "max_key_bytes": 31,
+      "sha256": "7cffbb2f4705ef72f03b3f53ecce00e62fdc1ad029d55892eb6ff7ab9926bfaa",
+      "purpose": "Large node addresses and indexed high-fanout states; binary exceeds 64 KiB."
+    },
+    {
+      "name": "map_large_index",
+      "kind": "map",
+      "data_file": "map_large_index.fst",
+      "expected_file": "map_large_index.expected.json",
+      "length": 6000,
+      "bytes": 309352,
+      "max_key_bytes": 31,
+      "sha256": "818659315c2385f13f3926659eeb49f1861268e2399cf4346c5ff8a5aebbb549",
+      "purpose": "Large weighted graph, node offsets beyond 64 KiB and nontrivial transition indexes."
+    }
+  ]
+}

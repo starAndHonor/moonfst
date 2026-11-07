@@ -1,0 +1,15 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonfst/fst/benchmarks/runner"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Config
+
+type Dataset
+
+// Type aliases
+
+// Traits

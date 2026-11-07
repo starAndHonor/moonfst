@@ -1,0 +1,632 @@
+{
+  "schema": 1,
+  "started_at": "2026-11-06T15:23:47.368833+00:00",
+  "finished_at": "2026-11-06T15:24:05.383855+00:00",
+  "complete": true,
+  "config": {
+    "sizes": [
+      100000
+    ],
+    "shapes": [
+      "shared",
+      "random"
+    ],
+    "samples": 5,
+    "warmups": 2,
+    "rounds": 1,
+    "cpu": 2,
+    "skip_build": false,
+    "build_commands": [
+      [
+        "moon",
+        "-C",
+        "/home/starandhonor/.moon/lib/core",
+        "bundle",
+        "--target",
+        "native",
+        "--warn-list",
+        "-a",
+        "--quiet"
+      ],
+      [
+        "moon",
+        "build",
+        "benchmarks/runner",
+        "--target",
+        "native",
+        "--release",
+        "--deny-warn"
+      ],
+      [
+        "cargo",
+        "build",
+        "--locked",
+        "--release",
+        "--manifest-path",
+        "oracle/Cargo.toml",
+        "--bin",
+        "fst_bench"
+      ]
+    ],
+    "invocation": [
+      "/usr/bin/python3",
+      "scripts/benchmark.py",
+      "--sizes",
+      "100000",
+      "--samples",
+      "5",
+      "--warmups",
+      "2",
+      "--rounds",
+      "1",
+      "--cpu",
+      "2",
+      "--output",
+      "benchmarks/results/tune-packed-v1"
+    ]
+  },
+  "environment": {
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+    "machine": "x86_64",
+    "cpu_model": "Intel(R) Core(TM) i9-14900HX",
+    "selected_cpu": 2,
+    "allowed_cpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "cpu_max_khz": "5800000",
+    "cpu_governor": "powersave",
+    "cpu_thread_siblings": "2-3",
+    "moon": "moon 0.1.20261104 (940aa18 2026-11-04) ~/.moon/bin/moon\nmoonc v0.10.20+65efd5b93 (2026-11-05) ~/.moon/bin/moonc\nmoonrun 0.1.20261104 (940aa18 2026-11-04) ~/.moon/bin/moonrun\n\nFeature flags enabled: rr_moon_mod,rr_moon_pkg",
+    "rustc": "rustc 1.94.1 (e408947bf 2026-03-25)\nbinary: rustc\ncommit-hash: e408947bfd200af42db322daf0fadfe7e26d3bd1\ncommit-date: 2026-03-25\nhost: x86_64-unknown-linux-gnu\nrelease: 1.94.1\nLLVM version: 21.1.8",
+    "cargo": "cargo 1.94.1 (29ea6fb6a 2026-03-24)",
+    "cc": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+    "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+    "compile_environment": {},
+    "binary_sha256": {
+      "moonbit": "4f3b95f43068873aef8dcf0078d8ee5e7cfae12b808e7648501dcd685d862448",
+      "rust": "a7062abc6077840f3edd24afcb6768eb758f5cf1932a7d24607521c358163a6b"
+    },
+    "source": {
+      "sha256": "88d09643713395b2b2d7fc3d7c3d6471f3df23a2c1fb6f1870f65ae62bb81a21",
+      "files": {
+        "builder.mbt": "97bcbbbf58b2bd74016c66041a294066efd46b77125c8dd445568fdda20b7d74",
+        "builder_optimization_wbtest.mbt": "2306e688194b17f73f4461a87951c57dd6b22fddacc9bfeac38007b6105abca0",
+        "core_wbtest.mbt": "c5455879cc96cb482c9db303fcbdfc4720e4d34d149865387cff0c63185205a7",
+        "extensions.mbt": "3c8ad6a89563af0f7d27ad2e9d93e57d3f1e97f0a1f583d8bbe7bede5c6fe81c",
+        "fst.mbt": "2152fdae6af5de698e6d0230ba5c9d514c7fe8d33cdf0a130b25c3d7ac9e53e1",
+        "index.mbt": "386323d92175f4c326b66ee4d345dd8def89e3dc97d221a96057aa2117b39012",
+        "index_wbtest.mbt": "a15d18c03b29897f439a8d80bee8754835d073c98a3a6968ea87edb236479601",
+        "lookup_optimized_wbtest.mbt": "385a17b3ae7eb5f267a5f51f15244dbc0c2b7c65e322fe22065d069135fb400d",
+        "map.mbt": "44493b3ca0c65ee921bcc83b48cea52f70d05b55c8a811e5984a875624d160f5",
+        "moon.mod": "42fff0fdd2af0ad6a039c36605503f63a37f511e6d034fe9068ca4c452705ebb",
+        "moon.pkg": "52b113f0671e6be4f39532e91c56bb4b0c0fd1054e033e3491c9cd3d6b72c11d",
+        "operations.mbt": "ad9a537677f49fcdb8b51efc28fe4240025226090e48a80deebe338aff244f6e",
+        "packed.mbt": "4c447b514e8d910c53b03dc9b42bed8d3b28ccda5429119a590e51310c0c7a34",
+        "pkg.generated.mbti": "277d630a77e22d68c040596a684377df9be3a9cb0b3cf25953f7987d04abe14d",
+        "reverse.mbt": "fe398085c0d614aa351be6ee8cc3b99fbd332a40c69a70079061455187f4fad7",
+        "search_index.mbt": "60b74bceea004295a9464e7215fb6d3786826e26081e158f38cc91cd7b829224",
+        "search_index_wbtest.mbt": "b7c7c299fd75e89cc5d6a1cf060d0fe4204e6edb61404d815638063412763045",
+        "set.mbt": "fb089d562ecc54e6da62103148e0f04b90ee5edf21afb7ddc9213d4564478e3e",
+        "source.mbt": "8220a70b30991390130f1c43ab54857321b526d9107051a251a4e883f0c1a493",
+        "source_wbtest.mbt": "a39b1b288ce3c8a5da1eeb896d80046148e498241ca6fe16a44d30cd8b6633e0",
+        "stream.mbt": "708d8a258b5cbd930e31b379d7c15b4aa0520374541bd6dc81760506cb09a431",
+        "traversal.mbt": "c02069b5b49d249860df41e484c424d77b9f24b6f668fe0191962a592e987a86",
+        "traversal_wbtest.mbt": "06505f1b6ed9d092c825614612b7458e4d1cd37ed1a397809594b3f4ba70d3be",
+        "types.mbt": "530263b6dc693b8976e122cabc33e9104bb1065158278083bb71efd965de4e3b",
+        "value_reverse_wbtest.mbt": "5bde00d491d216a0f5539adf4492bbd7dca231cdc38a8aec6ec00774da48b7b1",
+        "value_statistics.mbt": "2d0b8dcc28243fddb53833b32b17922c8ccf161da80f440c0bd2e50df3b8c1fe",
+        "automaton/automaton.mbt": "df14a4e2330d19716166f8de481c424c8f979960e43a82940477c49cf5fe5117",
+        "automaton/dfa.mbt": "d613a1bc5cf13cbbcd6feb364bb7c52b9789cff6ecc12e4c331e03da3194587b",
+        "automaton/extends.mbt": "5854725168244f6983383465fc21ab52d9172f399714fdf6851ecba87a48ca84",
+        "automaton/levenshtein.mbt": "a613edda021a1ad81f1875dc11d3f00ac0333b19d9bd2d8c2d76f1318383d0cd",
+        "automaton/levenshtein_wbtest.mbt": "a925497c04a38e91e40b2e48d4c3b3cddeea085bb9003b44cf1200b115c99e1d",
+        "automaton/matcher.mbt": "f8870cc5f4bcf3c537af3add9c15f4ba714cbc1349aa6395dc2d548b2d7bd00f",
+        "automaton/matcher_wbtest.mbt": "41f68d4434b057f61098681a53b865c13513a1480bcc76602f42fa779071be66",
+        "automaton/moon.pkg": "134c84382c195dd4c417eb5efc6a3ee0152ba2a31bd206bc35ab314200a0b56f",
+        "automaton/pkg.generated.mbti": "6756c70a2974ebc418b7279eaa170d830543af9dbf85670fbde40e40d09e5f8c",
+        "automaton/integration/moon.pkg": "cb6f838d1f30eb0dc605fd3c98d2484328b2f7e61507d6cb723318a5027011bf",
+        "automaton/integration/pkg.generated.mbti": "a0560512dd6deec55e6512559863b70a7d8ea399a7fc3785f999d13db2c77304",
+        "automaton/integration/search_test.mbt": "e550ab1f909cac9fd8ac7996c96fb38a8025dfef7fc5d60771f0c1a09b5d8685",
+        "benchmarks/runner/main.mbt": "f3043298b17a8bc01f8f8e0d36fe750485a0781764cc9c0bce3cf6814855de95",
+        "benchmarks/runner/moon.pkg": "fffef3bdca76d830857b29ec1b5508811602ec1075a6d9064b582f12854d35d6",
+        "benchmarks/runner/pkg.generated.mbti": "294a313f3264ddf0bdcf4faa50a1fa5d43f8023decc0dc8cb853bd49ba9a3ab9",
+        "codec/bytes.mbt": "8eb2b30433ccb760826101c5b9b73a8d1aa62a09284c87ce2a9b44f83ac3e78b",
+        "codec/common.mbt": "849b572b6eacb4a4f292a1b0ad0f734b99a2c7afb2816492cb197cad71903c6f",
+        "codec/crc32c.mbt": "3c50b777f63f25fb027fe116c8e7fef17a2a59e87fe5a4e20bbb453832a8ac88",
+        "codec/decode.mbt": "8553f6cf3ae12e780b3255ffab1636c392e0c4619f1f4ea4f12811406813fe08",
+        "codec/encode.mbt": "4309d29a39c427375eeb9fdfb7cbcbe32a42657ca1fec8c07775a447e49d3f3b",
+        "codec/format_wbtest.mbt": "7f444a2b0929c5a703caf068e95de19637e0d9f5b43afbc75a9030ea2322deea",
+        "codec/moon.pkg": "f55457e90e133b551bb83a9ac6b3f26b4d21e6678155f918c885105a723bf059",
+        "codec/pkg.generated.mbti": "e138147d5dbcabd46e28140861cf9b09dbea2be972351197bdd10859471330ac",
+        "codec/rust_fixtures_wbtest.mbt": "a208307d3dafdd494f51224a7bad48d7888e728d4b6218ef2c1c9feb5ca2ded4",
+        "codec/types.mbt": "2253fd840dcd642e6a446f8f55ad43a0e4ad03beb1362cdd637d4015b98a942b",
+        "codec/verify.mbt": "adc747d9f52be1b24288aac8bafa3c9e94418348992c49940e23afa82736c5a3",
+        "examples/dictionary/main.mbt": "88ddeaf5f4394c97a8202aa1bd52751b803f0650c8f3cf74298f802a286a64d5",
+        "examples/dictionary/moon.pkg": "977cfa59b7dce944180b68e97867e8027429114b8b7ad6ccbec158f93bd099ba",
+        "examples/dictionary/pkg.generated.mbti": "4828eda331ca125130c12e683f05a7978b554bca893df22e83723aa6b5145c29",
+        "integration/fixtures_generated.mbt": "11677131861851e34f32af7712198b65fe3e27f99e77e30aacb4bf594f4e1e7f",
+        "integration/main.mbt": "9953e0528c8331b0e8a222baa2b0ed7d3ef55e0decc03f528d6f1278b45ec0dd",
+        "integration/moon.pkg": "15de76e19257f92d7b4445002e921db72d587d324af6b7360a69c766a4473a9b",
+        "integration/pkg.generated.mbti": "23195c3ede8c0ced20686eb3dca317b9d60641062cb0e134ff4ebbd76482e2a9",
+        "oracle/Cargo.lock": "37bdc0a00ed1f6a723adbf77c0f7dd1d4b452a5898ed249b62a6fed9d2ac4a24",
+        "oracle/Cargo.toml": "6fa74c15a16f577a965ab261d54bd424891b75eed939098faff4d26c1252bbc5",
+        "oracle/src/main.rs": "9981b0857034379641fa8b96997de3c13f1f2cd15a3ae4ac00f293e6707e5b0e",
+        "oracle/src/bin/fst_bench.rs": "c23532792d26566263d5ae976589e676f9a66e775826400c94d2c91d6aaaccca",
+        "scripts/benchmark.py": "0bc36c30598eb6d3c2bd9de7f7cea9f3234a40b37e6df0e7e82b8dd97f0b0e13",
+        "scripts/count_loc.py": "7d963e005a8b94af00c86071be2e8cdbef51a6a76bcb4718d9265926e5c7c429",
+        "scripts/generate_fixtures.py": "409ce59014470714377b9cfe4d1ff1e4fca38e1e6c2d2034e9fd3553e1811395",
+        "scripts/interop.py": "1146a922e739ce0e6975e48472804a819dcb3e68066c4be3fe731b8897fac9e9",
+        "scripts/oracle_common.py": "483f17ea1c7424ecd139fa9938dc2d13b444ba47a2b8e82950abf1731113cf4a",
+        "scripts/plot_benchmark.py": "64d14febddf5ad00c7e59efe9d4f20787a483036b12051995722ca8ed58a866c",
+        "scripts/profile_query.py": "8d7c3c57bebfb0d50e1a177bf48216ee27f007829455087f6b281ef43b209a11",
+        "scripts/query_ablation.py": "c9c414d271866c0b1ef312ea67b71fdfb279f80d6880c6c92a101131425868cf",
+        "scripts/query_cost_counts.py": "c342bca9c19f4d65060828d9ac36fd60efaa2ae929ed1ec8b9efac3761bd0b59",
+        "scripts/random_interop.py": "b80d5f6ee39f3ab8bb8460d3b5a1491743c70a27cc3bdcd1ddade433420f4d3c",
+        "scripts/test_benchmark.py": "c9beb4a20a0fa27757f3bd4e8f506a594853c2fc3291c3519061246dcdd8d28d",
+        "scripts/verify_oracle.py": "69a63fcc36284b0cd30a488f03b0a4f83411f7173b6af8b409d553af9d4b0ffe"
+      }
+    },
+    "note": "Single pinned CPU; OS frequency/boost and other system workloads are not controlled."
+  },
+  "datasets": [
+    {
+      "shape": "shared",
+      "n": 100000,
+      "seed": 12648430,
+      "dataset_hash": "16735726030334534740",
+      "dataset_sha256": "c79fa9798521d3b6b169f02cf26c782f3746bf648df8d2d523b8c694c5713053",
+      "b_hash": "17442609661068281154",
+      "input_key_bytes": 2800000,
+      "expected": {
+        "lookup_hit": [
+          "3028092406969300912",
+          100000
+        ],
+        "lookup_miss": [
+          "0",
+          0
+        ],
+        "stream_owned": [
+          "16735726030334534740",
+          100000
+        ],
+        "prefix_owned": [
+          "2945712708367545420",
+          50016
+        ],
+        "union_owned": [
+          "302823231559770574",
+          150000
+        ]
+      }
+    },
+    {
+      "shape": "random",
+      "n": 100000,
+      "seed": 12648430,
+      "dataset_hash": "8207647804806519417",
+      "dataset_sha256": "d2967f17c01f818e0acc93f3b860d8868d9063acce3d9aacb6f55061e4e8655f",
+      "b_hash": "5539336745272741862",
+      "input_key_bytes": 1600000,
+      "expected": {
+        "lookup_hit": [
+          "3028092406969300912",
+          100000
+        ],
+        "lookup_miss": [
+          "0",
+          0
+        ],
+        "stream_owned": [
+          "8207647804806519417",
+          100000
+        ],
+        "prefix_owned": [
+          "1439552381465844154",
+          12757
+        ],
+        "union_owned": [
+          "16621599248055750364",
+          150000
+        ]
+      }
+    }
+  ],
+  "runs": [
+    {
+      "round": 1,
+      "wall_seconds": 2.0905377989984117,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 5,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214031,
+        "metrics": [
+          {
+            "name": "build",
+            "samples_us": [
+              55158.922,
+              56522.452000000005,
+              57179.788,
+              55301.46,
+              55262.613
+            ],
+            "checksum": "214031",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              23103.105,
+              23458.052,
+              21966.715,
+              21927.600000000002,
+              22588.725000000002
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              19590.328,
+              19122.055999999982,
+              19377.056,
+              19057.484,
+              19243.965
+            ],
+            "checksum": "0",
+            "result_count": 0
+          },
+          {
+            "name": "stream_owned",
+            "samples_us": [
+              24265.626,
+              24485.997,
+              24091.908,
+              24287.585,
+              25149.494
+            ],
+            "checksum": "16735726030334534740",
+            "result_count": 100000
+          },
+          {
+            "name": "prefix_owned",
+            "samples_us": [
+              16783.665,
+              16659.084,
+              16413.509000000002,
+              16918.838,
+              16398.075
+            ],
+            "checksum": "2945712708367545420",
+            "result_count": 50016
+          },
+          {
+            "name": "union_owned",
+            "samples_us": [
+              64905.597,
+              66841.617,
+              67461.345,
+              65957.948,
+              66226.507
+            ],
+            "checksum": "302823231559770574",
+            "result_count": 150000
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 1,
+      "wall_seconds": 0.8954854890471324,
+      "payload": {
+        "dataset_hash": "16735726030334534740",
+        "engine": "rust",
+        "fst_bytes": 214002,
+        "input_key_bytes": 2800000,
+        "metrics": [
+          {
+            "checksum": "214002",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              19465.926000000003,
+              19612.75,
+              19419.109,
+              20202.516,
+              20148.867000000002
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              12584.287,
+              12405.098,
+              12718.179,
+              12206.051000000001,
+              11898.493
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              11766.018,
+              12307.759999999998,
+              11944.233,
+              12150.498,
+              11904.065
+            ]
+          },
+          {
+            "checksum": "16735726030334534740",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              10122.185000000001,
+              10510.53,
+              10101.73,
+              10482.313,
+              10192.937
+            ]
+          },
+          {
+            "checksum": "2945712708367545420",
+            "name": "prefix_owned",
+            "result_count": 50016,
+            "samples_us": [
+              5558.304,
+              5848.119,
+              5570.196,
+              5614.537,
+              5435.042
+            ]
+          },
+          {
+            "checksum": "302823231559770574",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              26634.937,
+              26418.921000000002,
+              27029.682,
+              26957.952,
+              29737.464
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 5,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "shared",
+        "warmups": 2
+      },
+      "stderr": ""
+    },
+    {
+      "round": 1,
+      "wall_seconds": 1.6352492980076931,
+      "payload": {
+        "dataset_hash": "8207647804806519417",
+        "engine": "rust",
+        "fst_bytes": 3835088,
+        "input_key_bytes": 1600000,
+        "metrics": [
+          {
+            "checksum": "3835088",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              79089.49699999999,
+              80960.267,
+              78723.409,
+              80911.84599999999,
+              78979.276
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              9964.182999999999,
+              9915.599,
+              10143.064,
+              10035.573,
+              9911.763
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              9897.167,
+              10186.384,
+              9837.124,
+              9720.792000000001,
+              9747.752999999999
+            ]
+          },
+          {
+            "checksum": "8207647804806519417",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              21847.319,
+              21763.949,
+              21515.581,
+              22108.554,
+              21722.109
+            ]
+          },
+          {
+            "checksum": "1439552381465844154",
+            "name": "prefix_owned",
+            "result_count": 12757,
+            "samples_us": [
+              2881.089,
+              2998.182,
+              2869.297,
+              3025.548,
+              2915.9519999999998
+            ]
+          },
+          {
+            "checksum": "16621599248055750364",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              50567.436,
+              50757.649000000005,
+              50176.583,
+              50129.944,
+              49877.409
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 5,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "random",
+        "warmups": 2
+      },
+      "stderr": ""
+    },
+    {
+      "round": 1,
+      "wall_seconds": 5.867063108016737,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "shape": "random",
+        "n": 100000,
+        "samples": 5,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3781969,
+        "metrics": [
+          {
+            "name": "build",
+            "samples_us": [
+              288236.88,
+              286038.217,
+              290362.22899999993,
+              289288.844,
+              287828.409
+            ],
+            "checksum": "3781969",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              14888.614,
+              15359.925000000001,
+              15446.502,
+              15313.939,
+              15068.792
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              13628.334,
+              13749.929,
+              13736.878,
+              13860.021999999997,
+              13868.312
+            ],
+            "checksum": "0",
+            "result_count": 0
+          },
+          {
+            "name": "stream_owned",
+            "samples_us": [
+              49163.675,
+              49449.86,
+              50582.223,
+              48452.598,
+              49297.06
+            ],
+            "checksum": "8207647804806519417",
+            "result_count": 100000
+          },
+          {
+            "name": "prefix_owned",
+            "samples_us": [
+              6446.467000000001,
+              6588.118,
+              7084.527,
+              6617.859,
+              6579.508
+            ],
+            "checksum": "1439552381465844154",
+            "result_count": 12757
+          },
+          {
+            "name": "union_owned",
+            "samples_us": [
+              118832.50200000001,
+              118213.214,
+              117937.24300000002,
+              117845.43400000001,
+              118177.248
+            ],
+            "checksum": "16621599248055750364",
+            "result_count": 150000
+          }
+        ]
+      },
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "kind": "instrumented-sampling-diagnostic",
+  "shape": "random",
+  "n": 100000,
+  "hit_batches": 3,
+  "cpu": 2,
+  "correctness": "all benchmark checks passed",
+  "source_c_sha256": "41e5de09de7dbbec103220a288c028c4595c982eb966a5f5f7cb4f530d49e253",
+  "commands": [
+    [
+      "cc",
+      "-o",
+      "/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/query-profile/profile.o",
+      "-I/home/starandhonor/.moon/include",
+      "-c",
+      "-fwrapv",
+      "-fno-strict-aliasing",
+      "-ffp-contract=off",
+      "-O2",
+      "-DMOONBIT_ALLOCATOR=MOONBIT_ALLOCATOR_MIMALLOC",
+      "-pg",
+      "-g",
+      "/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/query-profile/profile.c"
+    ],
+    [
+      "cc",
+      "-o",
+      "/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/query-profile/profile.exe",
+      "-O2",
+      "-pg",
+      "/home/starandhonor/.moon/lib/libmoonbitrun.o",
+      "/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/query-profile/profile.o",
+      "/media/starandhonor/Data/code/moonbit hack/month11/_build/native/release/build/libruntime.a",
+      "-lm",
+      "/home/starandhonor/.moon/lib/libbacktrace.a"
+    ]
+  ],
+  "scope": "moncontrol enabled only inside lookup_hit; startup/build/other operations excluded",
+  "limitations": "Application C rebuilt with -pg; instrumentation perturbs execution. Prebuilt runtime/allocator not instrumented for call counts. gprof histogram excludes shared-library code. Sample fractions are diagnostic, not a decomposition of uninstrumented benchmark elapsed time. Plain gprof misnames optimized read_node.isra.0 as debug.to_string and Transition Array.push.isra.0 as fail; use gprof-random-lines.txt with readelf/objdump verification."
+}

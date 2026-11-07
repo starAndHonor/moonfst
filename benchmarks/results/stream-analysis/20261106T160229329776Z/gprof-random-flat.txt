@@ -1,0 +1,13 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ns/call  ns/call  name    
+ 91.25      0.73     0.73  3000030   243.33   260.00  _M0MP27moonfst3fst3Fst14stream_2einner
+  5.00      0.77     0.04 40533120     0.99     0.99  _M0IP27moonfst3fst13CheckedSourceP27moonfst3fst11EntrySource51close_2edyncall__as___40moonfst_2ffst_2eEntrySource
+  1.25      0.78     0.01  3901950     2.56     2.56  _M0FP47moonfst3fst10benchmarks6runner3runC12861l314
+  1.25      0.79     0.01                             _init
+  1.25      0.80     0.01                             mi_malloc
+  0.00      0.80     0.00  3000000     0.00     0.00  _M0IPC15array5ArrayPC15debug5Debug8to__reprGRP27moonfst3fst5EntryE
+  0.00      0.80     0.00  3000000     0.00     0.00  _M0MPC15bytes5Bytes11from__array.constprop.0
+  0.00      0.80     0.00      120     0.00     0.00  _M0FPC15debug24compact__lines_2edyncall

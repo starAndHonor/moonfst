@@ -1,0 +1,411 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonfst/fst"
+
+import {
+  "moonbitlang/core/debug",
+  "moonfst/fst/automaton",
+  "moonfst/fst/codec",
+}
+
+// Values
+pub fn collect_source(&EntrySource) -> Array[Entry] raise FstError
+
+pub fn filter_source(&EntrySource, (Entry) -> Bool raise FstError) -> FilterSource
+
+pub fn[A] fold_source(&EntrySource, A, (A, Entry) -> A raise?) -> A raise
+
+pub fn map_source(&EntrySource, (Entry) -> UInt64 raise FstError) -> MapSource
+
+pub fn merge(Array[Fst], Operation, range? : KeyRange) -> MergeStream raise FstError
+
+pub fn merge_sources(Array[&EntrySource], Operation) -> MergeStream raise FstError
+
+pub fn prefix_successor(Bytes) -> Bytes?
+
+pub fn window_source(&EntrySource, UInt64, UInt64) -> WindowSource
+
+// Errors
+#derive(@debug.Debug)
+pub(all) suberror FstError {
+  InvalidArgument(String)
+  OutOfOrder(Bytes, Bytes)
+  DuplicateKey(Bytes)
+  BuilderClosed
+  InvalidFormat(String)
+  InvalidUtf8
+  Overflow
+  ResourceLimit(String)
+}
+pub fn FstError::to_repr(Self) -> @debug.Repr
+
+// Types and methods
+pub struct ArraySource {
+  // private fields
+}
+pub fn ArraySource::close(Self) -> Unit
+pub fn ArraySource::from_sorted(Array[Entry]) -> Self raise FstError
+pub fn ArraySource::from_sorted_keys(Array[Bytes]) -> Self raise FstError
+pub fn ArraySource::next(Self) -> Entry? raise FstError
+pub fn ArraySource::remaining(Self) -> Int32
+pub impl EntrySource for ArraySource
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Bound {
+  Unbounded
+  Included(Bytes)
+  Excluded(Bytes)
+}
+pub fn Bound::equal(Self, Self) -> Bool
+pub fn Bound::not_equal(Self, Self) -> Bool
+pub fn Bound::to_repr(Self) -> @debug.Repr
+
+pub struct Builder {
+  // private fields
+}
+pub fn Builder::add(Self, Bytes) -> Unit raise FstError
+pub fn Builder::add_str(Self, String) -> Unit raise FstError
+pub fn Builder::extend_entries(Self, Array[Entry]) -> Unit raise FstError
+pub fn Builder::extend_source(Self, &EntrySource) -> Unit raise FstError
+pub fn Builder::extend_stream(Self, Stream) -> Unit raise FstError
+pub fn Builder::finish(Self) -> Bytes raise FstError
+pub fn Builder::insert(Self, Bytes, UInt64) -> Unit raise FstError
+pub fn Builder::insert_str(Self, String, UInt64) -> Unit raise FstError
+pub fn Builder::into_fst(Self) -> Fst raise FstError
+pub fn Builder::into_map(Self) -> FstMap raise FstError
+pub fn Builder::into_set(Self) -> FstSet raise FstError
+pub fn Builder::map(registry_capacity? : Int32, fst_type? : UInt64) -> Self raise FstError
+pub fn Builder::set(registry_capacity? : Int32, fst_type? : UInt64) -> Self raise FstError
+pub fn Builder::statistics(Self) -> BuilderStatistics
+
+#derive(Eq, @debug.Debug)
+pub(all) struct BuilderStatistics {
+  keys : UInt64
+  compiled_nodes : Int32
+  reused_nodes : Int32
+  registry_entries : Int32
+  unfinished_nodes : Int32
+  bytes_written : Int32
+}
+pub fn BuilderStatistics::equal(Self, Self) -> Bool
+pub fn BuilderStatistics::not_equal(Self, Self) -> Bool
+pub fn BuilderStatistics::to_repr(Self) -> @debug.Repr
+
+pub struct CheckedSource {
+  // private fields
+}
+pub fn CheckedSource::close(Self) -> Unit
+pub fn CheckedSource::new(&EntrySource) -> Self
+pub fn CheckedSource::next(Self) -> Entry? raise FstError
+pub impl EntrySource for CheckedSource
+
+pub struct Cursor {
+  // private fields
+}
+pub fn Cursor::address(Self) -> Int32
+pub fn Cursor::advance(Self, Byte) -> Bool raise FstError
+pub fn Cursor::advance_bytes(Self, Bytes) -> Bool raise FstError
+pub fn Cursor::back(Self) -> Bool
+pub fn Cursor::completions(Self) -> Stream raise FstError
+pub fn Cursor::depth(Self) -> Int32
+pub fn Cursor::fork(Self) -> Self
+pub fn Cursor::key(Self) -> Bytes
+pub fn Cursor::output_prefix(Self) -> UInt64
+pub fn Cursor::reset(Self) -> Unit
+pub fn Cursor::seek(Self, Bytes) -> Bool raise FstError
+pub fn Cursor::transitions(Self) -> Array[@codec.Transition]
+pub fn Cursor::truncate(Self, Int32) -> Unit raise FstError
+pub fn Cursor::value(Self) -> UInt64?
+
+#derive(Eq, @debug.Debug)
+pub(all) enum DuplicatePolicy {
+  Reject
+  KeepFirst
+  KeepLast
+  Sum
+  Minimum
+  Maximum
+}
+pub fn DuplicatePolicy::equal(Self, Self) -> Bool
+pub fn DuplicatePolicy::not_equal(Self, Self) -> Bool
+pub fn DuplicatePolicy::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Entry {
+  key : Bytes
+  value : UInt64
+}
+pub fn Entry::equal(Self, Self) -> Bool
+pub fn Entry::not_equal(Self, Self) -> Bool
+pub fn Entry::to_repr(Self) -> @debug.Repr
+
+pub struct FilterSource {
+  // private fields
+}
+pub fn FilterSource::close(Self) -> Unit
+pub fn FilterSource::next(Self) -> Entry? raise FstError
+pub impl EntrySource for FilterSource
+
+pub struct Fst {
+  // private fields
+}
+pub fn Fst::byte_size(Self) -> Int32
+pub fn Fst::common_prefixes(Self, Bytes) -> Array[Entry] raise FstError
+pub fn Fst::contains(Self, Bytes) -> Bool raise FstError
+pub fn Fst::contains_str(Self, String) -> Bool raise FstError
+pub fn Fst::cursor(Self) -> Cursor raise FstError
+pub fn Fst::from_bytes(Bytes) -> Self raise FstError
+pub fn Fst::fst_type(Self) -> UInt64
+pub fn Fst::get(Self, Bytes) -> UInt64? raise FstError
+pub fn Fst::get_str(Self, String) -> UInt64? raise FstError
+pub fn Fst::index(Self) -> FstIndex raise FstError
+pub fn Fst::is_empty(Self) -> Bool
+pub fn Fst::len(Self) -> UInt64
+pub fn Fst::longest_prefix(Self, Bytes) -> Entry? raise FstError
+pub fn Fst::node(Self, Int32) -> @codec.Node raise FstError
+pub fn Fst::prefix(Self, Bytes) -> Stream raise FstError
+pub fn Fst::prefix_str(Self, String) -> Stream raise FstError
+pub fn Fst::reverse(Self, range? : KeyRange) -> ReverseStream raise FstError
+pub fn Fst::root_address(Self) -> Int32
+pub fn Fst::search(Self, &@automaton.Automaton, range? : KeyRange) -> Stream raise FstError
+pub fn Fst::search_reverse(Self, &@automaton.Automaton, range? : KeyRange) -> ReverseStream raise FstError
+pub fn Fst::statistics(Self) -> Statistics raise FstError
+pub fn Fst::stream(Self, range? : KeyRange) -> Stream raise FstError
+pub fn Fst::to_bytes(Self) -> Bytes
+pub fn Fst::to_dot(Self) -> String raise FstError
+pub fn Fst::version(Self) -> UInt64
+
+pub struct FstIndex {
+  // private fields
+}
+pub fn FstIndex::as_fst(Self) -> Fst
+pub fn FstIndex::cached_nodes(Self) -> Int32
+pub fn FstIndex::floor(Self, Bytes) -> Entry?
+pub fn FstIndex::len(Self) -> UInt64
+pub fn FstIndex::lower_bound(Self, Bytes) -> Entry?
+pub fn FstIndex::page(Self, UInt64, Int32, range? : KeyRange) -> Array[Entry] raise FstError
+pub fn FstIndex::page_reverse(Self, UInt64, Int32, range? : KeyRange) -> Array[Entry] raise FstError
+pub fn FstIndex::predecessor(Self, Bytes) -> Entry?
+pub fn FstIndex::prefix_count(Self, Bytes) -> UInt64
+pub fn FstIndex::prefix_count_str(Self, String) -> UInt64
+pub fn FstIndex::prefix_ranks(Self, Bytes) -> (UInt64, UInt64)
+pub fn FstIndex::prefix_value_statistics(Self, Bytes) -> ValueStatistics
+pub fn FstIndex::range_count(Self, KeyRange) -> UInt64
+pub fn FstIndex::range_ranks(Self, KeyRange) -> (UInt64, UInt64)
+pub fn FstIndex::rank(Self, Bytes) -> (UInt64, Bool)
+pub fn FstIndex::rank_str(Self, String) -> (UInt64, Bool)
+pub fn FstIndex::search_index(Self, &@automaton.Automaton, max_states? : Int32) -> SearchIndex raise FstError
+pub fn FstIndex::select(Self, UInt64) -> Entry?
+pub fn FstIndex::top(Self, Int32, range? : KeyRange) -> Array[Entry] raise FstError
+pub fn FstIndex::upper_bound(Self, Bytes) -> Entry?
+pub fn FstIndex::value_statistics(Self, range? : KeyRange) -> ValueStatistics
+pub fn FstIndex::value_statistics_at(Self, UInt64, UInt64) -> ValueStatistics raise FstError
+
+pub struct FstMap {
+  // private fields
+}
+pub fn FstMap::as_fst(Self) -> Fst
+pub fn FstMap::as_set(Self) -> FstSet
+pub fn FstMap::contains(Self, Bytes) -> Bool raise FstError
+pub fn FstMap::difference(Self, Self) -> Self raise FstError
+pub fn FstMap::entries(Self) -> Array[Entry] raise FstError
+pub fn FstMap::from_bytes(Bytes) -> Self raise FstError
+pub fn FstMap::from_entries(Array[Entry], duplicates? : DuplicatePolicy, registry_capacity? : Int32) -> Self raise FstError
+pub fn FstMap::from_sorted(Array[Entry], registry_capacity? : Int32) -> Self raise FstError
+pub fn FstMap::from_stream(Stream, registry_capacity? : Int32) -> Self raise FstError
+pub fn FstMap::from_strings(Array[(String, UInt64)], duplicates? : DuplicatePolicy, registry_capacity? : Int32) -> Self raise FstError
+pub fn FstMap::get(Self, Bytes) -> UInt64? raise FstError
+pub fn FstMap::get_str(Self, String) -> UInt64? raise FstError
+pub fn FstMap::intersection(Self, Self, DuplicatePolicy) -> Self raise FstError
+pub fn FstMap::is_empty(Self) -> Bool
+pub fn FstMap::len(Self) -> UInt64
+pub fn FstMap::map_values(Self, (Bytes, UInt64) -> UInt64 raise?) -> Self raise
+pub fn FstMap::prefix(Self, Bytes) -> Stream raise FstError
+pub fn FstMap::prefix_str(Self, String) -> Stream raise FstError
+pub fn FstMap::rebuild(Self, registry_capacity? : Int32) -> Self raise FstError
+pub fn FstMap::reverse(Self, range? : KeyRange) -> ReverseStream raise FstError
+pub fn FstMap::same_entries(Self, Self) -> Bool raise FstError
+pub fn FstMap::search(Self, &@automaton.Automaton, range? : KeyRange) -> Stream raise FstError
+pub fn FstMap::slice(Self, KeyRange) -> Self raise FstError
+pub fn FstMap::stream(Self, range? : KeyRange) -> Stream raise FstError
+pub fn FstMap::string_entries(Self) -> Array[(String, UInt64)] raise FstError
+pub fn FstMap::symmetric_difference(Self, Self) -> Self raise FstError
+pub fn FstMap::to_bytes(Self) -> Bytes
+pub fn FstMap::union(Self, Self, DuplicatePolicy) -> Self raise FstError
+
+pub struct FstSet {
+  // private fields
+}
+pub fn FstSet::as_fst(Self) -> Fst
+pub fn FstSet::contains(Self, Bytes) -> Bool raise FstError
+pub fn FstSet::contains_str(Self, String) -> Bool raise FstError
+pub fn FstSet::difference(Self, Self) -> Self raise FstError
+pub fn FstSet::from_bytes(Bytes) -> Self raise FstError
+pub fn FstSet::from_keys(Array[Bytes], registry_capacity? : Int32) -> Self raise FstError
+pub fn FstSet::from_sorted(Array[Bytes], registry_capacity? : Int32) -> Self raise FstError
+pub fn FstSet::from_stream(Stream, registry_capacity? : Int32) -> Self raise FstError
+pub fn FstSet::from_strings(Array[String], registry_capacity? : Int32) -> Self raise FstError
+pub fn FstSet::intersection(Self, Self) -> Self raise FstError
+pub fn FstSet::is_disjoint(Self, Self) -> Bool raise FstError
+pub fn FstSet::is_empty(Self) -> Bool
+pub fn FstSet::is_subset(Self, Self) -> Bool raise FstError
+pub fn FstSet::is_superset(Self, Self) -> Bool raise FstError
+pub fn FstSet::keys(Self) -> Array[Bytes] raise FstError
+pub fn FstSet::len(Self) -> UInt64
+pub fn FstSet::prefix(Self, Bytes) -> Stream raise FstError
+pub fn FstSet::prefix_str(Self, String) -> Stream raise FstError
+pub fn FstSet::rebuild(Self, registry_capacity? : Int32) -> Self raise FstError
+pub fn FstSet::reverse(Self, range? : KeyRange) -> ReverseStream raise FstError
+pub fn FstSet::same_keys(Self, Self) -> Bool raise FstError
+pub fn FstSet::search(Self, &@automaton.Automaton, range? : KeyRange) -> Stream raise FstError
+pub fn FstSet::slice(Self, KeyRange) -> Self raise FstError
+pub fn FstSet::stream(Self, range? : KeyRange) -> Stream raise FstError
+pub fn FstSet::strings(Self) -> Array[String] raise FstError
+pub fn FstSet::symmetric_difference(Self, Self) -> Self raise FstError
+pub fn FstSet::to_bytes(Self) -> Bytes
+pub fn FstSet::union(Self, Self) -> Self raise FstError
+
+#derive(Eq, @debug.Debug)
+pub(all) struct IndexedValue {
+  index : Int32
+  value : UInt64
+}
+pub fn IndexedValue::equal(Self, Self) -> Bool
+pub fn IndexedValue::not_equal(Self, Self) -> Bool
+pub fn IndexedValue::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) struct KeyRange {
+  lower : Bound
+  upper : Bound
+}
+pub fn KeyRange::all() -> Self
+pub fn KeyRange::between(Bytes, Bytes) -> Self
+pub fn KeyRange::closed(Bytes, Bytes) -> Self
+pub fn KeyRange::contains(Self, Bytes) -> Bool
+pub fn KeyRange::equal(Self, Self) -> Bool
+pub fn KeyRange::not_equal(Self, Self) -> Bool
+pub fn KeyRange::prefix(Bytes) -> Self
+pub fn KeyRange::to_repr(Self) -> @debug.Repr
+
+pub struct MapSource {
+  // private fields
+}
+pub fn MapSource::close(Self) -> Unit
+pub fn MapSource::next(Self) -> Entry? raise FstError
+pub impl EntrySource for MapSource
+
+pub struct MergeStream {
+  // private fields
+}
+pub fn MergeStream::close(Self) -> Unit
+pub fn MergeStream::collect(Self) -> Array[MergedEntry] raise FstError
+pub fn MergeStream::count(Self) -> UInt64 raise FstError
+pub fn MergeStream::into_map(Self, DuplicatePolicy, registry_capacity? : Int32) -> FstMap raise FstError
+pub fn MergeStream::into_set(Self, registry_capacity? : Int32) -> FstSet raise FstError
+pub fn MergeStream::new(Array[Stream], Operation) -> Self raise FstError
+pub fn MergeStream::next(Self) -> MergedEntry? raise FstError
+pub fn MergeStream::reduce_with(Self, (MergedEntry) -> UInt64 raise?) -> FstMap raise
+pub fn MergeStream::take(Self, Int32) -> Array[MergedEntry] raise FstError
+
+#derive(Eq, @debug.Debug)
+pub(all) struct MergedEntry {
+  key : Bytes
+  values : Array[IndexedValue]
+}
+pub fn MergedEntry::equal(Self, Self) -> Bool
+pub fn MergedEntry::not_equal(Self, Self) -> Bool
+pub fn MergedEntry::reduce(Self, DuplicatePolicy) -> Entry raise FstError
+pub fn MergedEntry::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Operation {
+  Union
+  Intersection
+  Difference
+  SymmetricDifference
+}
+pub fn Operation::equal(Self, Self) -> Bool
+pub fn Operation::not_equal(Self, Self) -> Bool
+pub fn Operation::to_repr(Self) -> @debug.Repr
+
+pub struct ReverseStream {
+  // private fields
+}
+pub fn ReverseStream::close(Self) -> Unit
+pub fn ReverseStream::collect(Self) -> Array[Entry] raise FstError
+pub fn ReverseStream::count(Self) -> UInt64 raise FstError
+pub fn ReverseStream::keys(Self) -> Array[Bytes] raise FstError
+pub fn ReverseStream::next(Self) -> Entry? raise FstError
+pub fn ReverseStream::skip(Self, Int32) -> Int32 raise FstError
+pub fn ReverseStream::strings(Self) -> Array[String] raise FstError
+pub fn ReverseStream::take(Self, Int32) -> Array[Entry] raise FstError
+
+pub struct SearchIndex {
+  // private fields
+}
+pub fn SearchIndex::cached_states(Self) -> Int32
+pub fn SearchIndex::is_empty(Self) -> Bool
+pub fn SearchIndex::len(Self) -> UInt64
+pub fn SearchIndex::page(Self, UInt64, Int32, range? : KeyRange) -> Array[Entry] raise FstError
+pub fn SearchIndex::page_reverse(Self, UInt64, Int32, range? : KeyRange) -> Array[Entry] raise FstError
+pub fn SearchIndex::prefix_count(Self, Bytes) -> UInt64
+pub fn SearchIndex::range_count(Self, KeyRange) -> UInt64
+pub fn SearchIndex::range_ranks(Self, KeyRange) -> (UInt64, UInt64)
+pub fn SearchIndex::rank(Self, Bytes) -> (UInt64, Bool)
+pub fn SearchIndex::select(Self, UInt64) -> Entry?
+pub fn SearchIndex::stream(Self, range? : KeyRange) -> Stream raise FstError
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Statistics {
+  keys : UInt64
+  bytes : Int32
+  nodes : Int32
+  transitions : Int32
+  final_nodes : Int32
+  max_fanout : Int32
+  min_key_length : Int32
+  max_key_length : Int32
+}
+pub fn Statistics::equal(Self, Self) -> Bool
+pub fn Statistics::not_equal(Self, Self) -> Bool
+pub fn Statistics::to_repr(Self) -> @debug.Repr
+
+pub struct Stream {
+  // private fields
+}
+pub fn Stream::close(Self) -> Unit
+pub fn Stream::collect(Self) -> Array[Entry] raise FstError
+pub fn Stream::count(Self) -> UInt64 raise FstError
+pub fn Stream::keys(Self) -> Array[Bytes] raise FstError
+pub fn Stream::next(Self) -> Entry? raise FstError
+pub fn Stream::skip(Self, Int32) -> Int32 raise FstError
+pub fn Stream::string_entries(Self) -> Array[(String, UInt64)] raise FstError
+pub fn Stream::strings(Self) -> Array[String] raise FstError
+pub fn Stream::take(Self, Int32) -> Array[Entry] raise FstError
+pub impl EntrySource for Stream
+
+#derive(Eq, @debug.Debug)
+pub(all) struct ValueStatistics {
+  count : UInt64
+  minimum : UInt64?
+  maximum : UInt64?
+  sum : UInt64?
+}
+pub fn ValueStatistics::equal(Self, Self) -> Bool
+pub fn ValueStatistics::not_equal(Self, Self) -> Bool
+pub fn ValueStatistics::to_repr(Self) -> @debug.Repr
+
+pub struct WindowSource {
+  // private fields
+}
+pub fn WindowSource::close(Self) -> Unit
+pub fn WindowSource::next(Self) -> Entry? raise FstError
+pub impl EntrySource for WindowSource
+
+// Type aliases
+
+// Traits
+pub(open) trait EntrySource {
+  fn next(Self) -> Entry? raise FstError
+  fn close(Self) -> Unit
+}

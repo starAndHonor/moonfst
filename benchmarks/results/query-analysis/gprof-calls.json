@@ -1,0 +1,272 @@
+{
+  "schema": 1,
+  "kind": "existing-instrumented-profile-address-resolved-call-counts",
+  "scope": {
+    "shape": "random",
+    "n": 100000,
+    "hit_batches": 3,
+    "total_gets": 300000,
+    "key_bytes": 16,
+    "new_sampling_runs": 0
+  },
+  "inputs": {
+    "binary": "oracle/target/query-profile/profile.exe",
+    "binary_sha256": "abd2586d84a8ce4244d790981f2efed2169a53fe0cff371ff3920e70f84c7245",
+    "gmon": "oracle/target/query-profile/random/gmon.out",
+    "gmon_sha256": "bdeb2dc3dfee10099cc3b909f78cef3feda49309ccd3e5f870c3493e1aaebe21",
+    "line_resolved_report": "benchmarks/results/query-analysis/gprof-random-lines.txt"
+  },
+  "method": [
+    "Read existing gmon.out according to the native x86-64 little-endian layout in /usr/include/x86_64-linux-gnu/sys/gmon_out.h; no profiled program was rerun.",
+    "Read sized t/T/w/W functions using nm -n -S --defined-only. Resolve each from_pc/self_pc only when it falls inside a real [start, start+size) function interval; do not reuse gprof nearest accepted symbol names.",
+    "Aggregate raw call arcs by actual caller/callee. Counts describe the instrumented executable; they are not timing percentages or an allocation census."
+  ],
+  "summary": {
+    "get_calls": 300000,
+    "read_node_calls": 5100000,
+    "read_node_per_get": 17.0,
+    "decode_node_calls": 5100000,
+    "decode_delta_calls": 138028590,
+    "decode_delta_per_get": 460.0953,
+    "unpack_calls": 276057180,
+    "unpack_per_get": 920.1906,
+    "transition_array_push_calls": 137469192,
+    "transition_array_push_per_get": 458.23064,
+    "transition_array_realloc_calls": 3836778,
+    "transition_array_realloc_per_get": 12.78926,
+    "actual_fail_calls": 0,
+    "actual_codec_error_to_string_calls": 0
+  },
+  "function_ranges": [
+    {
+      "name": "_M0FP37moonfst3fst5codec6unpack",
+      "start": "0x1bad0",
+      "size_bytes": 161,
+      "end_exclusive": "0x1bb71"
+    },
+    {
+      "name": "_M0FP37moonfst3fst5codec13decode__delta",
+      "start": "0x1bc70",
+      "size_bytes": 295,
+      "end_exclusive": "0x1bd97"
+    },
+    {
+      "name": "_M0FPB4failGuE",
+      "start": "0x2c1b0",
+      "size_bytes": 312,
+      "end_exclusive": "0x2c2e8"
+    },
+    {
+      "name": "_M0MPC15array5Array7reallocGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "start": "0x2ca50",
+      "size_bytes": 164,
+      "end_exclusive": "0x2caf4"
+    },
+    {
+      "name": "_M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "start": "0x2cb00",
+      "size_bytes": 163,
+      "end_exclusive": "0x2cba3"
+    },
+    {
+      "name": "_M0FP37moonfst3fst5codec12decode__node",
+      "start": "0x2cbb0",
+      "size_bytes": 3062,
+      "end_exclusive": "0x2d7a6"
+    },
+    {
+      "name": "_M0FPC15debug10to__stringGRP37moonfst3fst5codec10CodecErrorE",
+      "start": "0x37d50",
+      "size_bytes": 299,
+      "end_exclusive": "0x37e7b"
+    },
+    {
+      "name": "_M0FP27moonfst3fst10read__node.isra.0",
+      "start": "0x37e80",
+      "size_bytes": 258,
+      "end_exclusive": "0x37f82"
+    },
+    {
+      "name": "_M0MP27moonfst3fst3Fst3get",
+      "start": "0x39400",
+      "size_bytes": 780,
+      "end_exclusive": "0x3970c"
+    }
+  ],
+  "arcs": [
+    {
+      "caller": "_M0FP37moonfst3fst5codec13decode__delta",
+      "callee": "_M0FP37moonfst3fst5codec6unpack",
+      "count": 138028590
+    },
+    {
+      "caller": "_M0FP37moonfst3fst5codec12decode__node",
+      "callee": "_M0FP37moonfst3fst5codec6unpack",
+      "count": 138028590
+    },
+    {
+      "caller": "_M0FP37moonfst3fst5codec12decode__node",
+      "callee": "_M0FP37moonfst3fst5codec13decode__delta",
+      "count": 138028590
+    },
+    {
+      "caller": "_M0FP37moonfst3fst5codec12decode__node",
+      "callee": "_M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "count": 137469192
+    },
+    {
+      "caller": "_M0FP37moonfst3fst5codec12decode__node",
+      "callee": "_M0FP37moonfst3fst5codec13footer__start",
+      "count": 5100000
+    },
+    {
+      "caller": "_M0FP27moonfst3fst10read__node.isra.0",
+      "callee": "_M0FP37moonfst3fst5codec12decode__node",
+      "count": 5100000
+    },
+    {
+      "caller": "_M0MP27moonfst3fst3Fst3get",
+      "callee": "_M0FP27moonfst3fst10read__node.isra.0",
+      "count": 5100000
+    },
+    {
+      "caller": "_M0MPC15array5Array7reallocGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "callee": "_M0MPB18UninitializedArray23make__and__blit_2einnerGRP27moonfst3fst12IndexedValueE.constprop.0",
+      "count": 3836778
+    },
+    {
+      "caller": "_M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "callee": "_M0MPC15array5Array7reallocGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "count": 3836778
+    },
+    {
+      "caller": "_M0FP47moonfst3fst10benchmarks6runner3runC12727l326",
+      "callee": "_M0MP27moonfst3fst3Fst3get",
+      "count": 300000
+    }
+  ],
+  "raw_arc_records": [
+    {
+      "from_pc": "0x1bc80",
+      "self_pc": "0x1bad9",
+      "caller": "_M0FP37moonfst3fst5codec13decode__delta",
+      "callee": "_M0FP37moonfst3fst5codec6unpack",
+      "count": 138028590
+    },
+    {
+      "from_pc": "0x2d080",
+      "self_pc": "0x1bad9",
+      "caller": "_M0FP37moonfst3fst5codec12decode__node",
+      "callee": "_M0FP37moonfst3fst5codec6unpack",
+      "count": 137469192
+    },
+    {
+      "from_pc": "0x2d090",
+      "self_pc": "0x1bc7e",
+      "caller": "_M0FP37moonfst3fst5codec12decode__node",
+      "callee": "_M0FP37moonfst3fst5codec13decode__delta",
+      "count": 137469192
+    },
+    {
+      "from_pc": "0x2d0e0",
+      "self_pc": "0x2cb0d",
+      "caller": "_M0FP37moonfst3fst5codec12decode__node",
+      "callee": "_M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "count": 137469192
+    },
+    {
+      "from_pc": "0x2cbd0",
+      "self_pc": "0x1bb89",
+      "caller": "_M0FP37moonfst3fst5codec12decode__node",
+      "callee": "_M0FP37moonfst3fst5codec13footer__start",
+      "count": 5100000
+    },
+    {
+      "from_pc": "0x37e90",
+      "self_pc": "0x2cbc6",
+      "caller": "_M0FP27moonfst3fst10read__node.isra.0",
+      "callee": "_M0FP37moonfst3fst5codec12decode__node",
+      "count": 5100000
+    },
+    {
+      "from_pc": "0x39590",
+      "self_pc": "0x37e8d",
+      "caller": "_M0MP27moonfst3fst3Fst3get",
+      "callee": "_M0FP27moonfst3fst10read__node.isra.0",
+      "count": 4800000
+    },
+    {
+      "from_pc": "0x2caa0",
+      "self_pc": "0x2c486",
+      "caller": "_M0MPC15array5Array7reallocGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "callee": "_M0MPB18UninitializedArray23make__and__blit_2einnerGRP27moonfst3fst12IndexedValueE.constprop.0",
+      "count": 3836778
+    },
+    {
+      "from_pc": "0x2cb90",
+      "self_pc": "0x2ca5e",
+      "caller": "_M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "callee": "_M0MPC15array5Array7reallocGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "count": 3836778
+    },
+    {
+      "from_pc": "0x2d310",
+      "self_pc": "0x1bad9",
+      "caller": "_M0FP37moonfst3fst5codec12decode__node",
+      "callee": "_M0FP37moonfst3fst5codec6unpack",
+      "count": 559398
+    },
+    {
+      "from_pc": "0x2d340",
+      "self_pc": "0x1bc7e",
+      "caller": "_M0FP37moonfst3fst5codec12decode__node",
+      "callee": "_M0FP37moonfst3fst5codec13decode__delta",
+      "count": 559398
+    },
+    {
+      "from_pc": "0x39420",
+      "self_pc": "0x37e8d",
+      "caller": "_M0MP27moonfst3fst3Fst3get",
+      "callee": "_M0FP27moonfst3fst10read__node.isra.0",
+      "count": 300000
+    },
+    {
+      "from_pc": "0x39780",
+      "self_pc": "0x39414",
+      "caller": "_M0FP47moonfst3fst10benchmarks6runner3runC12727l326",
+      "callee": "_M0MP27moonfst3fst3Fst3get",
+      "count": 300000
+    }
+  ],
+  "symbol_attribution_findings": {
+    "cause": "The installed gprof 2.46 rejects optimized static clone symbols (.isra.0 and .constprop.0 here). It then assigns their arcs/histogram bins to an earlier accepted symbol. These functions have distinct addresses and nonzero ELF FUNC sizes; the false fail/debug labels are not evidence that error paths ran.",
+    "read_node_misattributed_as": "_M0FPC15debug10to__stringGRP37moonfst3fst5codec10CodecErrorE",
+    "transition_array_helpers_misattributed_as": "_M0FPB4failGuE",
+    "gprof_rejection_evidence": [
+      "[core_create_function_syms] rejecting: 0x27130 _M0MPB18UninitializedArray23make__and__blit_2einnerGRP27moonfst3fst12IndexedValueE.constprop.0",
+      "[core_create_function_syms] rejecting: 0x27710 _M0MPC15array5Array7reallocGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "[core_create_function_syms] rejecting: 0x277c0 _M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE.isra.0",
+      "[core_create_function_syms] rejecting: 0x32b40 _M0FP27moonfst3fst10read__node.isra.0"
+    ],
+    "rejection_address_note": "The rejection log prints section-relative values. The .text section starts at executable virtual address 0x5340; nm/function_ranges addresses include it.",
+    "init_misattribution": {
+      "actual_init_range": [
+        "0x5000",
+        "0x501b"
+      ],
+      "sampled_address": "0x5250",
+      "actual_code": "mcount@plt",
+      "histogram_ticks": 10,
+      "conclusion": "The original flat report _init row is profiler entry PLT sampling, not application startup work."
+    }
+  },
+  "limitations": [
+    "No timing-percent decomposition is reported. -pg perturbs execution and the original histogram has only 184 ticks at 100 Hz; shared-library code is absent from its executable histogram.",
+    "Prebuilt runtime/allocator objects lack -pg call-count instrumentation, so their allocation/free call counts cannot be inferred from these arcs.",
+    "The -l report recovers useful DWARF inline/function attribution, but its per-line sampled timings are not exact source execution counts; generated C #line locations also require care."
+  ],
+  "references": [
+    "https://sourceware.org/binutils/docs/gprof/Sampling-Error.html",
+    "https://sourceware.org/binutils/docs/gprof/Analysis-Options.html"
+  ]
+}

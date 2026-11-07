@@ -1,0 +1,8 @@
+/_build/
+/target/
+/.mooncakes/
+/oracle/target/
+/artifacts/
+*.core
+__pycache__/
+*.py[cod]

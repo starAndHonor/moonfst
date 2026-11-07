@@ -1,0 +1,639 @@
+{
+  "schema": 1,
+  "implementation": "two-way bounded registry; pooled mutable-reference BuildNode allocated only as maximum unfinished depth grows; inline pending fields; Transition and RegistrySlot remain value types; miss-only independent packedword storage with evicted-buffer reuse",
+  "rust_fst": "0.4.7",
+  "upstream_commit": "fbd5992376f176c35af2644d74efad58f5656e5c",
+  "native_interop": {
+    "fixed_cases": 19,
+    "random_cases": 64,
+    "random_seed": "0x4653544449464631",
+    "all_encoded_bytes_exactly_rust": true,
+    "total_encoded_bytes": 756663,
+    "total_records": 22431,
+    "scope": "Final production source after formatting: 83 cases rebuilt and independently decoded on native, JavaScript and Wasm-GC; every complete encoded byte array equals Rust fst 0.4.7.",
+    "encoded_bytes_unchanged_by_mutable_node_pool": true
+  },
+  "files": [
+    {
+      "name": "set_empty",
+      "kind": "set",
+      "records": 0,
+      "bytes": 39,
+      "sha256": "037bb2d762b9fe609608d11f8c665ab3aad3dcb3936ead915e6618c7c82d48f9"
+    },
+    {
+      "name": "set_empty_key",
+      "kind": "set",
+      "records": 1,
+      "bytes": 36,
+      "sha256": "0d3e0c0030f1d0ce56986a48cf17396fa5fe6af18031e3f40bf3ce2ff2adbd2c"
+    },
+    {
+      "name": "map_empty",
+      "kind": "map",
+      "records": 0,
+      "bytes": 39,
+      "sha256": "037bb2d762b9fe609608d11f8c665ab3aad3dcb3936ead915e6618c7c82d48f9"
+    },
+    {
+      "name": "map_empty_key_max",
+      "kind": "map",
+      "records": 1,
+      "bytes": 47,
+      "sha256": "a46804792739e34f292e7e45416c7726b3c45a9a7d2bd1e0eea978e09fc05dae"
+    },
+    {
+      "name": "set_ascii",
+      "kind": "set",
+      "records": 9,
+      "bytes": 83,
+      "sha256": "58cdfea3f73affae916d5be992e4eddd03f68a922f6059f3e6e9d1a52c1c1731"
+    },
+    {
+      "name": "map_ascii",
+      "kind": "map",
+      "records": 9,
+      "bytes": 100,
+      "sha256": "4521140c5eab28f7e6c85d0d6ad82f7d1a0b2eb0738776f4644b1576ac3c37bb"
+    },
+    {
+      "name": "set_raw_bytes",
+      "kind": "set",
+      "records": 15,
+      "bytes": 93,
+      "sha256": "301c0065ee4f29b2dc3772ff3d94410c1ee742b6e2a5d6bd655732c9582402d0"
+    },
+    {
+      "name": "map_raw_bytes",
+      "kind": "map",
+      "records": 15,
+      "bytes": 243,
+      "sha256": "5c833c653eb2c25a492488961faa6913e755a92f6503382b994dfe2d384b5d5c"
+    },
+    {
+      "name": "set_all_256",
+      "kind": "set",
+      "records": 256,
+      "bytes": 807,
+      "sha256": "b3f9425c0cbfbd59b861c73b97a41cf41713b0df84a2a8e7286d302e63108a70"
+    },
+    {
+      "name": "map_all_256",
+      "kind": "map",
+      "records": 256,
+      "bytes": 1575,
+      "sha256": "c809ebb78ffc8f593c760157c24833b7625b04af4e9666568a79a188d5032ee1"
+    },
+    {
+      "name": "map_u64_boundaries",
+      "kind": "map",
+      "records": 22,
+      "bytes": 268,
+      "sha256": "9c1d62c6ee43912222b2552c273a1d0a4c0fce46bba1e933cd7bd53ff7037294"
+    },
+    {
+      "name": "set_shared_affixes",
+      "kind": "set",
+      "records": 1152,
+      "bytes": 162,
+      "sha256": "1cd70ca0b61fad86577d64998e9cc0df17ca4676887bb5c79c54749dfa83cd16"
+    },
+    {
+      "name": "map_shared_affixes",
+      "kind": "map",
+      "records": 1152,
+      "bytes": 185,
+      "sha256": "94b845825f7420358d3c6dca0f78f19cab52321f45e9ec5f69b666e2e3fbc930"
+    },
+    {
+      "name": "set_long_keys",
+      "kind": "set",
+      "records": 6,
+      "bytes": 7234,
+      "sha256": "b4908b6922623d04a3e438b6ac95312bfd938474dc6afe70cb90f3769fead895"
+    },
+    {
+      "name": "map_long_keys",
+      "kind": "map",
+      "records": 5,
+      "bytes": 7259,
+      "sha256": "daf7da8a1e2e7abe3ddb243f1bf3e71951a8b620d6efb56c836131e82a2ef19b"
+    },
+    {
+      "name": "set_seeded_random",
+      "kind": "set",
+      "records": 512,
+      "bytes": 15334,
+      "sha256": "b9d4e46095b048ca260827edc4989460eb83fdc3211a9c08cd9d4d67cd903f8a"
+    },
+    {
+      "name": "map_seeded_random",
+      "kind": "map",
+      "records": 512,
+      "bytes": 21313,
+      "sha256": "98e7e44fb32baaf539db03f35e6f1def88edc2ab9f15c49cc06e61656c3620df"
+    },
+    {
+      "name": "set_large_index",
+      "kind": "set",
+      "records": 6000,
+      "bytes": 256194,
+      "sha256": "7cffbb2f4705ef72f03b3f53ecce00e62fdc1ad029d55892eb6ff7ab9926bfaa"
+    },
+    {
+      "name": "map_large_index",
+      "kind": "map",
+      "records": 6000,
+      "bytes": 309352,
+      "sha256": "818659315c2385f13f3926659eeb49f1861268e2399cf4346c5ff8a5aebbb549"
+    },
+    {
+      "name": "random_000_set",
+      "kind": "set",
+      "records": 0,
+      "bytes": 39,
+      "sha256": "037bb2d762b9fe609608d11f8c665ab3aad3dcb3936ead915e6618c7c82d48f9"
+    },
+    {
+      "name": "random_001_map",
+      "kind": "map",
+      "records": 1,
+      "bytes": 51,
+      "sha256": "94a528e9ee4654ac2990cc7fa6315c3fa8cd6fdf12f566579141f55a2eccf7e3"
+    },
+    {
+      "name": "random_002_set",
+      "kind": "set",
+      "records": 2,
+      "bytes": 46,
+      "sha256": "8c355d71d0cf8e3f883b9b5469b5805f4dd498bcdc13deb133ed60eac30765cc"
+    },
+    {
+      "name": "random_003_map",
+      "kind": "map",
+      "records": 4,
+      "bytes": 160,
+      "sha256": "182daf8684c0e569e26b1ea5cd9d74b4dcd021f76855b9e9a5c697726791ddab"
+    },
+    {
+      "name": "random_004_set",
+      "kind": "set",
+      "records": 7,
+      "bytes": 54,
+      "sha256": "344b5778ed57f913f02ec4e2e984dea9cee2590500ab53be15813dcd0540eb28"
+    },
+    {
+      "name": "random_005_map",
+      "kind": "map",
+      "records": 16,
+      "bytes": 739,
+      "sha256": "6c139146d581bd1ee640ddb65935e67eb332fc8535cd5ba89ce0144b791fc2ce"
+    },
+    {
+      "name": "random_006_set",
+      "kind": "set",
+      "records": 31,
+      "bytes": 1637,
+      "sha256": "0fff1fd6007ea01ed39b3a7416139f5f0c09a491bd2c358dacdeba30ad6ac093"
+    },
+    {
+      "name": "random_007_map",
+      "kind": "map",
+      "records": 32,
+      "bytes": 604,
+      "sha256": "f9ec1ba7f722975bb6016bcfd7087b9e5a5f5f4947be5ec47036ef6e4b99730d"
+    },
+    {
+      "name": "random_008_set",
+      "kind": "set",
+      "records": 63,
+      "bytes": 424,
+      "sha256": "51765576db9d44f8fef1b828b853778256d822d73b11d3577f921d8644faad3c"
+    },
+    {
+      "name": "random_009_map",
+      "kind": "map",
+      "records": 64,
+      "bytes": 1685,
+      "sha256": "7e7380f198a3b7e19cd7a36147dbece7f63a6a5c8c6491386048340d706b5896"
+    },
+    {
+      "name": "random_010_set",
+      "kind": "set",
+      "records": 127,
+      "bytes": 294,
+      "sha256": "b2ac74ac5ef55b0f3a7639c155823dfba7d807f175f48cdc45b4610ecfa81a40"
+    },
+    {
+      "name": "random_011_map",
+      "kind": "map",
+      "records": 128,
+      "bytes": 2546,
+      "sha256": "4e6d512f575c32c8c10dec17d99702c1289beec8d1e32069cdcdb82c2529cec5"
+    },
+    {
+      "name": "random_012_set",
+      "kind": "set",
+      "records": 255,
+      "bytes": 11609,
+      "sha256": "744f9b328945c1f67257e159e11ab0788ca452a24d5707320ab577fe7a216d3e"
+    },
+    {
+      "name": "random_013_map",
+      "kind": "map",
+      "records": 256,
+      "bytes": 3615,
+      "sha256": "6092503cc82fa738e858027532567a3673a84293517018ee13385e898419df9a"
+    },
+    {
+      "name": "random_014_set",
+      "kind": "set",
+      "records": 257,
+      "bytes": 817,
+      "sha256": "e568af2cc40a907c879fa73f35b71a67e92a24b63a38270e57d28918bf1deab6"
+    },
+    {
+      "name": "random_015_map",
+      "kind": "map",
+      "records": 384,
+      "bytes": 6238,
+      "sha256": "b54be0b0154ffed46de9d51bda7ba2085a54ee38cd889be39f35b107069126e0"
+    },
+    {
+      "name": "random_016_set",
+      "kind": "set",
+      "records": 0,
+      "bytes": 39,
+      "sha256": "037bb2d762b9fe609608d11f8c665ab3aad3dcb3936ead915e6618c7c82d48f9"
+    },
+    {
+      "name": "random_017_map",
+      "kind": "map",
+      "records": 1,
+      "bytes": 100,
+      "sha256": "14258e3108ef3f0eccc993af988eeecbe82c2b18b9d7cf43c72b20a3627ec9a0"
+    },
+    {
+      "name": "random_018_set",
+      "kind": "set",
+      "records": 2,
+      "bytes": 74,
+      "sha256": "9f8ca18b57b9f25ea3b1e1649e647c1ad88bf1b59240203d4f314bd76551e1b5"
+    },
+    {
+      "name": "random_019_map",
+      "kind": "map",
+      "records": 4,
+      "bytes": 82,
+      "sha256": "655d340b4f5598bc86c4797052c7443805357f667e4c5f4bed4e44e1d354e896"
+    },
+    {
+      "name": "random_020_set",
+      "kind": "set",
+      "records": 7,
+      "bytes": 174,
+      "sha256": "5b84f9d45fb018845ddd9f2e5e7be9c9a27ab8225e3f4c0f5a0c55f910e5cac1"
+    },
+    {
+      "name": "random_021_map",
+      "kind": "map",
+      "records": 16,
+      "bytes": 70,
+      "sha256": "d3100ab209fc467648732793fb4f9fd5b81105afef906322006c501573dfe68f"
+    },
+    {
+      "name": "random_022_set",
+      "kind": "set",
+      "records": 31,
+      "bytes": 937,
+      "sha256": "f96e4a8c0923b1e0e6f94c53cb3af112f12ff2c1c3e1c9d564be81947a91a5f3"
+    },
+    {
+      "name": "random_023_map",
+      "kind": "map",
+      "records": 32,
+      "bytes": 1839,
+      "sha256": "8646b2a3e592c34a2a2a34d7028c2880913e9bd1017633f1218692da60c384d7"
+    },
+    {
+      "name": "random_024_set",
+      "kind": "set",
+      "records": 63,
+      "bytes": 784,
+      "sha256": "219470f9b00947de6f92285681aeef65748b0136fe20e57e26227a8555529559"
+    },
+    {
+      "name": "random_025_map",
+      "kind": "map",
+      "records": 64,
+      "bytes": 491,
+      "sha256": "b5dd20ae461bd8d855d5f6a8579304ec767e5bd969e9d401827f4e0fd386b126"
+    },
+    {
+      "name": "random_026_set",
+      "kind": "set",
+      "records": 127,
+      "bytes": 2134,
+      "sha256": "e3ecb1756756982d2bb1dffffa67596f43cf0a7dc485cee91dcf38b9e57168f8"
+    },
+    {
+      "name": "random_027_map",
+      "kind": "map",
+      "records": 128,
+      "bytes": 688,
+      "sha256": "715ff9a919c6a98cdf9de5421d164561cf0a1eb455f08cfac75d0ef105222edd"
+    },
+    {
+      "name": "random_028_set",
+      "kind": "set",
+      "records": 255,
+      "bytes": 4078,
+      "sha256": "6e83f6b80331e5cab09c8c1366cb3c3c6c44c8f39397c84fa828f4eb76541dfc"
+    },
+    {
+      "name": "random_029_map",
+      "kind": "map",
+      "records": 256,
+      "bytes": 14795,
+      "sha256": "0b7a55151953167a41963ad4a1c33fd1a0a0e620000601d263961879b982340a"
+    },
+    {
+      "name": "random_030_set",
+      "kind": "set",
+      "records": 257,
+      "bytes": 3810,
+      "sha256": "99bf25c159d972185ea5fc790026f88b73b686afb3e834fd448079b2f86a696f"
+    },
+    {
+      "name": "random_031_map",
+      "kind": "map",
+      "records": 384,
+      "bytes": 817,
+      "sha256": "450cfac5038afeb337a549958d06492ca63a202660620a7f63ab66eca22aa290"
+    },
+    {
+      "name": "random_032_set",
+      "kind": "set",
+      "records": 0,
+      "bytes": 39,
+      "sha256": "037bb2d762b9fe609608d11f8c665ab3aad3dcb3936ead915e6618c7c82d48f9"
+    },
+    {
+      "name": "random_033_map",
+      "kind": "map",
+      "records": 1,
+      "bytes": 507,
+      "sha256": "c38fb9ad7c81696d6058ed43dfcba5517060e3f991136d4bd99edac3dd38068f"
+    },
+    {
+      "name": "random_034_set",
+      "kind": "set",
+      "records": 2,
+      "bytes": 95,
+      "sha256": "b980db4ee0788bcc17a8702e49e4b7e1e72c8647ec4d61bb90b528fc27513107"
+    },
+    {
+      "name": "random_035_map",
+      "kind": "map",
+      "records": 4,
+      "bytes": 108,
+      "sha256": "0f2af0cb61280ac603a155b409adca372d6b105ec0e6f5cc94966c2f4f6e3435"
+    },
+    {
+      "name": "random_036_set",
+      "kind": "set",
+      "records": 7,
+      "bytes": 56,
+      "sha256": "76304d8c146145839c26d458213813969c6241ab90d5510c4b3e740a1d5e62a4"
+    },
+    {
+      "name": "random_037_map",
+      "kind": "map",
+      "records": 16,
+      "bytes": 413,
+      "sha256": "523864a3b166f19daa9db70967477292947bb6a7223d26d9a8229448a78c281f"
+    },
+    {
+      "name": "random_038_set",
+      "kind": "set",
+      "records": 31,
+      "bytes": 102,
+      "sha256": "614e2e69d4b1253e3d1d5ff29e78e4abe36838585c8fd23739916c19290cd066"
+    },
+    {
+      "name": "random_039_map",
+      "kind": "map",
+      "records": 32,
+      "bytes": 1198,
+      "sha256": "5b8e2e1fe0150371e99fcb076e81fc672f14a57ef26ac9bd3d0d05a1cbb57206"
+    },
+    {
+      "name": "random_040_set",
+      "kind": "set",
+      "records": 63,
+      "bytes": 3299,
+      "sha256": "3f8a1ff6e0bdd242b239ce1fa26379a673b3717a2606a9a9bda99a8b025e32a8"
+    },
+    {
+      "name": "random_041_map",
+      "kind": "map",
+      "records": 64,
+      "bytes": 880,
+      "sha256": "fa7cd4f125663e67cbdf6c2131432fb26ea997aef2f9ecf732dc1112b331877d"
+    },
+    {
+      "name": "random_042_set",
+      "kind": "set",
+      "records": 127,
+      "bytes": 553,
+      "sha256": "4634364d9b1540e3f2cf2dd5c675b116cda11f26addd2b90ba73b9f584147a3a"
+    },
+    {
+      "name": "random_043_map",
+      "kind": "map",
+      "records": 128,
+      "bytes": 3023,
+      "sha256": "54f629cb1a9d54579d91e909e8e73ea765e35172b91a2843020760a7d89a5916"
+    },
+    {
+      "name": "random_044_set",
+      "kind": "set",
+      "records": 255,
+      "bytes": 550,
+      "sha256": "2b7fa7566f6a3bd0a44b65d3de4b814e541dfbdd4e52320dddc0cf46d8896435"
+    },
+    {
+      "name": "random_045_map",
+      "kind": "map",
+      "records": 256,
+      "bytes": 4563,
+      "sha256": "f89c60aefc7ffb270795d60eff9aa4a75b12f2274b327de41088e415c00d2cd3"
+    },
+    {
+      "name": "random_046_set",
+      "kind": "set",
+      "records": 257,
+      "bytes": 12185,
+      "sha256": "05afd676844b7455ad503efacb9b0d09c599eac72277cf368c74d0eb907161ad"
+    },
+    {
+      "name": "random_047_map",
+      "kind": "map",
+      "records": 384,
+      "bytes": 8334,
+      "sha256": "057bcda5d83ed4e7b2275ae56abad6da5f50ddcc213e1acddddef1f8e649d46c"
+    },
+    {
+      "name": "random_048_set",
+      "kind": "set",
+      "records": 0,
+      "bytes": 39,
+      "sha256": "037bb2d762b9fe609608d11f8c665ab3aad3dcb3936ead915e6618c7c82d48f9"
+    },
+    {
+      "name": "random_049_map",
+      "kind": "map",
+      "records": 1,
+      "bytes": 48,
+      "sha256": "6c9be8da22a972482712885161f9a1d8c4e06abe133a43490dc7e986d7d5e0d0"
+    },
+    {
+      "name": "random_050_set",
+      "kind": "set",
+      "records": 2,
+      "bytes": 527,
+      "sha256": "6d83eff03b8c67418ea71efb5130039ef9692b47df84e1bbe74b8fc3ae14a197"
+    },
+    {
+      "name": "random_051_map",
+      "kind": "map",
+      "records": 4,
+      "bytes": 218,
+      "sha256": "69172d5750b8a8aca21fdc0ea030b4b2c1c760e32e24ffae909824c139ab419a"
+    },
+    {
+      "name": "random_052_set",
+      "kind": "set",
+      "records": 7,
+      "bytes": 153,
+      "sha256": "1b3e41fd06491439ecfcefc5d5a9a8846b41e9bcf1da4ff3a55863e23808c3fe"
+    },
+    {
+      "name": "random_053_map",
+      "kind": "map",
+      "records": 16,
+      "bytes": 202,
+      "sha256": "fc93067f4c935f11af43790b3ff3aea175477ae69b352afe9de8de074699c742"
+    },
+    {
+      "name": "random_054_set",
+      "kind": "set",
+      "records": 31,
+      "bytes": 520,
+      "sha256": "5f54c04b17298d6f9d776324f57d6eb2018d9c93fd09a65ae443d8e0ca4d1701"
+    },
+    {
+      "name": "random_055_map",
+      "kind": "map",
+      "records": 32,
+      "bytes": 210,
+      "sha256": "55d8fda91a248a72acc2677585e59fa16aa5771f82d211787db94b20bdbf714a"
+    },
+    {
+      "name": "random_056_set",
+      "kind": "set",
+      "records": 63,
+      "bytes": 1696,
+      "sha256": "dc4d3bd4b43299d0b947d1c83f75d21dfb0ced25b211214ec26b24dcfeeef2e5"
+    },
+    {
+      "name": "random_057_map",
+      "kind": "map",
+      "records": 64,
+      "bytes": 3553,
+      "sha256": "51c3dcefed76af1487fa7a57090c6c815c174df49a6caa707779e5de2f15be25"
+    },
+    {
+      "name": "random_058_set",
+      "kind": "set",
+      "records": 127,
+      "bytes": 1552,
+      "sha256": "75291fcfcda6a4ec27a12e7a5a81fa67bd85d19e56291d163517d0ce1d20b446"
+    },
+    {
+      "name": "random_059_map",
+      "kind": "map",
+      "records": 128,
+      "bytes": 1579,
+      "sha256": "cab619ef7535b526fd14fc398c2c1733708064a1a31d57921feac29743e729e5"
+    },
+    {
+      "name": "random_060_set",
+      "kind": "set",
+      "records": 255,
+      "bytes": 4002,
+      "sha256": "25eef7a8763f7e06f58763128f9f2c2731c015a91e148530a6a53a164c7e310f"
+    },
+    {
+      "name": "random_061_map",
+      "kind": "map",
+      "records": 256,
+      "bytes": 550,
+      "sha256": "35d886fc33a6aa7587637cd1f5a48f42c3fef84ebdb0405f01003ba5806c0d78"
+    },
+    {
+      "name": "random_062_set",
+      "kind": "set",
+      "records": 257,
+      "bytes": 4317,
+      "sha256": "98f63e634ff3d2c9a6922ae97f6ece7524ded8b326ab7e4e5f2ac37a79580b18"
+    },
+    {
+      "name": "random_063_map",
+      "kind": "map",
+      "records": 384,
+      "bytes": 19759,
+      "sha256": "e38a61bc30949f9aca9313749d48136f18eb0617837124719b65f4379362cf72"
+    }
+  ],
+  "source_sha256": {
+    "builder.mbt": "799470aa07b99eb57a045c73cb0aed7600ee10f5d951c5a1bc5c4d536b0d4b95",
+    "codec/encode.mbt": "4309d29a39c427375eeb9fdfb7cbcbe32a42657ca1fec8c07775a447e49d3f3b",
+    "codec/common.mbt": "366655d7abae6db3a16984de364a285a75cc0cfdcb4155b8fdd733ee7a6a58e1",
+    "codec/types.mbt": "db7791fad20752f3bc772aaf80913cafec59dd9be5cef402d70972b30ff5d36b",
+    "builder_optimization_wbtest.mbt": "55d9f34b7e85549a0cc59758c73347dc11357e1350e7d57ea7310bd75e457cd3"
+  },
+  "memory_note": "No RSS measurement. On 64-bit native, the inline RegistrySlot payload is approximately 24 bytes; the default 20000-slot table payload is 480000 bytes, plus independent compact word buffers of 24 + 16 * fanout bytes including their 8-byte object header. Allocator rounding and temporary/unfinished storage are additional. Rust layout/capacity differs, so this is not a measured memory ratio.",
+  "previous_value_node_root_tests": {
+    "wasm": 128,
+    "wasm-gc": 128,
+    "js": 128,
+    "native": 128,
+    "deny_warnings": true
+  },
+  "tests": {
+    "scope": "Final production source; scripts/check.sh --min-production-lines=4000",
+    "native": 132,
+    "js": 132,
+    "wasm": 132,
+    "wasm-gc": 132,
+    "deny_warnings": true,
+    "final_root_four_backend_acceptance_pending": false,
+    "rust_oracle": 3,
+    "rust_benchmark": 4,
+    "python_benchmark": 16
+  },
+  "workspace_layout": {
+    "BuildNode": "mutable reference; approximately 40-byte native C payload plus 8-byte runtime object header before allocator rounding; allocated only when stack+pool highwater grows",
+    "bound": "stack.length + spare_nodes.length <= maximum_key_length + 1; no complete graph or per-key answer cache",
+    "arrays": "stack and spare pool contain pointers; Transition and RegistrySlot remain inline value types",
+    "registry": "independent packedword arrays; resetting a pooled node cannot mutate active registry signatures"
+  },
+  "source_snapshot_note": "Final formatted production source after unified root acceptance. Full library and benchmark source fingerprints are also retained in raw.json.",
+  "verified_at": "2026-11-06T16:18:34.252008+00:00",
+  "exact_byte_equality_targets": [
+    "native",
+    "js",
+    "wasm-gc"
+  ]
+}

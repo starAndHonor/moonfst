@@ -1,0 +1,2072 @@
+{
+  "schema": 1,
+  "started_at": "2026-11-06T16:23:53.253647+00:00",
+  "complete": true,
+  "cpu": 2,
+  "n": 100000,
+  "samples": 7,
+  "warmups": 2,
+  "rounds": 3,
+  "control_metadata": {
+    "kind": "diagnostic-lookup-input-barrier-control",
+    "formal_source": "/media/starandhonor/Data/code/moonbit hack/month11/oracle/src/bin/fst_bench.rs",
+    "formal_source_sha256": "c23532792d26566263d5ae976589e676f9a66e775826400c94d2c91d6aaaccca",
+    "control_source_sha256": "7547a5dafc78936d2d546d0796e0abcce8d7a3022c72144a708737c9107f791e",
+    "change": "Only two map.get(black_box(key)) expressions become map.get(key), in lookup_hit and lookup_miss. Map, dataset, final result and all other black_box barriers remain.",
+    "replacements": 2,
+    "build_performed": false,
+    "benchmark_performed": false,
+    "build_command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--release",
+      "--manifest-path",
+      "oracle/target/lookup-barrier-control/Cargo.toml",
+      "--bin",
+      "fst_bench",
+      "--target-dir",
+      "oracle/target/lookup-barrier-control/target"
+    ],
+    "binary": "oracle/target/lookup-barrier-control/target/release/fst_bench"
+  },
+  "diff": "--- formal/oracle/src/bin/fst_bench.rs\n+++ control/src/bin/fst_bench.rs\n@@ -347,7 +347,7 @@\n             let map = black_box(&a);\n             let mut checksum = 0u64;\n             for (key, _) in black_box(&dataset.a) {\n-                checksum = checksum.wrapping_add(map.get(black_box(key)).expect(\"lookup hit\"));\n+                checksum = checksum.wrapping_add(map.get(key).expect(\"lookup hit\"));\n             }\n             Summary {\n                 checksum,\n@@ -367,7 +367,7 @@\n             let map = black_box(&a);\n             let mut count = 0;\n             for key in black_box(&misses) {\n-                if map.get(black_box(key)).is_some() {\n+                if map.get(key).is_some() {\n                     count += 1;\n                 }\n             }\n",
+  "binary_sha256": {
+    "moonbit": "c5adb90d13bd95795c62f0df274533c510500b93cb2dba114d02028144b93048",
+    "rust_original": "a7062abc6077840f3edd24afcb6768eb758f5cf1932a7d24607521c358163a6b",
+    "rust_no_per_key_barrier": "62eb177dae64bde6df5b6f5d00a882503e6f4143398f8ef837e6360db17f21af"
+  },
+  "datasets": [
+    {
+      "shape": "shared",
+      "n": 100000,
+      "seed": 12648430,
+      "dataset_hash": "16735726030334534740",
+      "dataset_sha256": "c79fa9798521d3b6b169f02cf26c782f3746bf648df8d2d523b8c694c5713053",
+      "b_hash": "17442609661068281154",
+      "input_key_bytes": 2800000,
+      "expected": {
+        "lookup_hit": [
+          "3028092406969300912",
+          100000
+        ],
+        "lookup_miss": [
+          "0",
+          0
+        ],
+        "stream_owned": [
+          "16735726030334534740",
+          100000
+        ],
+        "prefix_owned": [
+          "2945712708367545420",
+          50016
+        ],
+        "union_owned": [
+          "302823231559770574",
+          150000
+        ]
+      }
+    },
+    {
+      "shape": "random",
+      "n": 100000,
+      "seed": 12648430,
+      "dataset_hash": "8207647804806519417",
+      "dataset_sha256": "d2967f17c01f818e0acc93f3b860d8868d9063acce3d9aacb6f55061e4e8655f",
+      "b_hash": "5539336745272741862",
+      "input_key_bytes": 1600000,
+      "expected": {
+        "lookup_hit": [
+          "3028092406969300912",
+          100000
+        ],
+        "lookup_miss": [
+          "0",
+          0
+        ],
+        "stream_owned": [
+          "8207647804806519417",
+          100000
+        ],
+        "prefix_owned": [
+          "1439552381465844154",
+          12757
+        ],
+        "union_owned": [
+          "16621599248055750364",
+          150000
+        ]
+      }
+    }
+  ],
+  "runs": [
+    {
+      "round": 1,
+      "variant": "moonbit",
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214002,
+        "metrics": [
+          {
+            "name": "build",
+            "samples_us": [
+              22440.754,
+              22483.04,
+              22530.295000000002,
+              23897.102,
+              23064.264,
+              23070.052,
+              22218.618000000002
+            ],
+            "checksum": "214002",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              6592.667,
+              6709.388,
+              6600.87,
+              6628.47,
+              6653.017,
+              6541.154,
+              6491.93
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              6066.8060000000005,
+              6009.113,
+              5978.409000000001,
+              5966.1900000000005,
+              6001.5160000000005,
+              5979.695,
+              6035.805
+            ],
+            "checksum": "0",
+            "result_count": 0
+          },
+          {
+            "name": "stream_owned",
+            "samples_us": [
+              11366.945,
+              11280.077000000001,
+              11425.854,
+              11470.417,
+              11230.02,
+              11437.955,
+              11372.114
+            ],
+            "checksum": "16735726030334534740",
+            "result_count": 100000
+          },
+          {
+            "name": "prefix_owned",
+            "samples_us": [
+              6347.839,
+              6276.695,
+              6416.661,
+              6417.256,
+              6277.988,
+              6449.031,
+              6307.124
+            ],
+            "checksum": "2945712708367545420",
+            "result_count": 50016
+          },
+          {
+            "name": "union_owned",
+            "samples_us": [
+              32292.743000000002,
+              32258.797000000002,
+              32171.633,
+              33674.89,
+              32231.111,
+              32243.316,
+              32516.940000000002
+            ],
+            "checksum": "302823231559770574",
+            "result_count": 150000
+          }
+        ]
+      }
+    },
+    {
+      "round": 1,
+      "variant": "rust_original",
+      "payload": {
+        "dataset_hash": "16735726030334534740",
+        "engine": "rust",
+        "fst_bytes": 214002,
+        "input_key_bytes": 2800000,
+        "metrics": [
+          {
+            "checksum": "214002",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              19904.023,
+              20249.072,
+              22255.297,
+              23723.174,
+              22771.346,
+              21170.947,
+              20695.235999999997
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              12091.806,
+              12026.224,
+              12379.686000000002,
+              12520.121000000001,
+              12237.368999999999,
+              12323.278999999999,
+              12147.658000000001
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              12245.518,
+              12140.857999999998,
+              12112.586,
+              12145.591,
+              12062.327,
+              12120.496,
+              12104.755
+            ]
+          },
+          {
+            "checksum": "16735726030334534740",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              10233.867,
+              10324.871,
+              10469.561,
+              10740.883,
+              10688.118,
+              10474.139000000001,
+              10460.776
+            ]
+          },
+          {
+            "checksum": "2945712708367545420",
+            "name": "prefix_owned",
+            "result_count": 50016,
+            "samples_us": [
+              5691.589,
+              5747.724,
+              5759.514999999999,
+              5751.077,
+              5772.466,
+              5870.18,
+              5718.878
+            ]
+          },
+          {
+            "checksum": "302823231559770574",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              27030.287,
+              26672.31,
+              27199.388000000003,
+              27050.167999999998,
+              26871.487999999998,
+              26932.015,
+              26960.035
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "shared",
+        "warmups": 2
+      }
+    },
+    {
+      "round": 1,
+      "variant": "rust_no_per_key_barrier",
+      "payload": {
+        "dataset_hash": "16735726030334534740",
+        "engine": "rust",
+        "fst_bytes": 214002,
+        "input_key_bytes": 2800000,
+        "metrics": [
+          {
+            "checksum": "214002",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              19818.555,
+              19507.785,
+              19872.856,
+              20024.211,
+              19896.724000000002,
+              19771.52,
+              19559.960000000003
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              12879.983,
+              12708.881,
+              12265.392,
+              12477.807999999999,
+              12491.815999999999,
+              12518.840999999999,
+              12618.669
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              12103.408,
+              12127.717999999999,
+              11989.705,
+              12225.418,
+              12070.68,
+              12100.219000000001,
+              12123.379
+            ]
+          },
+          {
+            "checksum": "16735726030334534740",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              10165.778,
+              10157.59,
+              10214.719000000001,
+              10265.596,
+              10226.877,
+              10159.981,
+              10137.516
+            ]
+          },
+          {
+            "checksum": "2945712708367545420",
+            "name": "prefix_owned",
+            "result_count": 50016,
+            "samples_us": [
+              5556.071999999999,
+              5595.814,
+              5511.179,
+              5507.756,
+              5605.093,
+              5755.5380000000005,
+              5838.218
+            ]
+          },
+          {
+            "checksum": "302823231559770574",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              27912.392,
+              27110.98,
+              27364.367000000002,
+              27019.898,
+              27215.473,
+              27330.533,
+              27256.373
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "shared",
+        "warmups": 2
+      }
+    },
+    {
+      "round": 1,
+      "variant": "rust_original",
+      "payload": {
+        "dataset_hash": "8207647804806519417",
+        "engine": "rust",
+        "fst_bytes": 3835088,
+        "input_key_bytes": 1600000,
+        "metrics": [
+          {
+            "checksum": "3835088",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              90542.478,
+              91505.157,
+              90218.86,
+              90161.44399999999,
+              90413.275,
+              90284.10100000001,
+              91141.03199999999
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              10910.378,
+              10296.017,
+              10141.474,
+              10345.635,
+              10289.677,
+              10402.309000000001,
+              10155.555
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              9960.585,
+              9808.664999999999,
+              9983.935,
+              9886.438,
+              9824.423,
+              9857.791,
+              9859.634
+            ]
+          },
+          {
+            "checksum": "8207647804806519417",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              22263.991,
+              22278.118,
+              21931.298,
+              22032.85,
+              21929.979,
+              21973.765,
+              22046.287
+            ]
+          },
+          {
+            "checksum": "1439552381465844154",
+            "name": "prefix_owned",
+            "result_count": 12757,
+            "samples_us": [
+              2875.902,
+              2892.462,
+              3014.431,
+              2982.522,
+              2895.195,
+              2934.639,
+              2955.905
+            ]
+          },
+          {
+            "checksum": "16621599248055750364",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              52128.539000000004,
+              52592.439,
+              51250.048,
+              54128.478,
+              55166.224,
+              51830.318,
+              51751.724
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "random",
+        "warmups": 2
+      }
+    },
+    {
+      "round": 1,
+      "variant": "rust_no_per_key_barrier",
+      "payload": {
+        "dataset_hash": "8207647804806519417",
+        "engine": "rust",
+        "fst_bytes": 3835088,
+        "input_key_bytes": 1600000,
+        "metrics": [
+          {
+            "checksum": "3835088",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              91137.644,
+              91119.825,
+              95853.691,
+              97909.127,
+              91212.12,
+              92241.768,
+              91246.70999999999
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              11915.264,
+              12128.595000000001,
+              11843.106000000002,
+              12175.716,
+              11861.953,
+              12063.732,
+              11936.25
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              9723.266,
+              9769.739,
+              9997.743,
+              9925.345000000001,
+              10145.391,
+              9954.927,
+              9855.572
+            ]
+          },
+          {
+            "checksum": "8207647804806519417",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              22059.584,
+              21986.701,
+              21940.904000000002,
+              21998.561,
+              22086.758,
+              21934.911,
+              22051.596999999998
+            ]
+          },
+          {
+            "checksum": "1439552381465844154",
+            "name": "prefix_owned",
+            "result_count": 12757,
+            "samples_us": [
+              2920.4449999999997,
+              2865.306,
+              2870.383,
+              2849.8,
+              2858.326,
+              2796.8469999999998,
+              2868.643
+            ]
+          },
+          {
+            "checksum": "16621599248055750364",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              54676.652,
+              53709.688,
+              53803.186,
+              53813.882,
+              54378.462,
+              53934.557,
+              54752.185000000005
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "random",
+        "warmups": 2
+      }
+    },
+    {
+      "round": 1,
+      "variant": "moonbit",
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3835088,
+        "metrics": [
+          {
+            "name": "build",
+            "samples_us": [
+              76025.276,
+              77452.145,
+              77682.616,
+              75363.603,
+              89629.75899999996,
+              77790.697,
+              76245.398
+            ],
+            "checksum": "3835088",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              6624.936,
+              6608.393,
+              6791.997,
+              6737.688,
+              6865.506,
+              6701.082,
+              6713.5470000000005
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              6348.097,
+              6294.454,
+              6312.741,
+              6297.822,
+              6193.997,
+              6188.607,
+              6237.8820000000005
+            ],
+            "checksum": "0",
+            "result_count": 0
+          },
+          {
+            "name": "stream_owned",
+            "samples_us": [
+              21802.346,
+              22213.092,
+              21595.709,
+              21572.444,
+              21604.836,
+              21599.117000000002,
+              21751.766
+            ],
+            "checksum": "8207647804806519417",
+            "result_count": 100000
+          },
+          {
+            "name": "prefix_owned",
+            "samples_us": [
+              3009.266,
+              2982.504,
+              2999.905,
+              2934.411,
+              3016.357,
+              3013.628,
+              3005.443
+            ],
+            "checksum": "1439552381465844154",
+            "result_count": 12757
+          },
+          {
+            "name": "union_owned",
+            "samples_us": [
+              59919.102,
+              59254.31,
+              58802.351,
+              58965.034,
+              60340.35499999998,
+              60325.249,
+              58835.278
+            ],
+            "checksum": "16621599248055750364",
+            "result_count": 150000
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "variant": "rust_original",
+      "payload": {
+        "dataset_hash": "16735726030334534740",
+        "engine": "rust",
+        "fst_bytes": 214002,
+        "input_key_bytes": 2800000,
+        "metrics": [
+          {
+            "checksum": "214002",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              19923.481,
+              19566.074,
+              19851.732,
+              19883.957000000002,
+              20128.105,
+              20306.129999999997,
+              20177.220999999998
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              12505.738000000001,
+              12502.918,
+              12427.814,
+              12435.659,
+              12509.811,
+              12611.043000000001,
+              12422.105
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              12387.784000000001,
+              12294.375999999998,
+              12294.027,
+              12410.396,
+              12561.534,
+              12299.169,
+              12302.73
+            ]
+          },
+          {
+            "checksum": "16735726030334534740",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              10344.393,
+              10430.251999999999,
+              10233.085,
+              10586.323999999999,
+              10512.367999999999,
+              10474.057,
+              10538.894
+            ]
+          },
+          {
+            "checksum": "2945712708367545420",
+            "name": "prefix_owned",
+            "result_count": 50016,
+            "samples_us": [
+              5683.628,
+              5792.455999999999,
+              5646.287,
+              5596.1320000000005,
+              5661.71,
+              5680.6410000000005,
+              5646.361
+            ]
+          },
+          {
+            "checksum": "302823231559770574",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              27206.121,
+              27213.926,
+              27148.501,
+              26997.944,
+              27208.525,
+              27225.251,
+              27243.607
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "shared",
+        "warmups": 2
+      }
+    },
+    {
+      "round": 2,
+      "variant": "rust_no_per_key_barrier",
+      "payload": {
+        "dataset_hash": "16735726030334534740",
+        "engine": "rust",
+        "fst_bytes": 214002,
+        "input_key_bytes": 2800000,
+        "metrics": [
+          {
+            "checksum": "214002",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              19534.891,
+              19334.787999999997,
+              19591.383,
+              19818.722,
+              19820.443,
+              19919.251,
+              19896.982
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              12857.14,
+              12772.502,
+              12651.901,
+              12770.294,
+              12666.653,
+              12893.173,
+              12772.94
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              12381.178,
+              12192.457,
+              12227.348,
+              12385.393,
+              12336.778,
+              12386.608,
+              12313.492
+            ]
+          },
+          {
+            "checksum": "16735726030334534740",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              10333.489,
+              10415.324,
+              10590.798,
+              10399.63,
+              10248.742999999999,
+              10517.922,
+              10474.983
+            ]
+          },
+          {
+            "checksum": "2945712708367545420",
+            "name": "prefix_owned",
+            "result_count": 50016,
+            "samples_us": [
+              5643.364,
+              5796.592,
+              5497.724,
+              5773.8,
+              5641.391,
+              5525.527,
+              5652.064
+            ]
+          },
+          {
+            "checksum": "302823231559770574",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              27165.801,
+              27382.652000000002,
+              27730.618,
+              27726.426,
+              27312.997,
+              27425.785,
+              27795.368000000002
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "shared",
+        "warmups": 2
+      }
+    },
+    {
+      "round": 2,
+      "variant": "moonbit",
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214002,
+        "metrics": [
+          {
+            "name": "build",
+            "samples_us": [
+              23886.318,
+              23608.8,
+              23173.676,
+              22961.218,
+              22669.245,
+              22833.906,
+              22819.106
+            ],
+            "checksum": "214002",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              6715.782,
+              6678.466,
+              6603.423,
+              6777.823,
+              6651.711,
+              6714.995,
+              6682.713
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              6143.603,
+              6142.589,
+              6132.887,
+              6139.753,
+              6218.357,
+              6100.506,
+              6080.261
+            ],
+            "checksum": "0",
+            "result_count": 0
+          },
+          {
+            "name": "stream_owned",
+            "samples_us": [
+              11579.525,
+              11510.789,
+              11398.827000000001,
+              11570.144,
+              11584.139000000001,
+              11634.422,
+              11554.447
+            ],
+            "checksum": "16735726030334534740",
+            "result_count": 100000
+          },
+          {
+            "name": "prefix_owned",
+            "samples_us": [
+              6422.463,
+              6541.344,
+              6457.832,
+              6463.38,
+              6470.429,
+              6478.357,
+              6434.704
+            ],
+            "checksum": "2945712708367545420",
+            "result_count": 50016
+          },
+          {
+            "name": "union_owned",
+            "samples_us": [
+              32144.917,
+              32053.268,
+              32005.369000000002,
+              33348.182,
+              32258.008,
+              31967.254,
+              32033.484
+            ],
+            "checksum": "302823231559770574",
+            "result_count": 150000
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "variant": "rust_no_per_key_barrier",
+      "payload": {
+        "dataset_hash": "8207647804806519417",
+        "engine": "rust",
+        "fst_bytes": 3835088,
+        "input_key_bytes": 1600000,
+        "metrics": [
+          {
+            "checksum": "3835088",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              90306.123,
+              90675.21100000001,
+              90332.667,
+              89855.30799999999,
+              90255.23300000001,
+              90310.037,
+              90136.923
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              13143.507,
+              11890.892,
+              11922.342,
+              11894.785,
+              11749.244,
+              12081.359999999999,
+              11502.525
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              10138.232,
+              10063.329,
+              10030.229,
+              10088.458,
+              10081.572,
+              10011.461,
+              10109.934
+            ]
+          },
+          {
+            "checksum": "8207647804806519417",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              22398.982,
+              22361.277,
+              22262.448,
+              22447.422000000002,
+              22352.084000000003,
+              22214.703999999998,
+              22312.658
+            ]
+          },
+          {
+            "checksum": "1439552381465844154",
+            "name": "prefix_owned",
+            "result_count": 12757,
+            "samples_us": [
+              2899.942,
+              2963.72,
+              2939.8689999999997,
+              2914.932,
+              2943.6259999999997,
+              2894.7619999999997,
+              2908.527
+            ]
+          },
+          {
+            "checksum": "16621599248055750364",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              52088.091,
+              51822.242,
+              53366.897000000004,
+              54531.363,
+              62009.024000000005,
+              62746.15899999999,
+              65845.08899999999
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "random",
+        "warmups": 2
+      }
+    },
+    {
+      "round": 2,
+      "variant": "moonbit",
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3835088,
+        "metrics": [
+          {
+            "name": "build",
+            "samples_us": [
+              75052.909,
+              74836.64,
+              89226.357,
+              87164.99100000001,
+              84199.219,
+              90796.517,
+              87796.333
+            ],
+            "checksum": "3835088",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              8282.786,
+              8182.888,
+              8188.214,
+              8168.621,
+              8228.607,
+              8316.151,
+              7999.787
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              7008.039,
+              6806.6320000000005,
+              6865.273,
+              6799.192,
+              6896.039,
+              6883.091,
+              6845.419
+            ],
+            "checksum": "0",
+            "result_count": 0
+          },
+          {
+            "name": "stream_owned",
+            "samples_us": [
+              29988.366,
+              32930.205,
+              35735.19,
+              39385.29799999995,
+              38752.977,
+              36160.258,
+              32585.494000000002
+            ],
+            "checksum": "8207647804806519417",
+            "result_count": 100000
+          },
+          {
+            "name": "prefix_owned",
+            "samples_us": [
+              3902.145,
+              3884.387,
+              3719.5570000000002,
+              3799.998,
+              3716.189,
+              3838.313,
+              3786.457
+            ],
+            "checksum": "1439552381465844154",
+            "result_count": 12757
+          },
+          {
+            "name": "union_owned",
+            "samples_us": [
+              75109.355,
+              72864.917,
+              64045.809,
+              58829.766,
+              56637.626000000004,
+              57961.169,
+              57499.203
+            ],
+            "checksum": "16621599248055750364",
+            "result_count": 150000
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "variant": "rust_original",
+      "payload": {
+        "dataset_hash": "8207647804806519417",
+        "engine": "rust",
+        "fst_bytes": 3835088,
+        "input_key_bytes": 1600000,
+        "metrics": [
+          {
+            "checksum": "3835088",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              120231.402,
+              94151.033,
+              106275.16200000001,
+              108708.495,
+              103812.228,
+              101054.855,
+              111960.912
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              11412.841,
+              10641.505000000001,
+              10449.929,
+              10669.837,
+              10595.752999999999,
+              10534.499,
+              10612.518
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              10196.880000000001,
+              10077.858,
+              10047.762999999999,
+              10065.912999999999,
+              10120.708,
+              10070.021999999999,
+              10077.486
+            ]
+          },
+          {
+            "checksum": "8207647804806519417",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              22917.405,
+              22743.839,
+              22936.429,
+              22842.861,
+              22582.017,
+              22613.28,
+              22492.44
+            ]
+          },
+          {
+            "checksum": "1439552381465844154",
+            "name": "prefix_owned",
+            "result_count": 12757,
+            "samples_us": [
+              2859.032,
+              2937.219,
+              2964.047,
+              3013.483,
+              3047.743,
+              2971.0460000000003,
+              3008.604
+            ]
+          },
+          {
+            "checksum": "16621599248055750364",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              51259.509,
+              51178.125,
+              51205.530999999995,
+              51410.98,
+              51429.618,
+              51528.280000000006,
+              51179.312
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "random",
+        "warmups": 2
+      }
+    },
+    {
+      "round": 3,
+      "variant": "rust_no_per_key_barrier",
+      "payload": {
+        "dataset_hash": "16735726030334534740",
+        "engine": "rust",
+        "fst_bytes": 214002,
+        "input_key_bytes": 2800000,
+        "metrics": [
+          {
+            "checksum": "214002",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              19902.733,
+              19836.403,
+              19871.493000000002,
+              19749.280000000002,
+              19660.458,
+              19759.717,
+              19766.211
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              13180.661999999998,
+              12863.321,
+              12881.755,
+              12932.476999999999,
+              12820.867999999999,
+              12957.768,
+              12792.63
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              12474.534000000001,
+              12496.328,
+              12467.295999999998,
+              12612.441,
+              12499.228,
+              12468.076,
+              12453.621
+            ]
+          },
+          {
+            "checksum": "16735726030334534740",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              10574.383,
+              10543.273000000001,
+              10487.145999999999,
+              10420.407,
+              10439.704,
+              10506.424,
+              10315.902
+            ]
+          },
+          {
+            "checksum": "2945712708367545420",
+            "name": "prefix_owned",
+            "result_count": 50016,
+            "samples_us": [
+              5931.763,
+              5779.172,
+              5645.989,
+              5678.116,
+              5789.799,
+              5741.138,
+              5758.681
+            ]
+          },
+          {
+            "checksum": "302823231559770574",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              27880.297,
+              27993.186,
+              27931.184,
+              27812.6,
+              27633.647,
+              27723.186,
+              27521.059
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "shared",
+        "warmups": 2
+      }
+    },
+    {
+      "round": 3,
+      "variant": "moonbit",
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214002,
+        "metrics": [
+          {
+            "name": "build",
+            "samples_us": [
+              22261.082000000002,
+              22417.321,
+              22338.428,
+              22297.011000000002,
+              22350.777000000002,
+              22263.061,
+              22897.831000000002
+            ],
+            "checksum": "214002",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              6674.299,
+              6566.713,
+              6571.541,
+              6686.37,
+              6623.555,
+              6619.5960000000005,
+              6705.217000000001
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              6140.06,
+              6177.063,
+              6079.079,
+              6046.232,
+              6108.439,
+              6149.823,
+              6152.138
+            ],
+            "checksum": "0",
+            "result_count": 0
+          },
+          {
+            "name": "stream_owned",
+            "samples_us": [
+              11898.322,
+              11961.692000000001,
+              12000.258,
+              12018.362000000001,
+              12035.534,
+              12035.84,
+              12116.57
+            ],
+            "checksum": "16735726030334534740",
+            "result_count": 100000
+          },
+          {
+            "name": "prefix_owned",
+            "samples_us": [
+              6242.04,
+              6233.777,
+              6187.804,
+              6258.492,
+              6156.900000000001,
+              6021.526,
+              6089.224
+            ],
+            "checksum": "2945712708367545420",
+            "result_count": 50016
+          },
+          {
+            "name": "union_owned",
+            "samples_us": [
+              34984.15,
+              35105.029,
+              32379.148,
+              32336.079,
+              30983.279000000002,
+              30983.388,
+              31355.63
+            ],
+            "checksum": "302823231559770574",
+            "result_count": 150000
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "variant": "rust_original",
+      "payload": {
+        "dataset_hash": "16735726030334534740",
+        "engine": "rust",
+        "fst_bytes": 214002,
+        "input_key_bytes": 2800000,
+        "metrics": [
+          {
+            "checksum": "214002",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              20274.565000000002,
+              20282.305,
+              20242.079999999998,
+              20954.484999999997,
+              20271.951,
+              20190.267,
+              20318.527
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              12704.222,
+              12781.518,
+              12701.307999999999,
+              12724.374,
+              12712.304,
+              12869.824,
+              12918.759
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              12757.515000000001,
+              12568.686000000002,
+              12499.483,
+              12520.452,
+              12456.83,
+              12498.902,
+              12578.275
+            ]
+          },
+          {
+            "checksum": "16735726030334534740",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              10790.538,
+              10456.609,
+              10605.030999999999,
+              10575.886,
+              10404.702,
+              10564.519,
+              10792.104000000001
+            ]
+          },
+          {
+            "checksum": "2945712708367545420",
+            "name": "prefix_owned",
+            "result_count": 50016,
+            "samples_us": [
+              5800.189,
+              5922.064,
+              5712.781999999999,
+              5781.774,
+              5984.9710000000005,
+              5854.281,
+              5836.591
+            ]
+          },
+          {
+            "checksum": "302823231559770574",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              27835.794,
+              27231.638,
+              27320.773,
+              27824.411,
+              28217.44,
+              28048.313,
+              28216.22
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "shared",
+        "warmups": 2
+      }
+    },
+    {
+      "round": 3,
+      "variant": "moonbit",
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3835088,
+        "metrics": [
+          {
+            "name": "build",
+            "samples_us": [
+              76560.202,
+              76758.547,
+              79611.925,
+              76550.18099999998,
+              76434.585,
+              79319.291,
+              77142.38
+            ],
+            "checksum": "3835088",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              6924.942,
+              6745.638,
+              6900.206,
+              6750.287,
+              6764.868,
+              6877.425,
+              6786.293000000001
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              6273.651,
+              6244.6990000000005,
+              6135.321,
+              6200.963,
+              6166.27,
+              6156.807,
+              6298.372
+            ],
+            "checksum": "0",
+            "result_count": 0
+          },
+          {
+            "name": "stream_owned",
+            "samples_us": [
+              23380.717,
+              23316.582000000002,
+              23297.222,
+              22965.576,
+              23322.99,
+              23128.162,
+              23263.927
+            ],
+            "checksum": "8207647804806519417",
+            "result_count": 100000
+          },
+          {
+            "name": "prefix_owned",
+            "samples_us": [
+              2931.612,
+              3019.169,
+              2990.164,
+              2992.563,
+              3000.693,
+              2992.81,
+              2992.279
+            ],
+            "checksum": "1439552381465844154",
+            "result_count": 12757
+          },
+          {
+            "name": "union_owned",
+            "samples_us": [
+              58002.74,
+              59395.782,
+              58442.907,
+              58798.005000000005,
+              59165.094000000005,
+              58974.373,
+              57672.83
+            ],
+            "checksum": "16621599248055750364",
+            "result_count": 150000
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "variant": "rust_original",
+      "payload": {
+        "dataset_hash": "8207647804806519417",
+        "engine": "rust",
+        "fst_bytes": 3835088,
+        "input_key_bytes": 1600000,
+        "metrics": [
+          {
+            "checksum": "3835088",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              92069.161,
+              91466.60299999999,
+              92936.386,
+              95452.97,
+              93798.438,
+              91726.666,
+              91037.466
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              10818.433,
+              10870.131,
+              11053.104,
+              10418.052,
+              10867.534,
+              10773.06,
+              10770.619
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              10290.641,
+              10248.448,
+              10245.341999999999,
+              10255.405,
+              10162.61,
+              10219.838,
+              10232.414
+            ]
+          },
+          {
+            "checksum": "8207647804806519417",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              22244.623000000003,
+              22434.303,
+              22527.065,
+              22785.551,
+              22832.833,
+              22567.957,
+              22513.414999999997
+            ]
+          },
+          {
+            "checksum": "1439552381465844154",
+            "name": "prefix_owned",
+            "result_count": 12757,
+            "samples_us": [
+              2995.3940000000002,
+              3089.1859999999997,
+              2969.411,
+              3042.3160000000003,
+              3095.7329999999997,
+              3072.747,
+              3049.659
+            ]
+          },
+          {
+            "checksum": "16621599248055750364",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              52172.067,
+              52360.710999999996,
+              52633.617,
+              52321.192,
+              51889.497,
+              51972.293000000005,
+              52234.384
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "random",
+        "warmups": 2
+      }
+    },
+    {
+      "round": 3,
+      "variant": "rust_no_per_key_barrier",
+      "payload": {
+        "dataset_hash": "8207647804806519417",
+        "engine": "rust",
+        "fst_bytes": 3835088,
+        "input_key_bytes": 1600000,
+        "metrics": [
+          {
+            "checksum": "3835088",
+            "name": "build",
+            "result_count": 100000,
+            "samples_us": [
+              100553.474,
+              102159.931,
+              100543.06,
+              98227.636,
+              98665.742,
+              100203.19499999999,
+              98580.762
+            ]
+          },
+          {
+            "checksum": "3028092406969300912",
+            "name": "lookup_hit",
+            "result_count": 100000,
+            "samples_us": [
+              13388.04,
+              13074.66,
+              13437.558,
+              13055.778,
+              13201.252999999999,
+              13339.408000000001,
+              13098.475999999999
+            ]
+          },
+          {
+            "checksum": "0",
+            "name": "lookup_miss",
+            "result_count": 0,
+            "samples_us": [
+              11189.368999999999,
+              11121.581,
+              11159.017,
+              11131.435,
+              11111.429,
+              11228.881,
+              11145.227
+            ]
+          },
+          {
+            "checksum": "8207647804806519417",
+            "name": "stream_owned",
+            "result_count": 100000,
+            "samples_us": [
+              25688.088,
+              25872.325,
+              25347.841,
+              25068.015,
+              25350.683999999997,
+              25103.814,
+              26435.762000000002
+            ]
+          },
+          {
+            "checksum": "1439552381465844154",
+            "name": "prefix_owned",
+            "result_count": 12757,
+            "samples_us": [
+              3244.071,
+              3330.394,
+              3249.339,
+              3277.8109999999997,
+              3233.4030000000002,
+              3300.057,
+              3269.009
+            ]
+          },
+          {
+            "checksum": "16621599248055750364",
+            "name": "union_owned",
+            "result_count": 150000,
+            "samples_us": [
+              64921.123,
+              60633.231,
+              58637.097,
+              57105.436,
+              57790.903,
+              56993.355,
+              57115.869
+            ]
+          }
+        ],
+        "n": 100000,
+        "samples": 7,
+        "schema": 1,
+        "seed": 12648430,
+        "shape": "random",
+        "warmups": 2
+      }
+    }
+  ],
+  "query_summary": [
+    {
+      "shape": "shared",
+      "metric": "lookup_hit",
+      "moonbit": {
+        "sample_count": 21,
+        "median_us": 6651.711,
+        "p25_us": 6600.87,
+        "p75_us": 6686.37,
+        "p95_us": 6715.782,
+        "min_us": 6491.93,
+        "max_us": 6777.823
+      },
+      "rust_original": {
+        "sample_count": 21,
+        "median_us": 12505.738000000001,
+        "p25_us": 12379.686000000002,
+        "p75_us": 12704.222,
+        "p95_us": 12869.824,
+        "min_us": 12026.224,
+        "max_us": 12918.759
+      },
+      "rust_no_per_key_barrier": {
+        "sample_count": 21,
+        "median_us": 12772.94,
+        "p25_us": 12651.901,
+        "p75_us": 12879.983,
+        "p95_us": 12957.768,
+        "min_us": 12265.392,
+        "max_us": 13180.661999999998
+      },
+      "speedup_vs_no_per_key_barrier": 1.9202487901233232
+    },
+    {
+      "shape": "shared",
+      "metric": "lookup_miss",
+      "moonbit": {
+        "sample_count": 21,
+        "median_us": 6100.506,
+        "p25_us": 6035.805,
+        "p75_us": 6142.589,
+        "p95_us": 6177.063,
+        "min_us": 5966.1900000000005,
+        "max_us": 6218.357
+      },
+      "rust_original": {
+        "sample_count": 21,
+        "median_us": 12302.73,
+        "p25_us": 12145.591,
+        "p75_us": 12499.483,
+        "p95_us": 12578.275,
+        "min_us": 12062.327,
+        "max_us": 12757.515000000001
+      },
+      "rust_no_per_key_barrier": {
+        "sample_count": 21,
+        "median_us": 12336.778,
+        "p25_us": 12127.717999999999,
+        "p75_us": 12467.295999999998,
+        "p95_us": 12499.228,
+        "min_us": 11989.705,
+        "max_us": 12612.441
+      },
+      "speedup_vs_no_per_key_barrier": 2.0222548752513316
+    },
+    {
+      "shape": "random",
+      "metric": "lookup_hit",
+      "moonbit": {
+        "sample_count": 21,
+        "median_us": 6865.506,
+        "p25_us": 6745.638,
+        "p75_us": 8168.621,
+        "p95_us": 8282.786,
+        "min_us": 6608.393,
+        "max_us": 8316.151
+      },
+      "rust_original": {
+        "sample_count": 21,
+        "median_us": 10612.518,
+        "p25_us": 10402.309000000001,
+        "p75_us": 10818.433,
+        "p95_us": 11053.104,
+        "min_us": 10141.474,
+        "max_us": 11412.841
+      },
+      "rust_no_per_key_barrier": {
+        "sample_count": 21,
+        "median_us": 12081.359999999999,
+        "p25_us": 11894.785,
+        "p75_us": 13098.475999999999,
+        "p95_us": 13388.04,
+        "min_us": 11502.525,
+        "max_us": 13437.558
+      },
+      "speedup_vs_no_per_key_barrier": 1.7597188029549458
+    },
+    {
+      "shape": "random",
+      "metric": "lookup_miss",
+      "moonbit": {
+        "sample_count": 21,
+        "median_us": 6297.822,
+        "p25_us": 6200.963,
+        "p75_us": 6806.6320000000005,
+        "p95_us": 6896.039,
+        "min_us": 6135.321,
+        "max_us": 7008.039
+      },
+      "rust_original": {
+        "sample_count": 21,
+        "median_us": 10077.486,
+        "p25_us": 9960.585,
+        "p75_us": 10219.838,
+        "p95_us": 10255.405,
+        "min_us": 9808.664999999999,
+        "max_us": 10290.641
+      },
+      "rust_no_per_key_barrier": {
+        "sample_count": 21,
+        "median_us": 10088.458,
+        "p25_us": 9997.743,
+        "p75_us": 11121.581,
+        "p95_us": 11189.368999999999,
+        "min_us": 9723.266,
+        "max_us": 11228.881
+      },
+      "speedup_vs_no_per_key_barrier": 1.601896338130865
+    }
+  ],
+  "finished_at": "2026-11-06T16:24:30.393627+00:00"
+}

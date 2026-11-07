@@ -1,0 +1,67 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonfst/fst/codec"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn begin(UInt64) -> Array[Byte]
+
+pub fn crc32c(Bytes) -> UInt32
+
+pub fn finish(Array[Byte], root~ : Int32, len~ : UInt64) -> Bytes
+
+pub fn masked_crc32c(Bytes) -> UInt32
+
+pub fn read_header(Bytes) -> Header raise CodecError
+
+pub fn read_node(Bytes, Header, Int32) -> Node raise CodecError
+
+pub fn verify(Bytes) -> Unit raise CodecError
+
+pub fn write_node(Array[Byte], Bool, UInt64, Array[Transition]) -> Int32
+
+// Errors
+#derive(@debug.Debug)
+pub suberror CodecError {
+  InvalidFormat(String)
+}
+pub fn CodecError::to_repr(Self) -> @debug.Repr
+
+// Types and methods
+#derive(Eq, @debug.Debug)
+pub(all) struct Header {
+  version : UInt64
+  fst_type : UInt64
+  len : UInt64
+  root : Int32
+}
+pub fn Header::equal(Self, Self) -> Bool
+pub fn Header::not_equal(Self, Self) -> Bool
+pub fn Header::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Node {
+  address : Int32
+  is_final : Bool
+  final_output : UInt64
+  transitions : Array[Transition]
+}
+pub fn Node::equal(Self, Self) -> Bool
+pub fn Node::not_equal(Self, Self) -> Bool
+pub fn Node::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Transition {
+  input : Byte
+  output : UInt64
+  addr : Int32
+}
+pub fn Transition::equal(Self, Self) -> Bool
+pub fn Transition::not_equal(Self, Self) -> Bool
+pub fn Transition::to_repr(Self) -> @debug.Repr
+
+// Type aliases
+
+// Traits

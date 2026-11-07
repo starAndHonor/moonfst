@@ -1,0 +1,1503 @@
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000001d9d0 <_M0FP27moonfst3fst15traversal__node.part.0>:
+   1d9d0:	push   %rbp
+   1d9d1:	mov    %rsp,%rbp
+   1d9d4:	push   %r13
+   1d9d6:	push   %r12
+   1d9d8:	push   %rbx
+   1d9d9:	call   5250 <mcount@plt>
+   1d9de:	mov    %rsi,%r12
+   1d9e1:	movslq %edx,%rdx
+   1d9e4:	mov    %rdi,%rax
+   1d9e7:	mov    (%r12),%r10
+   1d9eb:	mov    %rdx,%rsi
+   1d9ee:	movzbl (%r10,%rdx,1),%ecx
+   1d9f3:	lea    -0x1(%rdx),%edx
+   1d9f6:	mov    %ecx,%r8d
+   1d9f9:	mov    %ecx,%edi
+   1d9fb:	and    $0x3f,%r8d
+   1d9ff:	and    $0x3f,%edi
+   1da02:	test   %cl,%cl
+   1da04:	js     1dae8 <_M0FP27moonfst3fst15traversal__node.part.0+0x118>
+   1da0a:	test   %r8b,%r8b
+   1da0d:	jne    1da28 <_M0FP27moonfst3fst15traversal__node.part.0+0x58>
+   1da0f:	movslq %edx,%rdx
+   1da12:	movzbl (%r10,%rdx,1),%r8d
+   1da17:	lea    -0x2(%rsi),%edx
+   1da1a:	cmp    $0x1,%r8b
+   1da1e:	je     1db70 <_M0FP27moonfst3fst15traversal__node.part.0+0x1a0>
+   1da24:	movzbl %r8b,%edi
+   1da28:	cmp    $0x20,%r8b
+   1da2c:	seta   %r13b
+   1da30:	movslq %edx,%rsi
+   1da33:	and    $0x40,%ecx
+   1da36:	movzbl (%r10,%rsi,1),%r8d
+   1da3b:	mov    %ecx,%r11d
+   1da3e:	mov    0x8(%r12),%rsi
+   1da43:	shr    $0x6,%r11b
+   1da47:	mov    %r8d,%ebx
+   1da4a:	and    $0x1,%r11d
+   1da4e:	sar    $0x4,%r8d
+   1da52:	mov    %ebx,%r9d
+   1da55:	mov    %r8d,%r12d
+   1da58:	and    $0xf,%r9d
+   1da5c:	cmpq   $0x1,(%rsi)
+   1da60:	seta   %sil
+   1da64:	imul   %edi,%r12d
+   1da68:	movzbl %sil,%esi
+   1da6c:	and    %r13d,%esi
+   1da6f:	shl    $0x8,%esi
+   1da72:	sub    %esi,%edx
+   1da74:	mov    %edx,%esi
+   1da76:	sub    %edi,%esi
+   1da78:	sub    %r12d,%esi
+   1da7b:	mov    %r9d,%r12d
+   1da7e:	imul   %edi,%r12d
+   1da82:	sub    %r12d,%esi
+   1da85:	xor    %r12d,%r12d
+   1da88:	test   %cl,%cl
+   1da8a:	jne    1dac0 <_M0FP27moonfst3fst15traversal__node.part.0+0xf0>
+   1da8c:	pop    %rbx
+   1da8d:	mov    %r12,0x8(%rax)
+   1da91:	pop    %r12
+   1da93:	movl   $0x0,0x24(%rax)
+   1da9a:	pop    %r13
+   1da9c:	mov    %edi,(%rax)
+   1da9e:	mov    %r11d,0x4(%rax)
+   1daa2:	pop    %rbp
+   1daa3:	movl   $0xffffffff,0x10(%rax)
+   1daaa:	mov    %esi,0x14(%rax)
+   1daad:	mov    %edx,0x18(%rax)
+   1dab0:	mov    %r8d,0x1c(%rax)
+   1dab4:	mov    %r9d,0x20(%rax)
+   1dab8:	ret
+   1dab9:	nopl   0x0(%rax)
+   1dac0:	sub    %r9d,%esi
+   1dac3:	and    $0xf,%ebx
+   1dac6:	je     1da8c <_M0FP27moonfst3fst15traversal__node.part.0+0xbc>
+   1dac8:	mov    $0x8,%ecx
+   1dacd:	movslq %esi,%rbx
+   1dad0:	mov    (%r10,%rbx,1),%r12
+   1dad4:	sub    %r9d,%ecx
+   1dad7:	shl    $0x3,%ecx
+   1dada:	shl    %cl,%r12
+   1dadd:	shr    %cl,%r12
+   1dae0:	jmp    1da8c <_M0FP27moonfst3fst15traversal__node.part.0+0xbc>
+   1dae2:	nopw   0x0(%rax,%rax,1)
+   1dae8:	test   %r8b,%r8b
+   1daeb:	je     1db50 <_M0FP27moonfst3fst15traversal__node.part.0+0x180>
+   1daed:	sub    $0x1,%edi
+   1daf0:	lea    0x44a71(%rip),%rsi        # 62568 <moonbit_bytes_literal_0+0x8>
+   1daf7:	and    $0x40,%ecx
+   1dafa:	movslq %edi,%rdi
+   1dafd:	movzbl (%rsi,%rdi,1),%edi
+   1db01:	movzbl %dil,%esi
+   1db05:	jne    1db64 <_M0FP27moonfst3fst15traversal__node.part.0+0x194>
+   1db07:	movslq %edx,%rcx
+   1db0a:	movzbl (%r10,%rcx,1),%r8d
+   1db0f:	mov    %r8d,%r9d
+   1db12:	sar    $0x4,%r8d
+   1db16:	and    $0xf,%r9d
+   1db1a:	lea    (%r8,%r9,1),%ecx
+   1db1e:	sub    %ecx,%edx
+   1db20:	pxor   %xmm0,%xmm0
+   1db24:	pop    %rbx
+   1db25:	pop    %r12
+   1db27:	movl   $0x0,0x24(%rax)
+   1db2e:	movups %xmm0,0x14(%rax)
+   1db32:	pop    %r13
+   1db34:	pop    %rbp
+   1db35:	movups %xmm0,0x4(%rax)
+   1db39:	movl   $0x1,(%rax)
+   1db3f:	mov    %esi,0x10(%rax)
+   1db42:	mov    %edx,0x14(%rax)
+   1db45:	mov    %r8d,0x1c(%rax)
+   1db49:	mov    %r9d,0x20(%rax)
+   1db4d:	ret
+   1db4e:	xchg   %ax,%ax
+   1db50:	movslq %edx,%rdx
+   1db53:	and    $0x40,%ecx
+   1db56:	movzbl (%r10,%rdx,1),%edi
+   1db5b:	lea    -0x2(%rsi),%edx
+   1db5e:	movzbl %dil,%esi
+   1db62:	je     1db07 <_M0FP27moonfst3fst15traversal__node.part.0+0x137>
+   1db64:	xor    %r9d,%r9d
+   1db67:	xor    %r8d,%r8d
+   1db6a:	jmp    1db20 <_M0FP27moonfst3fst15traversal__node.part.0+0x150>
+   1db6c:	nopl   0x0(%rax)
+   1db70:	mov    $0x1,%r13d
+   1db76:	mov    $0x100,%edi
+   1db7b:	jmp    1da30 <_M0FP27moonfst3fst15traversal__node.part.0+0x60>
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000002c330 <_M0MPC15array5Array4pushGsE.isra.0>:
+   2c330:	push   %rbp
+   2c331:	mov    %rsp,%rbp
+   2c334:	sub    $0x20,%rsp
+   2c338:	call   5250 <mcount@plt>
+   2c33d:	mov    (%rdi),%rdx
+   2c340:	mov    %rsi,%r8
+   2c343:	mov    %rdi,%rax
+   2c346:	mov    0x8(%rdi),%esi
+   2c349:	cmp    -0x4(%rdx),%esi
+   2c34c:	je     2c3b0 <_M0MPC15array5Array4pushGsE.isra.0+0x80>
+   2c34e:	movslq %esi,%rcx
+   2c351:	lea    (%rdx,%rcx,8),%rcx
+   2c355:	mov    (%rcx),%rdi
+   2c358:	mov    -0x8(%rdi),%edx
+   2c35b:	cmp    $0x3f,%edx
+   2c35e:	jle    2c378 <_M0MPC15array5Array4pushGsE.isra.0+0x48>
+   2c360:	sub    $0x20,%edx
+   2c363:	mov    %edx,-0x8(%rdi)
+   2c366:	add    $0x1,%esi
+   2c369:	mov    %r8,(%rcx)
+   2c36c:	mov    %esi,0x8(%rax)
+   2c36f:	leave
+   2c370:	ret
+   2c371:	nopl   0x0(%rax)
+   2c378:	cmp    $0x1f,%edx
+   2c37b:	jle    2c366 <_M0MPC15array5Array4pushGsE.isra.0+0x36>
+   2c37d:	mov    %r8,-0x20(%rbp)
+   2c381:	mov    %rax,-0x18(%rbp)
+   2c385:	mov    %rcx,-0x10(%rbp)
+   2c389:	mov    %esi,-0x8(%rbp)
+   2c38c:	call   47550 <moonbit_drop_object>
+   2c391:	mov    -0x8(%rbp),%esi
+   2c394:	mov    -0x20(%rbp),%r8
+   2c398:	mov    -0x18(%rbp),%rax
+   2c39c:	mov    -0x10(%rbp),%rcx
+   2c3a0:	add    $0x1,%esi
+   2c3a3:	mov    %r8,(%rcx)
+   2c3a6:	mov    %esi,0x8(%rax)
+   2c3a9:	leave
+   2c3aa:	ret
+   2c3ab:	nopl   0x0(%rax,%rax,1)
+   2c3b0:	add    $0x1,%esi
+   2c3b3:	mov    %r8,-0x10(%rbp)
+   2c3b7:	mov    %rdi,-0x8(%rbp)
+   2c3bb:	call   2c280 <_M0MPC15array5Array7reallocGsE.isra.0>
+   2c3c0:	mov    -0x8(%rbp),%rax
+   2c3c4:	mov    -0x10(%rbp),%r8
+   2c3c8:	mov    0x8(%rax),%esi
+   2c3cb:	mov    (%rax),%rdx
+   2c3ce:	jmp    2c34e <_M0MPC15array5Array4pushGsE.isra.0+0x1e>
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000002e7d0 <_M0MPC15array5Array4pushGRP27moonfst3fst11EntrySourceE.isra.0>:
+   2e7d0:	push   %rbp
+   2e7d1:	mov    %rsp,%rbp
+   2e7d4:	sub    $0x30,%rsp
+   2e7d8:	call   5250 <mcount@plt>
+   2e7dd:	mov    (%rdi),%rax
+   2e7e0:	mov    %rsi,%r8
+   2e7e3:	mov    %rdi,%rcx
+   2e7e6:	mov    0x8(%rdi),%esi
+   2e7e9:	mov    %rdx,%r9
+   2e7ec:	cmp    -0x4(%rax),%esi
+   2e7ef:	je     2e860 <_M0MPC15array5Array4pushGRP27moonfst3fst11EntrySourceE.isra.0+0x90>
+   2e7f1:	movslq %esi,%rdx
+   2e7f4:	shl    $0x4,%rdx
+   2e7f8:	add    %rdx,%rax
+   2e7fb:	mov    0x8(%rax),%rdi
+   2e7ff:	test   %rdi,%rdi
+   2e802:	je     2e812 <_M0MPC15array5Array4pushGRP27moonfst3fst11EntrySourceE.isra.0+0x42>
+   2e804:	mov    -0x8(%rdi),%edx
+   2e807:	cmp    $0x3f,%edx
+   2e80a:	jle    2e828 <_M0MPC15array5Array4pushGRP27moonfst3fst11EntrySourceE.isra.0+0x58>
+   2e80c:	sub    $0x20,%edx
+   2e80f:	mov    %edx,-0x8(%rdi)
+   2e812:	add    $0x1,%esi
+   2e815:	mov    %r8,(%rax)
+   2e818:	mov    %r9,0x8(%rax)
+   2e81c:	mov    %esi,0x8(%rcx)
+   2e81f:	leave
+   2e820:	ret
+   2e821:	nopl   0x0(%rax)
+   2e828:	cmp    $0x1f,%edx
+   2e82b:	jle    2e812 <_M0MPC15array5Array4pushGRP27moonfst3fst11EntrySourceE.isra.0+0x42>
+   2e82d:	mov    %rcx,-0x10(%rbp)
+   2e831:	mov    %r8,-0x30(%rbp)
+   2e835:	mov    %r9,-0x28(%rbp)
+   2e839:	mov    %rax,-0x20(%rbp)
+   2e83d:	mov    %esi,-0x8(%rbp)
+   2e840:	call   47550 <moonbit_drop_object>
+   2e845:	mov    -0x10(%rbp),%rcx
+   2e849:	mov    -0x30(%rbp),%r8
+   2e84d:	mov    -0x28(%rbp),%r9
+   2e851:	mov    -0x20(%rbp),%rax
+   2e855:	mov    -0x8(%rbp),%esi
+   2e858:	jmp    2e812 <_M0MPC15array5Array4pushGRP27moonfst3fst11EntrySourceE.isra.0+0x42>
+   2e85a:	nopw   0x0(%rax,%rax,1)
+   2e860:	add    $0x1,%esi
+   2e863:	mov    %r8,-0x20(%rbp)
+   2e867:	mov    %rdx,-0x18(%rbp)
+   2e86b:	mov    %rdi,-0x8(%rbp)
+   2e86f:	call   2e3e0 <_M0MPC15array5Array7reallocGRP27moonfst3fst11EntrySourceE.isra.0>
+   2e874:	mov    -0x8(%rbp),%rcx
+   2e878:	mov    -0x20(%rbp),%r8
+   2e87c:	mov    -0x18(%rbp),%r9
+   2e880:	mov    0x8(%rcx),%esi
+   2e883:	mov    (%rcx),%rax
+   2e886:	jmp    2e7f1 <_M0MPC15array5Array4pushGRP27moonfst3fst11EntrySourceE.isra.0+0x21>
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000002f4a0 <_M0MPC15array5Array4pushGRP27moonfst3fst5EntryE.isra.0>:
+   2f4a0:	push   %rbp
+   2f4a1:	mov    %rsp,%rbp
+   2f4a4:	sub    $0x30,%rsp
+   2f4a8:	call   5250 <mcount@plt>
+   2f4ad:	mov    (%rdi),%rax
+   2f4b0:	mov    %rsi,%r8
+   2f4b3:	mov    %rdi,%rcx
+   2f4b6:	mov    0x8(%rdi),%esi
+   2f4b9:	mov    %rdx,%r9
+   2f4bc:	cmp    -0x4(%rax),%esi
+   2f4bf:	je     2f530 <_M0MPC15array5Array4pushGRP27moonfst3fst5EntryE.isra.0+0x90>
+   2f4c1:	movslq %esi,%rdx
+   2f4c4:	shl    $0x4,%rdx
+   2f4c8:	add    %rdx,%rax
+   2f4cb:	mov    (%rax),%rdi
+   2f4ce:	mov    -0x8(%rdi),%edx
+   2f4d1:	cmp    $0x3f,%edx
+   2f4d4:	jle    2f4f0 <_M0MPC15array5Array4pushGRP27moonfst3fst5EntryE.isra.0+0x50>
+   2f4d6:	sub    $0x20,%edx
+   2f4d9:	mov    %edx,-0x8(%rdi)
+   2f4dc:	add    $0x1,%esi
+   2f4df:	mov    %r8,(%rax)
+   2f4e2:	mov    %r9,0x8(%rax)
+   2f4e6:	mov    %esi,0x8(%rcx)
+   2f4e9:	leave
+   2f4ea:	ret
+   2f4eb:	nopl   0x0(%rax,%rax,1)
+   2f4f0:	cmp    $0x1f,%edx
+   2f4f3:	jle    2f4dc <_M0MPC15array5Array4pushGRP27moonfst3fst5EntryE.isra.0+0x3c>
+   2f4f5:	mov    %rcx,-0x10(%rbp)
+   2f4f9:	mov    %r8,-0x30(%rbp)
+   2f4fd:	mov    %r9,-0x28(%rbp)
+   2f501:	mov    %rax,-0x20(%rbp)
+   2f505:	mov    %esi,-0x8(%rbp)
+   2f508:	call   47550 <moonbit_drop_object>
+   2f50d:	mov    -0x8(%rbp),%esi
+   2f510:	mov    -0x20(%rbp),%rax
+   2f514:	mov    -0x10(%rbp),%rcx
+   2f518:	mov    -0x30(%rbp),%r8
+   2f51c:	mov    -0x28(%rbp),%r9
+   2f520:	add    $0x1,%esi
+   2f523:	mov    %r8,(%rax)
+   2f526:	mov    %r9,0x8(%rax)
+   2f52a:	mov    %esi,0x8(%rcx)
+   2f52d:	leave
+   2f52e:	ret
+   2f52f:	nop
+   2f530:	add    $0x1,%esi
+   2f533:	mov    %r8,-0x20(%rbp)
+   2f537:	mov    %rdx,-0x18(%rbp)
+   2f53b:	mov    %rdi,-0x8(%rbp)
+   2f53f:	call   2f0b0 <_M0MPC15array5Array7reallocGRP27moonfst3fst5EntryE.isra.0>
+   2f544:	mov    -0x8(%rbp),%rcx
+   2f548:	mov    -0x20(%rbp),%r8
+   2f54c:	mov    -0x18(%rbp),%r9
+   2f550:	mov    0x8(%rcx),%esi
+   2f553:	mov    (%rcx),%rax
+   2f556:	jmp    2f4c1 <_M0MPC15array5Array4pushGRP27moonfst3fst5EntryE.isra.0+0x21>
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000002f820 <_M0MPC15array5Array4pushGRP27moonfst3fst9BuildNodeE.isra.0>:
+   2f820:	push   %rbp
+   2f821:	mov    %rsp,%rbp
+   2f824:	sub    $0x20,%rsp
+   2f828:	call   5250 <mcount@plt>
+   2f82d:	mov    (%rdi),%rax
+   2f830:	mov    0x8(%rdi),%esi
+   2f833:	mov    %rdi,%rdx
+   2f836:	cmp    -0x4(%rax),%esi
+   2f839:	je     2f8a8 <_M0MPC15array5Array4pushGRP27moonfst3fst9BuildNodeE.isra.0+0x88>
+   2f83b:	movslq %esi,%rcx
+   2f83e:	lea    (%rcx,%rcx,4),%rcx
+   2f842:	lea    (%rax,%rcx,8),%rax
+   2f846:	mov    0x10(%rax),%rdi
+   2f84a:	test   %rdi,%rdi
+   2f84d:	je     2f85d <_M0MPC15array5Array4pushGRP27moonfst3fst9BuildNodeE.isra.0+0x3d>
+   2f84f:	mov    -0x8(%rdi),%ecx
+   2f852:	cmp    $0x3f,%ecx
+   2f855:	jle    2f880 <_M0MPC15array5Array4pushGRP27moonfst3fst9BuildNodeE.isra.0+0x60>
+   2f857:	sub    $0x20,%ecx
+   2f85a:	mov    %ecx,-0x8(%rdi)
+   2f85d:	movdqu 0x10(%rbp),%xmm0
+   2f862:	mov    0x30(%rbp),%rcx
+   2f866:	add    $0x1,%esi
+   2f869:	movups %xmm0,(%rax)
+   2f86c:	movdqu 0x20(%rbp),%xmm0
+   2f871:	mov    %rcx,0x20(%rax)
+   2f875:	movups %xmm0,0x10(%rax)
+   2f879:	mov    %esi,0x8(%rdx)
+   2f87c:	leave
+   2f87d:	ret
+   2f87e:	xchg   %ax,%ax
+   2f880:	cmp    $0x1f,%ecx
+   2f883:	jle    2f85d <_M0MPC15array5Array4pushGRP27moonfst3fst9BuildNodeE.isra.0+0x3d>
+   2f885:	mov    %rdx,-0x18(%rbp)
+   2f889:	mov    %rax,-0x10(%rbp)
+   2f88d:	mov    %esi,-0x8(%rbp)
+   2f890:	call   47550 <moonbit_drop_object>
+   2f895:	mov    -0x18(%rbp),%rdx
+   2f899:	mov    -0x10(%rbp),%rax
+   2f89d:	mov    -0x8(%rbp),%esi
+   2f8a0:	jmp    2f85d <_M0MPC15array5Array4pushGRP27moonfst3fst9BuildNodeE.isra.0+0x3d>
+   2f8a2:	nopw   0x0(%rax,%rax,1)
+   2f8a8:	add    $0x1,%esi
+   2f8ab:	mov    %rdi,-0x8(%rbp)
+   2f8af:	call   2f560 <_M0MPC15array5Array7reallocGRP27moonfst3fst9BuildNodeE.isra.0>
+   2f8b4:	mov    -0x8(%rbp),%rdx
+   2f8b8:	mov    0x8(%rdx),%esi
+   2f8bb:	mov    (%rdx),%rax
+   2f8be:	jmp    2f83b <_M0MPC15array5Array4pushGRP27moonfst3fst9BuildNodeE.isra.0+0x1b>
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000002fcc0 <_M0MPC15array5Array4pushGRPC16string10StringViewE.isra.0>:
+   2fcc0:	push   %rbp
+   2fcc1:	mov    %rsp,%rbp
+   2fcc4:	sub    $0x30,%rsp
+   2fcc8:	call   5250 <mcount@plt>
+   2fccd:	mov    (%rdi),%rax
+   2fcd0:	mov    %rsi,%r8
+   2fcd3:	mov    %rdi,%rcx
+   2fcd6:	mov    0x8(%rdi),%esi
+   2fcd9:	mov    %rdx,%r9
+   2fcdc:	cmp    -0x4(%rax),%esi
+   2fcdf:	je     2fd50 <_M0MPC15array5Array4pushGRPC16string10StringViewE.isra.0+0x90>
+   2fce1:	movslq %esi,%rdx
+   2fce4:	shl    $0x4,%rdx
+   2fce8:	add    %rdx,%rax
+   2fceb:	mov    (%rax),%rdi
+   2fcee:	mov    -0x8(%rdi),%edx
+   2fcf1:	cmp    $0x3f,%edx
+   2fcf4:	jle    2fd10 <_M0MPC15array5Array4pushGRPC16string10StringViewE.isra.0+0x50>
+   2fcf6:	sub    $0x20,%edx
+   2fcf9:	mov    %edx,-0x8(%rdi)
+   2fcfc:	add    $0x1,%esi
+   2fcff:	mov    %r8,(%rax)
+   2fd02:	mov    %r9,0x8(%rax)
+   2fd06:	mov    %esi,0x8(%rcx)
+   2fd09:	leave
+   2fd0a:	ret
+   2fd0b:	nopl   0x0(%rax,%rax,1)
+   2fd10:	cmp    $0x1f,%edx
+   2fd13:	jle    2fcfc <_M0MPC15array5Array4pushGRPC16string10StringViewE.isra.0+0x3c>
+   2fd15:	mov    %rcx,-0x10(%rbp)
+   2fd19:	mov    %r8,-0x30(%rbp)
+   2fd1d:	mov    %r9,-0x28(%rbp)
+   2fd21:	mov    %rax,-0x20(%rbp)
+   2fd25:	mov    %esi,-0x8(%rbp)
+   2fd28:	call   47550 <moonbit_drop_object>
+   2fd2d:	mov    -0x8(%rbp),%esi
+   2fd30:	mov    -0x20(%rbp),%rax
+   2fd34:	mov    -0x10(%rbp),%rcx
+   2fd38:	mov    -0x30(%rbp),%r8
+   2fd3c:	mov    -0x28(%rbp),%r9
+   2fd40:	add    $0x1,%esi
+   2fd43:	mov    %r8,(%rax)
+   2fd46:	mov    %r9,0x8(%rax)
+   2fd4a:	mov    %esi,0x8(%rcx)
+   2fd4d:	leave
+   2fd4e:	ret
+   2fd4f:	nop
+   2fd50:	add    $0x1,%esi
+   2fd53:	mov    %r8,-0x20(%rbp)
+   2fd57:	mov    %rdx,-0x18(%rbp)
+   2fd5b:	mov    %rdi,-0x8(%rbp)
+   2fd5f:	call   2f8d0 <_M0MPC15array5Array7reallocGRPC16string10StringViewE.isra.0>
+   2fd64:	mov    -0x8(%rbp),%rcx
+   2fd68:	mov    -0x20(%rbp),%r8
+   2fd6c:	mov    -0x18(%rbp),%r9
+   2fd70:	mov    0x8(%rcx),%esi
+   2fd73:	mov    (%rcx),%rax
+   2fd76:	jmp    2fce1 <_M0MPC15array5Array4pushGRPC16string10StringViewE.isra.0+0x21>
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+00000000000315f0 <_M0MPC15array5Array4pushGyE.isra.0>:
+   315f0:	push   %rbp
+   315f1:	mov    %rsp,%rbp
+   315f4:	sub    $0x10,%rsp
+   315f8:	call   5250 <mcount@plt>
+   315fd:	mov    (%rdi),%rax
+   31600:	mov    %esi,%ecx
+   31602:	mov    0x8(%rdi),%esi
+   31605:	cmp    -0x4(%rax),%esi
+   31608:	je     31620 <_M0MPC15array5Array4pushGyE.isra.0+0x30>
+   3160a:	movslq %esi,%rdx
+   3160d:	add    $0x1,%esi
+   31610:	mov    %cl,(%rax,%rdx,1)
+   31613:	mov    %esi,0x8(%rdi)
+   31616:	leave
+   31617:	ret
+   31618:	nopl   0x0(%rax,%rax,1)
+   31620:	add    $0x1,%esi
+   31623:	mov    %ecx,-0xc(%rbp)
+   31626:	mov    %rdi,-0x8(%rbp)
+   3162a:	call   315a0 <_M0MPC15array5Array7reallocGyE.isra.0>
+   3162f:	mov    -0x8(%rbp),%rdi
+   31633:	mov    -0xc(%rbp),%ecx
+   31636:	mov    0x8(%rdi),%esi
+   31639:	mov    (%rdi),%rax
+   3163c:	movslq %esi,%rdx
+   3163f:	add    $0x1,%esi
+   31642:	mov    %cl,(%rax,%rdx,1)
+   31645:	mov    %esi,0x8(%rdi)
+   31648:	leave
+   31649:	ret
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000003a010 <_M0MPC15array5Array4pushGiE.isra.0>:
+   3a010:	push   %rbp
+   3a011:	mov    %rsp,%rbp
+   3a014:	sub    $0x10,%rsp
+   3a018:	call   5250 <mcount@plt>
+   3a01d:	mov    (%rdi),%rax
+   3a020:	mov    %esi,%ecx
+   3a022:	mov    0x8(%rdi),%esi
+   3a025:	cmp    -0x4(%rax),%esi
+   3a028:	je     3a040 <_M0MPC15array5Array4pushGiE.isra.0+0x30>
+   3a02a:	movslq %esi,%rdx
+   3a02d:	add    $0x1,%esi
+   3a030:	mov    %ecx,(%rax,%rdx,4)
+   3a033:	mov    %esi,0x8(%rdi)
+   3a036:	leave
+   3a037:	ret
+   3a038:	nopl   0x0(%rax,%rax,1)
+   3a040:	add    $0x1,%esi
+   3a043:	mov    %ecx,-0xc(%rbp)
+   3a046:	mov    %rdi,-0x8(%rbp)
+   3a04a:	call   39da0 <_M0MPC15array5Array7reallocGiE.isra.0>
+   3a04f:	mov    -0x8(%rbp),%rdi
+   3a053:	mov    -0xc(%rbp),%ecx
+   3a056:	mov    0x8(%rdi),%esi
+   3a059:	mov    (%rdi),%rax
+   3a05c:	movslq %esi,%rdx
+   3a05f:	add    $0x1,%esi
+   3a062:	mov    %ecx,(%rax,%rdx,4)
+   3a065:	mov    %esi,0x8(%rdi)
+   3a068:	leave
+   3a069:	ret
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000003a2e0 <_M0MPC15array5Array4pushGdE.isra.0>:
+   3a2e0:	push   %rbp
+   3a2e1:	mov    %rsp,%rbp
+   3a2e4:	sub    $0x10,%rsp
+   3a2e8:	call   5250 <mcount@plt>
+   3a2ed:	mov    (%rdi),%rax
+   3a2f0:	mov    0x8(%rdi),%esi
+   3a2f3:	cmp    -0x4(%rax),%esi
+   3a2f6:	je     3a310 <_M0MPC15array5Array4pushGdE.isra.0+0x30>
+   3a2f8:	movslq %esi,%rdx
+   3a2fb:	add    $0x1,%esi
+   3a2fe:	movsd  %xmm0,(%rax,%rdx,8)
+   3a303:	mov    %esi,0x8(%rdi)
+   3a306:	leave
+   3a307:	ret
+   3a308:	nopl   0x0(%rax,%rax,1)
+   3a310:	add    $0x1,%esi
+   3a313:	mov    %rdi,-0x8(%rbp)
+   3a317:	movsd  %xmm0,-0x10(%rbp)
+   3a31c:	call   3a070 <_M0MPC15array5Array7reallocGdE.isra.0>
+   3a321:	mov    -0x8(%rbp),%rdi
+   3a325:	movsd  -0x10(%rbp),%xmm0
+   3a32a:	mov    0x8(%rdi),%esi
+   3a32d:	mov    (%rdi),%rax
+   3a330:	movslq %esi,%rdx
+   3a333:	add    $0x1,%esi
+   3a336:	movsd  %xmm0,(%rax,%rdx,8)
+   3a33b:	mov    %esi,0x8(%rdi)
+   3a33e:	leave
+   3a33f:	ret
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000003e160 <_M0MPC15array5Array4pushGRP27moonfst3fst5FrameE.isra.0>:
+   3e160:	push   %rbp
+   3e161:	mov    %rsp,%rbp
+   3e164:	sub    $0x10,%rsp
+   3e168:	call   5250 <mcount@plt>
+   3e16d:	mov    (%rdi),%rax
+   3e170:	mov    0x8(%rdi),%esi
+   3e173:	cmp    -0x4(%rax),%esi
+   3e176:	je     3e1c0 <_M0MPC15array5Array4pushGRP27moonfst3fst5FrameE.isra.0+0x60>
+   3e178:	movslq %esi,%rdx
+   3e17b:	movdqu 0x10(%rbp),%xmm0
+   3e180:	add    $0x1,%esi
+   3e183:	lea    (%rdx,%rdx,8),%rdx
+   3e187:	lea    (%rax,%rdx,8),%rax
+   3e18b:	mov    0x50(%rbp),%rdx
+   3e18f:	movups %xmm0,(%rax)
+   3e192:	movdqu 0x20(%rbp),%xmm0
+   3e197:	mov    %rdx,0x40(%rax)
+   3e19b:	movups %xmm0,0x10(%rax)
+   3e19f:	movdqu 0x30(%rbp),%xmm0
+   3e1a4:	movups %xmm0,0x20(%rax)
+   3e1a8:	movdqu 0x40(%rbp),%xmm0
+   3e1ad:	movups %xmm0,0x30(%rax)
+   3e1b1:	mov    %esi,0x8(%rdi)
+   3e1b4:	leave
+   3e1b5:	ret
+   3e1b6:	cs nopw 0x0(%rax,%rax,1)
+   3e1c0:	add    $0x1,%esi
+   3e1c3:	mov    %rdi,-0x8(%rbp)
+   3e1c7:	call   3def0 <_M0MPC15array5Array7reallocGRP27moonfst3fst5FrameE.isra.0>
+   3e1cc:	mov    -0x8(%rbp),%rdi
+   3e1d0:	mov    0x8(%rdi),%esi
+   3e1d3:	mov    (%rdi),%rax
+   3e1d6:	jmp    3e178 <_M0MPC15array5Array4pushGRP27moonfst3fst5FrameE.isra.0+0x18>
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000003e6f0 <_M0MP27moonfst3fst6Stream4next.part.0>:
+   3e6f0:	push   %rbp
+   3e6f1:	mov    %rsp,%rbp
+   3e6f4:	push   %r15
+   3e6f6:	push   %r14
+   3e6f8:	push   %r13
+   3e6fa:	push   %r12
+   3e6fc:	push   %rbx
+   3e6fd:	sub    $0x128,%rsp
+   3e704:	call   5250 <mcount@plt>
+   3e709:	mov    %fs:0x28,%r14
+   3e712:	mov    %r14,-0x38(%rbp)
+   3e716:	mov    %rdi,%r14
+   3e719:	mov    0x20(%r14),%r9
+   3e71d:	mov    0x8(%r9),%eax
+   3e721:	test   %eax,%eax
+   3e723:	je     3eaa4 <_M0MP27moonfst3fst6Stream4next.part.0+0x3b4>
+   3e729:	lea    -0xb0(%rbp),%rcx
+   3e730:	mov    %rcx,-0x150(%rbp)
+   3e737:	jmp    3e988 <_M0MP27moonfst3fst6Stream4next.part.0+0x298>
+   3e73c:	nopl   0x0(%rax)
+   3e740:	pshufd $0xe5,%xmm1,%xmm7
+   3e745:	movd   %xmm7,%edi
+   3e749:	cmpl   $0x0,0x30(%r14)
+   3e74e:	je     3eb28 <_M0MP27moonfst3fst6Stream4next.part.0+0x438>
+   3e754:	test   %r8d,%r8d
+   3e757:	js     3ea50 <_M0MP27moonfst3fst6Stream4next.part.0+0x360>
+   3e75d:	cmp    %r10d,%r8d
+   3e760:	jge    3ea64 <_M0MP27moonfst3fst6Stream4next.part.0+0x374>
+   3e766:	mov    %ecx,%r15d
+   3e769:	movd   %xmm0,-0x104(%rbp)
+   3e771:	mov    %r13d,%ecx
+   3e774:	mov    $0xffffffff,%eax
+   3e779:	mov    %edx,%r13d
+   3e77c:	mov    %esi,%edx
+   3e77e:	movd   -0xb8(%rbp),%xmm6
+   3e786:	add    %r8d,%eax
+   3e789:	movd   %ecx,%xmm4
+   3e78d:	movd   %edx,%xmm7
+   3e791:	movd   %eax,%xmm3
+   3e795:	punpckldq %xmm6,%xmm4
+   3e799:	punpckldq %xmm7,%xmm3
+   3e79d:	movdqa %xmm4,%xmm6
+   3e7a1:	punpcklqdq %xmm3,%xmm6
+   3e7a5:	movaps %xmm6,-0xf0(%rbp)
+   3e7ac:	test   %r13d,%r13d
+   3e7af:	jne    3e7bb <_M0MP27moonfst3fst6Stream4next.part.0+0xcb>
+   3e7b1:	cmp    $0x1,%r15d
+   3e7b5:	je     3eff0 <_M0MP27moonfst3fst6Stream4next.part.0+0x900>
+   3e7bb:	mov    0x20(%r14),%rax
+   3e7bf:	cmp    %ebx,0x8(%rax)
+   3e7c2:	jle    3f286 <_M0MP27moonfst3fst6Stream4next.part.0+0xb96>
+   3e7c8:	mov    (%rax),%rsi
+   3e7cb:	mov    -0xbc(%rbp),%edi
+   3e7d1:	movl   $0x0,-0x100(%rbp)
+   3e7db:	movdqa -0xf0(%rbp),%xmm7
+   3e7e3:	add    %r12,%rsi
+   3e7e6:	mov    %rsi,%rax
+   3e7e9:	movq   %xmm1,(%rsi)
+   3e7ed:	mov    -0xd0(%rbp),%rsi
+   3e7f4:	mov    %edi,0x20(%rax)
+   3e7f7:	mov    %rsi,0x8(%rax)
+   3e7fb:	mov    -0xc8(%rbp),%rsi
+   3e802:	movups %xmm2,0x10(%rax)
+   3e806:	mov    %rsi,0x28(%rax)
+   3e80a:	movups %xmm7,0x30(%rax)
+   3e80e:	movq   %xmm0,0x40(%rax)
+   3e813:	movdqa %xmm2,%xmm3
+   3e817:	movd   %xmm2,%r13d
+   3e81c:	punpckhdq %xmm2,%xmm3
+   3e820:	movzbl %r13b,%r15d
+   3e824:	movd   %xmm3,-0xe0(%rbp)
+   3e82c:	test   %r13d,%r13d
+   3e82f:	jns    3e84a <_M0MP27moonfst3fst6Stream4next.part.0+0x15a>
+   3e831:	mov    -0xe0(%rbp),%eax
+   3e837:	mov    (%r14),%rdx
+   3e83a:	sub    %r8d,%eax
+   3e83d:	mov    (%rdx),%rdx
+   3e840:	sub    $0x1,%eax
+   3e843:	cltq
+   3e845:	movzbl (%rdx,%rax,1),%r15d
+   3e84a:	mov    0x34(%r14),%esi
+   3e84e:	test   %esi,%esi
+   3e850:	jne    3ec50 <_M0MP27moonfst3fst6Stream4next.part.0+0x560>
+   3e856:	mov    0x8(%r14),%rax
+   3e85a:	mov    %ecx,%esi
+   3e85c:	mov    %r10d,-0x148(%rbp)
+   3e863:	mov    %r15d,%edx
+   3e866:	mov    %r11d,-0x130(%rbp)
+   3e86d:	mov    0x10(%r14),%rdi
+   3e871:	mov    %r8d,-0x110(%rbp)
+   3e878:	movq   %xmm0,-0x120(%rbp)
+   3e880:	movaps %xmm2,-0x140(%rbp)
+   3e887:	movq   %xmm1,-0x118(%rbp)
+   3e88f:	call   *0x8(%rax)
+   3e892:	mov    0x34(%r14),%ecx
+   3e896:	mov    -0x110(%rbp),%r8d
+   3e89d:	mov    %eax,-0xd8(%rbp)
+   3e8a3:	mov    -0x130(%rbp),%r11d
+   3e8aa:	mov    %eax,%esi
+   3e8ac:	test   %ecx,%ecx
+   3e8ae:	mov    -0x148(%rbp),%r10d
+   3e8b5:	movq   -0x118(%rbp),%xmm1
+   3e8bd:	movdqa -0x140(%rbp),%xmm2
+   3e8c5:	movq   -0x120(%rbp),%xmm0
+   3e8cd:	jne    3ec5a <_M0MP27moonfst3fst6Stream4next.part.0+0x56a>
+   3e8d3:	mov    0x8(%r14),%rax
+   3e8d7:	mov    0x10(%r14),%rdi
+   3e8db:	call   *0x18(%rax)
+   3e8de:	mov    -0x110(%rbp),%r8d
+   3e8e5:	movq   -0x118(%rbp),%xmm1
+   3e8ed:	test   %eax,%eax
+   3e8ef:	mov    -0x130(%rbp),%r11d
+   3e8f6:	movdqa -0x140(%rbp),%xmm2
+   3e8fe:	movq   -0x120(%rbp),%xmm0
+   3e906:	mov    -0x148(%rbp),%r10d
+   3e90d:	jne    3ec5a <_M0MP27moonfst3fst6Stream4next.part.0+0x56a>
+   3e913:	mov    0x20(%r14),%r9
+   3e917:	mov    -0x100(%rbp),%edx
+   3e91d:	mov    0x8(%r9),%eax
+   3e921:	test   %edx,%edx
+   3e923:	je     3e980 <_M0MP27moonfst3fst6Stream4next.part.0+0x290>
+   3e925:	cmp    %eax,%ebx
+   3e927:	jge    3f286 <_M0MP27moonfst3fst6Stream4next.part.0+0xb96>
+   3e92d:	mov    -0xd0(%rbp),%rax
+   3e934:	add    (%r9),%r12
+   3e937:	movdqa -0xf0(%rbp),%xmm5
+   3e93f:	movq   %xmm1,(%r12)
+   3e945:	mov    %rax,0x8(%r12)
+   3e94a:	mov    -0xbc(%rbp),%eax
+   3e950:	movups %xmm2,0x10(%r12)
+   3e956:	mov    %eax,0x20(%r12)
+   3e95b:	mov    -0xc8(%rbp),%rax
+   3e962:	movups %xmm5,0x30(%r12)
+   3e968:	mov    %rax,0x28(%r12)
+   3e96d:	movq   %xmm0,0x40(%r12)
+   3e974:	mov    0x20(%r14),%r9
+   3e978:	mov    0x8(%r9),%eax
+   3e97c:	nopl   0x0(%rax)
+   3e980:	test   %eax,%eax
+   3e982:	je     3eaa4 <_M0MP27moonfst3fst6Stream4next.part.0+0x3b4>
+   3e988:	lea    -0x1(%rax),%ebx
+   3e98b:	mov    %ebx,%edx
+   3e98d:	shr    $0x1f,%edx
+   3e990:	cmp    %eax,%ebx
+   3e992:	setge  %al
+   3e995:	or     %dl,%al
+   3e997:	mov    %al,-0xd4(%rbp)
+   3e99d:	jne    3f286 <_M0MP27moonfst3fst6Stream4next.part.0+0xb96>
+   3e9a3:	movslq %ebx,%rax
+   3e9a6:	lea    (%rax,%rax,8),%r12
+   3e9aa:	mov    (%r9),%rax
+   3e9ad:	shl    $0x3,%r12
+   3e9b1:	add    %r12,%rax
+   3e9b4:	mov    0x8(%rax),%rdi
+   3e9b8:	mov    0x14(%rax),%esi
+   3e9bb:	movq   0x40(%rax),%xmm0
+   3e9c0:	movq   (%rax),%xmm1
+   3e9c4:	mov    (%rax),%ecx
+   3e9c6:	mov    0x4(%rax),%edx
+   3e9c9:	mov    %rdi,-0xd0(%rbp)
+   3e9d0:	mov    %esi,-0xc0(%rbp)
+   3e9d6:	mov    0x20(%rax),%edi
+   3e9d9:	pshufd $0xe5,%xmm0,%xmm5
+   3e9de:	movd   %xmm1,%r10d
+   3e9e3:	mov    0x28(%rax),%rsi
+   3e9e7:	movdqu 0x10(%rax),%xmm2
+   3e9ec:	movd   %xmm5,%r11d
+   3e9f1:	movd   %xmm0,%r15d
+   3e9f6:	mov    0x30(%rax),%r13d
+   3e9fa:	mov    0x38(%rax),%r8d
+   3e9fe:	mov    %edi,-0xbc(%rbp)
+   3ea04:	mov    %rsi,-0xc8(%rbp)
+   3ea0b:	mov    0x34(%rax),%edi
+   3ea0e:	mov    0x3c(%rax),%esi
+   3ea11:	mov    %edi,-0xb8(%rbp)
+   3ea17:	test   %esi,%esi
+   3ea19:	je     3e740 <_M0MP27moonfst3fst6Stream4next.part.0+0x50>
+   3ea1f:	test   %r8d,%r8d
+   3ea22:	js     3ea60 <_M0MP27moonfst3fst6Stream4next.part.0+0x370>
+   3ea24:	cmp    %r10d,%r8d
+   3ea27:	jge    3ea60 <_M0MP27moonfst3fst6Stream4next.part.0+0x370>
+   3ea29:	mov    0x30(%r14),%eax
+   3ea2d:	mov    %r15d,-0x104(%rbp)
+   3ea34:	mov    %ecx,%r15d
+   3ea37:	mov    %r13d,%ecx
+   3ea3a:	mov    %edx,%r13d
+   3ea3d:	mov    %esi,%edx
+   3ea3f:	neg    %eax
+   3ea41:	sbb    %eax,%eax
+   3ea43:	or     $0x1,%eax
+   3ea46:	jmp    3e77e <_M0MP27moonfst3fst6Stream4next.part.0+0x8e>
+   3ea4b:	nopl   0x0(%rax,%rax,1)
+   3ea50:	movl   $0x1,0x3c(%rax)
+   3ea57:	test   %edi,%edi
+   3ea59:	jne    3eb37 <_M0MP27moonfst3fst6Stream4next.part.0+0x447>
+   3ea5f:	nop
+   3ea60:	mov    0x20(%r14),%r9
+   3ea64:	mov    0x8(%r9),%eax
+   3ea68:	cmp    %ebx,%eax
+   3ea6a:	jle    3ea78 <_M0MP27moonfst3fst6Stream4next.part.0+0x388>
+   3ea6c:	mov    %ebx,0x8(%r9)
+   3ea70:	mov    0x20(%r14),%r9
+   3ea74:	mov    0x8(%r9),%eax
+   3ea78:	mov    0x28(%r14),%rdx
+   3ea7c:	test   %eax,%eax
+   3ea7e:	jne    3eae0 <_M0MP27moonfst3fst6Stream4next.part.0+0x3f0>
+   3ea80:	mov    0x8(%rdx),%r8d
+   3ea84:	test   %r8d,%r8d
+   3ea87:	js     3f286 <_M0MP27moonfst3fst6Stream4next.part.0+0xb96>
+   3ea8d:	movl   $0x0,0x8(%rdx)
+   3ea94:	mov    0x20(%r14),%r9
+   3ea98:	mov    0x8(%r9),%eax
+   3ea9c:	test   %eax,%eax
+   3ea9e:	jne    3e988 <_M0MP27moonfst3fst6Stream4next.part.0+0x298>
+   3eaa4:	movl   $0x1,0x3c(%r14)
+   3eaac:	mov    $0x1,%ecx
+   3eab1:	lea    0x23a68(%rip),%rbx        # 62520 <moonbit_bytes_literal_1>
+   3eab8:	mov    %ecx,%eax
+   3eaba:	mov    %rbx,%rdx
+   3eabd:	mov    -0x38(%rbp),%rcx
+   3eac1:	sub    %fs:0x28,%rcx
+   3eaca:	jne    3f2b8 <_M0MP27moonfst3fst6Stream4next.part.0+0xbc8>
+   3ead0:	lea    -0x28(%rbp),%rsp
+   3ead4:	pop    %rbx
+   3ead5:	pop    %r12
+   3ead7:	pop    %r13
+   3ead9:	pop    %r14
+   3eadb:	pop    %r15
+   3eadd:	pop    %rbp
+   3eade:	ret
+   3eadf:	nop
+   3eae0:	mov    %eax,%ebx
+   3eae2:	sub    $0x1,%ebx
+   3eae5:	js     3f286 <_M0MP27moonfst3fst6Stream4next.part.0+0xb96>
+   3eaeb:	cmp    %eax,%ebx
+   3eaed:	jge    3f286 <_M0MP27moonfst3fst6Stream4next.part.0+0xb96>
+   3eaf3:	mov    (%r9),%rdi
+   3eaf6:	movslq %ebx,%rax
+   3eaf9:	lea    (%rax,%rax,8),%rax
+   3eafd:	lea    (%rdi,%rax,8),%rax
+   3eb01:	mov    0x34(%rax),%eax
+   3eb04:	test   %eax,%eax
+   3eb06:	js     3e9a3 <_M0MP27moonfst3fst6Stream4next.part.0+0x2b3>
+   3eb0c:	cmp    %eax,0x8(%rdx)
+   3eb0f:	jle    3e9a3 <_M0MP27moonfst3fst6Stream4next.part.0+0x2b3>
+   3eb15:	mov    %eax,0x8(%rdx)
+   3eb18:	mov    0x20(%r14),%r9
+   3eb1c:	mov    0x8(%r9),%eax
+   3eb20:	jmp    3e980 <_M0MP27moonfst3fst6Stream4next.part.0+0x290>
+   3eb25:	nopl   (%rax)
+   3eb28:	movl   $0x1,0x3c(%rax)
+   3eb2f:	test   %edi,%edi
+   3eb31:	je     3ec40 <_M0MP27moonfst3fst6Stream4next.part.0+0x550>
+   3eb37:	mov    0x34(%r14),%eax
+   3eb3b:	test   %eax,%eax
+   3eb3d:	jne    3ebe5 <_M0MP27moonfst3fst6Stream4next.part.0+0x4f5>
+   3eb43:	mov    0x8(%r14),%rax
+   3eb47:	mov    %edx,-0x104(%rbp)
+   3eb4d:	mov    %r13d,%esi
+   3eb50:	mov    %r10d,-0x130(%rbp)
+   3eb57:	mov    0x10(%r14),%rdi
+   3eb5b:	mov    %r11d,-0x118(%rbp)
+   3eb62:	mov    %r8d,-0x110(%rbp)
+   3eb69:	movq   %xmm0,-0xe0(%rbp)
+   3eb71:	movaps %xmm2,-0x100(%rbp)
+   3eb78:	movq   %xmm1,-0xf0(%rbp)
+   3eb80:	mov    %ecx,-0xd8(%rbp)
+   3eb86:	call   *0x28(%rax)
+   3eb89:	mov    0x8(%r14),%r9
+   3eb8d:	mov    0x10(%r14),%rdi
+   3eb91:	movabs $0x100000000,%rcx
+   3eb9b:	cmp    %rcx,%rax
+   3eb9e:	mov    %eax,%esi
+   3eba0:	cmove  %r13d,%esi
+   3eba4:	call   *0x10(%r9)
+   3eba8:	mov    -0xd8(%rbp),%ecx
+   3ebae:	movq   -0xf0(%rbp),%xmm1
+   3ebb6:	test   %eax,%eax
+   3ebb8:	movdqa -0x100(%rbp),%xmm2
+   3ebc0:	movq   -0xe0(%rbp),%xmm0
+   3ebc8:	mov    -0x104(%rbp),%edx
+   3ebce:	mov    -0x110(%rbp),%r8d
+   3ebd5:	mov    -0x118(%rbp),%r11d
+   3ebdc:	mov    -0x130(%rbp),%r10d
+   3ebe3:	je     3ec40 <_M0MP27moonfst3fst6Stream4next.part.0+0x550>
+   3ebe5:	mov    0x38(%r14),%r9d
+   3ebe9:	test   %r9d,%r9d
+   3ebec:	jne    3f0a1 <_M0MP27moonfst3fst6Stream4next.part.0+0x9b1>
+   3ebf2:	mov    0x18(%r14),%rax
+   3ebf6:	mov    (%rax),%rdi
+   3ebf9:	movzbl -0x4(%rdi),%esi
+   3ebfd:	test   %esi,%esi
+   3ebff:	je     3ec13 <_M0MP27moonfst3fst6Stream4next.part.0+0x523>
+   3ec01:	cmp    $0x1,%esi
+   3ec04:	jne    3f080 <_M0MP27moonfst3fst6Stream4next.part.0+0x990>
+   3ec0a:	test   %r15d,%r15d
+   3ec0d:	jle    3f230 <_M0MP27moonfst3fst6Stream4next.part.0+0xb40>
+   3ec13:	mov    0x8(%rax),%rsi
+   3ec17:	movzbl -0x4(%rsi),%eax
+   3ec1b:	test   %eax,%eax
+   3ec1d:	je     3f0a1 <_M0MP27moonfst3fst6Stream4next.part.0+0x9b1>
+   3ec23:	cmp    $0x1,%eax
+   3ec26:	jne    3f110 <_M0MP27moonfst3fst6Stream4next.part.0+0xa20>
+   3ec2c:	test   %r11d,%r11d
+   3ec2f:	jle    3f0a1 <_M0MP27moonfst3fst6Stream4next.part.0+0x9b1>
+   3ec35:	data16 cs nopw 0x0(%rax,%rax,1)
+   3ec40:	mov    $0x1,%esi
+   3ec45:	jmp    3ea1f <_M0MP27moonfst3fst6Stream4next.part.0+0x32f>
+   3ec4a:	nopw   0x0(%rax,%rax,1)
+   3ec50:	movl   $0x0,-0xd8(%rbp)
+   3ec5a:	mov    0x38(%r14),%r9d
+   3ec5e:	pxor   %xmm3,%xmm3
+   3ec62:	test   %r9d,%r9d
+   3ec65:	je     3ee70 <_M0MP27moonfst3fst6Stream4next.part.0+0x780>
+   3ec6b:	mov    0x28(%r14),%rcx
+   3ec6f:	mov    -0xb8(%rbp),%edi
+   3ec75:	pshufd $0xff,%xmm2,%xmm0
+   3ec7a:	pshufd $0x55,%xmm2,%xmm2
+   3ec7f:	movd   %xmm0,%eax
+   3ec83:	movd   %xmm2,%r9d
+   3ec88:	mov    0x8(%rcx),%edx
+   3ec8b:	test   %edi,%edi
+   3ec8d:	js     3ec9d <_M0MP27moonfst3fst6Stream4next.part.0+0x5ad>
+   3ec8f:	cmp    %edx,%edi
+   3ec91:	jge    3ec9d <_M0MP27moonfst3fst6Stream4next.part.0+0x5ad>
+   3ec93:	mov    %edi,0x8(%rcx)
+   3ec96:	mov    0x28(%r14),%rcx
+   3ec9a:	mov    0x8(%rcx),%edx
+   3ec9d:	mov    (%rcx),%rsi
+   3eca0:	cmp    %edx,-0x4(%rsi)
+   3eca3:	je     3f138 <_M0MP27moonfst3fst6Stream4next.part.0+0xa48>
+   3eca9:	movslq %edx,%rdi
+   3ecac:	add    $0x1,%edx
+   3ecaf:	mov    %r15b,(%rsi,%rdi,1)
+   3ecb3:	mov    %edx,0x8(%rcx)
+   3ecb6:	mov    (%r14),%rsi
+   3ecb9:	mov    (%rsi),%rdx
+   3ecbc:	test   %r13d,%r13d
+   3ecbf:	js     3f000 <_M0MP27moonfst3fst6Stream4next.part.0+0x910>
+   3ecc5:	test   %eax,%eax
+   3ecc7:	je     3f1a8 <_M0MP27moonfst3fst6Stream4next.part.0+0xab8>
+   3eccd:	mov    $0x8,%ecx
+   3ecd2:	mov    -0xbc(%rbp),%edi
+   3ecd8:	sub    %eax,%ecx
+   3ecda:	mov    -0xc0(%rbp),%eax
+   3ece0:	shl    $0x3,%ecx
+   3ece3:	add    %edi,%eax
+   3ece5:	cltq
+   3ece7:	mov    (%rdx,%rax,1),%rax
+   3eceb:	shl    %cl,%rax
+   3ecee:	shr    %cl,%rax
+   3ecf1:	test   %rax,%rax
+   3ecf4:	jne    3f1c0 <_M0MP27moonfst3fst6Stream4next.part.0+0xad0>
+   3ecfa:	xor    %r8d,%r8d
+   3ecfd:	test   %edi,%edi
+   3ecff:	je     3ed58 <_M0MP27moonfst3fst6Stream4next.part.0+0x668>
+   3ed01:	mov    $0x8,%ecx
+   3ed06:	sub    -0xbc(%rbp),%ecx
+   3ed0c:	shl    $0x3,%ecx
+   3ed0f:	movslq %r9d,%r9
+   3ed12:	mov    (%rdx,%r9,1),%rax
+   3ed16:	shl    %cl,%rax
+   3ed19:	shr    %cl,%rax
+   3ed1c:	add    %rax,-0xc8(%rbp)
+   3ed23:	test   %r8d,%r8d
+   3ed26:	je     3ed58 <_M0MP27moonfst3fst6Stream4next.part.0+0x668>
+   3ed28:	mov    -0x150(%rbp),%rdi
+   3ed2f:	mov    %r8d,%edx
+   3ed32:	movq   %xmm3,-0xb8(%rbp)
+   3ed3a:	call   1d9d0 <_M0FP27moonfst3fst15traversal__node.part.0>
+   3ed3f:	movq   -0xb0(%rbp),%xmm1
+   3ed47:	movq   -0xb8(%rbp),%xmm3
+   3ed4f:	jmp    3ed8b <_M0MP27moonfst3fst6Stream4next.part.0+0x69b>
+   3ed51:	nopl   0x0(%rax)
+   3ed58:	lea    0x6db01(%rip),%rcx        # ac860 <_M0FP27moonfst3fst15traversal__nodeN6recordS4658>
+   3ed5f:	mov    0x6db1a(%rip),%rax        # ac880 <_M0FP27moonfst3fst15traversal__nodeN6recordS4658+0x20>
+   3ed66:	movdqa (%rcx),%xmm0
+   3ed6a:	movq   (%rcx),%xmm1
+   3ed6e:	mov    %rax,-0x90(%rbp)
+   3ed75:	movaps %xmm0,-0xb0(%rbp)
+   3ed7c:	movdqa 0x6daec(%rip),%xmm0        # ac870 <_M0FP27moonfst3fst15traversal__nodeN6recordS4658+0x10>
+   3ed84:	movaps %xmm0,-0xa0(%rbp)
+   3ed8b:	mov    0x28(%r14),%rax
+   3ed8f:	movd   %xmm1,%edx
+   3ed93:	pshufd $0xe5,%xmm1,%xmm5
+   3ed98:	movd   -0xd8(%rbp),%xmm0
+   3eda0:	movq   %xmm1,-0xb0(%rbp)
+   3eda8:	sub    $0x1,%edx
+   3edab:	mov    0x20(%r14),%rdi
+   3edaf:	movd   0x8(%rax),%xmm2
+   3edb4:	mov    0x30(%r14),%eax
+   3edb8:	test   %eax,%eax
+   3edba:	punpckldq %xmm2,%xmm0
+   3edbe:	movdqa -0xb0(%rbp),%xmm2
+   3edc6:	cmovne %edx,%eax
+   3edc9:	movd   %xmm5,%edx
+   3edcd:	test   %edx,%edx
+   3edcf:	movaps %xmm2,-0x80(%rbp)
+   3edd3:	movdqa -0xa0(%rbp),%xmm2
+   3eddb:	movd   %eax,%xmm4
+   3eddf:	sete   %dl
+   3ede2:	mov    -0x90(%rbp),%rax
+   3ede9:	movzbl %dl,%edx
+   3edec:	movaps %xmm2,-0x70(%rbp)
+   3edf0:	mov    %rax,-0x60(%rbp)
+   3edf4:	movd   %edx,%xmm6
+   3edf8:	mov    -0x100(%rbp),%eax
+   3edfe:	punpckldq %xmm6,%xmm4
+   3ee02:	punpcklqdq %xmm4,%xmm0
+   3ee06:	test   %eax,%eax
+   3ee08:	je     3f1d0 <_M0MP27moonfst3fst6Stream4next.part.0+0xae0>
+   3ee0e:	cmp    %ebx,0x8(%rdi)
+   3ee11:	jle    3f286 <_M0MP27moonfst3fst6Stream4next.part.0+0xb96>
+   3ee17:	mov    -0xc8(%rbp),%rax
+   3ee1e:	movq   %xmm1,-0x80(%rbp)
+   3ee23:	movdqa -0x80(%rbp),%xmm1
+   3ee28:	add    (%rdi),%r12
+   3ee2b:	movaps %xmm0,-0x50(%rbp)
+   3ee2f:	movups %xmm1,(%r12)
+   3ee34:	mov    %rax,-0x58(%rbp)
+   3ee38:	movdqa -0x60(%rbp),%xmm1
+   3ee3d:	movups %xmm2,0x10(%r12)
+   3ee43:	movups %xmm1,0x20(%r12)
+   3ee49:	movups %xmm0,0x30(%r12)
+   3ee4f:	movq   %xmm3,0x40(%r12)
+   3ee56:	mov    0x20(%r14),%r9
+   3ee5a:	movq   %xmm3,-0x40(%rbp)
+   3ee5f:	mov    0x8(%r9),%eax
+   3ee63:	jmp    3e980 <_M0MP27moonfst3fst6Stream4next.part.0+0x290>
+   3ee68:	nopl   0x0(%rax,%rax,1)
+   3ee70:	mov    0x18(%r14),%rax
+   3ee74:	mov    -0xb8(%rbp),%edx
+   3ee7a:	mov    %r15d,%ecx
+   3ee7d:	mov    %r10d,-0x108(%rbp)
+   3ee84:	mov    -0x104(%rbp),%esi
+   3ee8a:	mov    %r9d,-0x120(%rbp)
+   3ee91:	mov    (%rax),%rdi
+   3ee94:	mov    %r8d,-0x110(%rbp)
+   3ee9b:	movq   %xmm0,-0x148(%rbp)
+   3eea3:	movaps %xmm2,-0x140(%rbp)
+   3eeaa:	movq   %xmm1,-0x118(%rbp)
+   3eeb2:	mov    %r11d,-0x130(%rbp)
+   3eeb9:	call   26480 <_M0MP27moonfst3fst5Bound13extend__order>
+   3eebe:	mov    -0x110(%rbp),%r8d
+   3eec5:	movq   -0x118(%rbp),%xmm1
+   3eecd:	mov    %eax,-0x104(%rbp)
+   3eed3:	mov    0x38(%r14),%eax
+   3eed7:	movdqa -0x140(%rbp),%xmm2
+   3eedf:	mov    -0x120(%rbp),%r9d
+   3eee6:	test   %eax,%eax
+   3eee8:	mov    -0x108(%rbp),%r10d
+   3eeef:	movq   -0x148(%rbp),%xmm0
+   3eef7:	jne    3ef5d <_M0MP27moonfst3fst6Stream4next.part.0+0x86d>
+   3eef9:	mov    0x18(%r14),%rax
+   3eefd:	mov    -0x130(%rbp),%esi
+   3ef03:	mov    %r15d,%ecx
+   3ef06:	mov    %r10d,-0x120(%rbp)
+   3ef0d:	mov    -0xb8(%rbp),%edx
+   3ef13:	movaps %xmm2,-0x130(%rbp)
+   3ef1a:	movq   %xmm0,-0x140(%rbp)
+   3ef22:	mov    0x8(%rax),%rdi
+   3ef26:	call   26480 <_M0MP27moonfst3fst5Bound13extend__order>
+   3ef2b:	mov    -0x120(%rbp),%r10d
+   3ef32:	movq   -0x140(%rbp),%xmm0
+   3ef3a:	test   %eax,%eax
+   3ef3c:	movdqa -0x130(%rbp),%xmm2
+   3ef44:	mov    %eax,%r9d
+   3ef47:	movq   -0x118(%rbp),%xmm1
+   3ef4f:	mov    -0x110(%rbp),%r8d
+   3ef56:	setg   -0xd4(%rbp)
+   3ef5d:	mov    -0x104(%rbp),%r11d
+   3ef64:	test   %r11d,%r11d
+   3ef67:	js     3ef76 <_M0MP27moonfst3fst6Stream4next.part.0+0x886>
+   3ef69:	cmpb   $0x0,-0xd4(%rbp)
+   3ef70:	je     3f270 <_M0MP27moonfst3fst6Stream4next.part.0+0xb80>
+   3ef76:	mov    0x20(%r14),%r9
+   3ef7a:	mov    -0x100(%rbp),%r10d
+   3ef81:	mov    0x8(%r9),%eax
+   3ef85:	test   %r10d,%r10d
+   3ef88:	je     3e980 <_M0MP27moonfst3fst6Stream4next.part.0+0x290>
+   3ef8e:	cmp    %eax,%ebx
+   3ef90:	jge    3f286 <_M0MP27moonfst3fst6Stream4next.part.0+0xb96>
+   3ef96:	mov    -0xd0(%rbp),%rax
+   3ef9d:	add    (%r9),%r12
+   3efa0:	movdqa -0xf0(%rbp),%xmm7
+   3efa8:	movq   %xmm1,(%r12)
+   3efae:	mov    %rax,0x8(%r12)
+   3efb3:	mov    -0xbc(%rbp),%eax
+   3efb9:	movups %xmm2,0x10(%r12)
+   3efbf:	mov    %eax,0x20(%r12)
+   3efc4:	mov    -0xc8(%rbp),%rax
+   3efcb:	movups %xmm7,0x30(%r12)
+   3efd1:	mov    %rax,0x28(%r12)
+   3efd6:	movq   %xmm0,0x40(%r12)
+   3efdd:	mov    0x20(%r14),%r9
+   3efe1:	mov    0x8(%r9),%eax
+   3efe5:	jmp    3e980 <_M0MP27moonfst3fst6Stream4next.part.0+0x290>
+   3efea:	nopw   0x0(%rax,%rax,1)
+   3eff0:	movl   $0x1,-0x100(%rbp)
+   3effa:	jmp    3e813 <_M0MP27moonfst3fst6Stream4next.part.0+0x123>
+   3efff:	nop
+   3f000:	lea    0x1(%r8),%r11d
+   3f004:	test   %eax,%eax
+   3f006:	je     3f03b <_M0MP27moonfst3fst6Stream4next.part.0+0x94b>
+   3f008:	mov    %eax,%r8d
+   3f00b:	mov    -0xe0(%rbp),%edi
+   3f011:	mov    $0x8,%ecx
+   3f016:	imul   %r11d,%r8d
+   3f01a:	sub    %eax,%ecx
+   3f01c:	sub    %r10d,%edi
+   3f01f:	shl    $0x3,%ecx
+   3f022:	sub    %r8d,%edi
+   3f025:	movslq %edi,%rdi
+   3f028:	mov    (%rdx,%rdi,1),%rdi
+   3f02c:	shl    %cl,%rdi
+   3f02f:	shr    %cl,%rdi
+   3f032:	test   %rdi,%rdi
+   3f035:	jne    3f250 <_M0MP27moonfst3fst6Stream4next.part.0+0xb60>
+   3f03b:	mov    -0xbc(%rbp),%ecx
+   3f041:	test   %ecx,%ecx
+   3f043:	je     3ed58 <_M0MP27moonfst3fst6Stream4next.part.0+0x668>
+   3f049:	xor    %r8d,%r8d
+   3f04c:	mov    -0xbc(%rbp),%edi
+   3f052:	mov    $0x8,%ecx
+   3f057:	add    $0x1,%eax
+   3f05a:	mov    -0xe0(%rbp),%r9d
+   3f061:	imul   %r10d,%eax
+   3f065:	sub    %edi,%ecx
+   3f067:	imul   %r11d,%edi
+   3f06b:	shl    $0x3,%ecx
+   3f06e:	sub    %edi,%r9d
+   3f071:	sub    %eax,%r9d
+   3f074:	jmp    3ed0f <_M0MP27moonfst3fst6Stream4next.part.0+0x61f>
+   3f079:	nopl   0x0(%rax)
+   3f080:	xor    %esi,%esi
+   3f082:	test   %r15d,%r15d
+   3f085:	setg   %sil
+   3f089:	test   %esi,%esi
+   3f08b:	je     3ec40 <_M0MP27moonfst3fst6Stream4next.part.0+0x550>
+   3f091:	mov    0x8(%rax),%rsi
+   3f095:	movzbl -0x4(%rsi),%eax
+   3f099:	test   %eax,%eax
+   3f09b:	jne    3ec23 <_M0MP27moonfst3fst6Stream4next.part.0+0x533>
+   3f0a1:	mov    0x28(%r14),%rax
+   3f0a5:	mov    (%rax),%rdx
+   3f0a8:	mov    0x8(%rax),%eax
+   3f0ab:	mov    -0x8(%rdx),%ecx
+   3f0ae:	cmp    $0x1f,%ecx
+   3f0b1:	jle    3f0b9 <_M0MP27moonfst3fst6Stream4next.part.0+0x9c9>
+   3f0b3:	add    $0x20,%ecx
+   3f0b6:	mov    %ecx,-0x8(%rdx)
+   3f0b9:	shl    $0x20,%rax
+   3f0bd:	xchg   %rax,%rdx
+   3f0bf:	mov    %rax,%rdi
+   3f0c2:	mov    %rdx,%rsi
+   3f0c5:	call   1ffb0 <_M0MPC15bytes5Bytes11from__array.constprop.0>
+   3f0ca:	mov    -0xd0(%rbp),%rbx
+   3f0d1:	mov    %rax,%r12
+   3f0d4:	add    -0xc8(%rbp),%rbx
+   3f0db:	jb     3f28b <_M0MP27moonfst3fst6Stream4next.part.0+0xb9b>
+   3f0e1:	mov    $0x18,%edi
+   3f0e6:	call   18a10 <mi_malloc>
+   3f0eb:	movabs $0x40007c0100000020,%rcx
+   3f0f5:	mov    %rcx,(%rax)
+   3f0f8:	add    $0x8,%rax
+   3f0fc:	mov    $0x1,%ecx
+   3f101:	mov    %r12,(%rax)
+   3f104:	mov    %rbx,0x8(%rax)
+   3f108:	mov    %rax,%rbx
+   3f10b:	jmp    3eab8 <_M0MP27moonfst3fst6Stream4next.part.0+0x3c8>
+   3f110:	test   %r11d,%r11d
+   3f113:	js     3f0a1 <_M0MP27moonfst3fst6Stream4next.part.0+0x9b1>
+   3f115:	jne    3ec40 <_M0MP27moonfst3fst6Stream4next.part.0+0x550>
+   3f11b:	mov    (%rsi),%rax
+   3f11e:	mov    -0xb8(%rbp),%esi
+   3f124:	cmp    -0x4(%rax),%esi
+   3f127:	jge    3ec40 <_M0MP27moonfst3fst6Stream4next.part.0+0x550>
+   3f12d:	jmp    3f0a1 <_M0MP27moonfst3fst6Stream4next.part.0+0x9b1>
+   3f132:	nopw   0x0(%rax,%rax,1)
+   3f138:	lea    0x1(%rdx),%esi
+   3f13b:	mov    %rcx,%rdi
+   3f13e:	mov    %r9d,-0x104(%rbp)
+   3f145:	mov    %r10d,-0xf0(%rbp)
+   3f14c:	mov    %eax,-0xd4(%rbp)
+   3f152:	mov    %r8d,-0xd0(%rbp)
+   3f159:	mov    %rcx,-0xb8(%rbp)
+   3f160:	movq   %xmm3,-0x110(%rbp)
+   3f168:	call   315a0 <_M0MPC15array5Array7reallocGyE.isra.0>
+   3f16d:	mov    -0xb8(%rbp),%rcx
+   3f174:	movq   -0x110(%rbp),%xmm3
+   3f17c:	mov    -0x104(%rbp),%r9d
+   3f183:	mov    -0xf0(%rbp),%r10d
+   3f18a:	mov    0x8(%rcx),%edx
+   3f18d:	mov    (%rcx),%rsi
+   3f190:	mov    -0xd4(%rbp),%eax
+   3f196:	mov    -0xd0(%rbp),%r8d
+   3f19d:	jmp    3eca9 <_M0MP27moonfst3fst6Stream4next.part.0+0x5b9>
+   3f1a2:	nopw   0x0(%rax,%rax,1)
+   3f1a8:	mov    %r9d,%r8d
+   3f1ab:	mov    -0xbc(%rbp),%edi
+   3f1b1:	test   %edi,%edi
+   3f1b3:	je     3ed23 <_M0MP27moonfst3fst6Stream4next.part.0+0x633>
+   3f1b9:	jmp    3ed01 <_M0MP27moonfst3fst6Stream4next.part.0+0x611>
+   3f1be:	xchg   %ax,%ax
+   3f1c0:	mov    %r9d,%r8d
+   3f1c3:	sub    %eax,%r8d
+   3f1c6:	jmp    3f1ab <_M0MP27moonfst3fst6Stream4next.part.0+0xabb>
+   3f1c8:	nopl   0x0(%rax,%rax,1)
+   3f1d0:	mov    -0xc8(%rbp),%rax
+   3f1d7:	movaps %xmm0,-0x50(%rbp)
+   3f1db:	sub    $0x50,%rsp
+   3f1df:	movq   %xmm1,-0x80(%rbp)
+   3f1e4:	movdqa -0x80(%rbp),%xmm0
+   3f1e9:	mov    %rax,-0x58(%rbp)
+   3f1ed:	movq   %xmm3,-0x40(%rbp)
+   3f1f2:	movups %xmm0,(%rsp)
+   3f1f6:	movups %xmm2,0x10(%rsp)
+   3f1fb:	movdqa -0x60(%rbp),%xmm0
+   3f200:	movups %xmm0,0x20(%rsp)
+   3f205:	movdqa -0x50(%rbp),%xmm0
+   3f20a:	movups %xmm0,0x30(%rsp)
+   3f20f:	mov    -0x40(%rbp),%rax
+   3f213:	mov    %rax,0x40(%rsp)
+   3f218:	call   3e160 <_M0MPC15array5Array4pushGRP27moonfst3fst5FrameE.isra.0>
+   3f21d:	mov    0x20(%r14),%r9
+   3f221:	add    $0x50,%rsp
+   3f225:	mov    0x8(%r9),%eax
+   3f229:	jmp    3e980 <_M0MP27moonfst3fst6Stream4next.part.0+0x290>
+   3f22e:	xchg   %ax,%ax
+   3f230:	jne    3ec40 <_M0MP27moonfst3fst6Stream4next.part.0+0x550>
+   3f236:	mov    (%rdi),%rsi
+   3f239:	mov    -0xb8(%rbp),%edi
+   3f23f:	cmp    %edi,-0x4(%rsi)
+   3f242:	sete   %sil
+   3f246:	movzbl %sil,%esi
+   3f24a:	jmp    3f089 <_M0MP27moonfst3fst6Stream4next.part.0+0x999>
+   3f24f:	nop
+   3f250:	mov    %r9d,%r8d
+   3f253:	mov    -0xbc(%rbp),%r9d
+   3f25a:	sub    %edi,%r8d
+   3f25d:	test   %r9d,%r9d
+   3f260:	je     3ed23 <_M0MP27moonfst3fst6Stream4next.part.0+0x633>
+   3f266:	jmp    3f04c <_M0MP27moonfst3fst6Stream4next.part.0+0x95c>
+   3f26b:	nopl   0x0(%rax,%rax,1)
+   3f270:	movd   -0x104(%rbp),%xmm3
+   3f278:	movd   %r9d,%xmm7
+   3f27d:	punpckldq %xmm7,%xmm3
+   3f281:	jmp    3ec6b <_M0MP27moonfst3fst6Stream4next.part.0+0x57b>
+   3f286:	call   534e <moonbit_panic>
+   3f28b:	mov    -0x8(%rax),%eax
+   3f28e:	cmp    $0x3f,%eax
+   3f291:	jle    3f2a9 <_M0MP27moonfst3fst6Stream4next.part.0+0xbb9>
+   3f293:	sub    $0x20,%eax
+   3f296:	mov    %eax,-0x8(%r12)
+   3f29b:	xor    %ecx,%ecx
+   3f29d:	lea    0x23264(%rip),%rbx        # 62508 <moonbit_large_enum_constant_constructor_1+0x8>
+   3f2a4:	jmp    3eab8 <_M0MP27moonfst3fst6Stream4next.part.0+0x3c8>
+   3f2a9:	cmp    $0x1f,%eax
+   3f2ac:	jle    3f29b <_M0MP27moonfst3fst6Stream4next.part.0+0xbab>
+   3f2ae:	mov    %r12,%rdi
+   3f2b1:	call   47550 <moonbit_drop_object>
+   3f2b6:	jmp    3f29b <_M0MP27moonfst3fst6Stream4next.part.0+0xbab>
+   3f2b8:	call   50f0 <__stack_chk_fail@plt>
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000003f310 <_M0MP27moonfst3fst6Stream7collect>:
+   3f310:	push   %rbp
+   3f311:	mov    %rsp,%rbp
+   3f314:	push   %r15
+   3f316:	push   %r14
+   3f318:	push   %r13
+   3f31a:	push   %r12
+   3f31c:	push   %rbx
+   3f31d:	sub    $0x18,%rsp
+   3f321:	call   5250 <mcount@plt>
+   3f326:	mov    0x6d5db(%rip),%r14d        # ac908 <moonfst_profile_requested>
+   3f32d:	mov    %rdi,%rbx
+   3f330:	test   %r14d,%r14d
+   3f333:	jne    3f458 <_M0MP27moonfst3fst6Stream7collect+0x148>
+   3f339:	mov    $0x18,%edi
+   3f33e:	call   18a10 <mi_malloc>
+   3f343:	mov    %rax,%r13
+   3f346:	movabs $0x40002f0000000020,%rax
+   3f350:	mov    %rax,0x0(%r13)
+   3f354:	mov    0x38305(%rip),%rax        # 77660 <moonbit_empty_ref_valtype_array>
+   3f35b:	movl   $0x0,0x10(%r13)
+   3f363:	mov    %rax,0x8(%r13)
+   3f367:	jmp    3f398 <_M0MP27moonfst3fst6Stream7collect+0x88>
+   3f369:	nopl   0x0(%rax)
+   3f370:	sub    $0x1,%eax
+   3f373:	and    $0x1f,%ecx
+   3f376:	shl    $0x5,%eax
+   3f379:	or     %ecx,%eax
+   3f37b:	mov    %eax,-0x8(%rdx)
+   3f37e:	mov    -0x8(%rsi),%eax
+   3f381:	cmp    $0x1f,%eax
+   3f384:	jle    3f38c <_M0MP27moonfst3fst6Stream7collect+0x7c>
+   3f386:	add    $0x20,%eax
+   3f389:	mov    %eax,-0x8(%rsi)
+   3f38c:	mov    %r15,%rdx
+   3f38f:	lea    0x8(%r13),%rdi
+   3f393:	call   2f4a0 <_M0MPC15array5Array4pushGRP27moonfst3fst5EntryE.isra.0>
+   3f398:	mov    0x3c(%rbx),%eax
+   3f39b:	test   %eax,%eax
+   3f39d:	jne    3f440 <_M0MP27moonfst3fst6Stream7collect+0x130>
+   3f3a3:	mov    %rbx,%rdi
+   3f3a6:	call   3e6f0 <_M0MP27moonfst3fst6Stream4next.part.0>
+   3f3ab:	mov    %eax,%r15d
+   3f3ae:	test   %r15d,%r15d
+   3f3b1:	je     3f3e8 <_M0MP27moonfst3fst6Stream7collect+0xd8>
+   3f3b3:	mov    -0x8(%rdx),%ecx
+   3f3b6:	cmpb   $0x1,-0x4(%rdx)
+   3f3ba:	jne    3f428 <_M0MP27moonfst3fst6Stream7collect+0x118>
+   3f3bc:	mov    %ecx,%eax
+   3f3be:	mov    (%rdx),%rsi
+   3f3c1:	mov    0x8(%rdx),%r15
+   3f3c5:	sar    $0x5,%eax
+   3f3c8:	cmp    $0x1,%eax
+   3f3cb:	jg     3f370 <_M0MP27moonfst3fst6Stream7collect+0x60>
+   3f3cd:	jne    3f38c <_M0MP27moonfst3fst6Stream7collect+0x7c>
+   3f3cf:	lea    -0x8(%rdx),%rdi
+   3f3d3:	mov    %rsi,-0x38(%rbp)
+   3f3d7:	call   17930 <mi_free>
+   3f3dc:	mov    -0x38(%rbp),%rsi
+   3f3e0:	jmp    3f38c <_M0MP27moonfst3fst6Stream7collect+0x7c>
+   3f3e2:	nopw   0x0(%rax,%rax,1)
+   3f3e8:	mov    0x0(%r13),%eax
+   3f3ec:	cmp    $0x3f,%eax
+   3f3ef:	jle    3f410 <_M0MP27moonfst3fst6Stream7collect+0x100>
+   3f3f1:	sub    $0x20,%eax
+   3f3f4:	mov    %eax,0x0(%r13)
+   3f3f8:	test   %r14d,%r14d
+   3f3fb:	jne    3f470 <_M0MP27moonfst3fst6Stream7collect+0x160>
+   3f3fd:	add    $0x18,%rsp
+   3f401:	mov    %r15d,%eax
+   3f404:	pop    %rbx
+   3f405:	pop    %r12
+   3f407:	pop    %r13
+   3f409:	pop    %r14
+   3f40b:	pop    %r15
+   3f40d:	pop    %rbp
+   3f40e:	ret
+   3f40f:	nop
+   3f410:	cmp    $0x1f,%eax
+   3f413:	jle    3f3f8 <_M0MP27moonfst3fst6Stream7collect+0xe8>
+   3f415:	lea    0x8(%r13),%rdi
+   3f419:	mov    %rdx,-0x38(%rbp)
+   3f41d:	call   47550 <moonbit_drop_object>
+   3f422:	mov    -0x38(%rbp),%rdx
+   3f426:	jmp    3f3f8 <_M0MP27moonfst3fst6Stream7collect+0xe8>
+   3f428:	cmp    $0x3f,%ecx
+   3f42b:	jle    3f491 <_M0MP27moonfst3fst6Stream7collect+0x181>
+   3f42d:	sub    $0x20,%ecx
+   3f430:	mov    %ecx,-0x8(%rdx)
+   3f433:	xchg   %ax,%ax
+   3f435:	data16 cs nopw 0x0(%rax,%rax,1)
+   3f440:	test   %r14d,%r14d
+   3f443:	jne    3f488 <_M0MP27moonfst3fst6Stream7collect+0x178>
+   3f445:	lea    0x8(%r13),%rdx
+   3f449:	mov    $0x1,%r15d
+   3f44f:	jmp    3f3fd <_M0MP27moonfst3fst6Stream7collect+0xed>
+   3f451:	nopl   0x0(%rax)
+   3f458:	mov    $0x1,%edi
+   3f45d:	addq   $0x1,0x6d49b(%rip)        # ac900 <moonfst_profile_collect_calls>
+   3f465:	call   5050 <moncontrol@plt>
+   3f46a:	jmp    3f339 <_M0MP27moonfst3fst6Stream7collect+0x29>
+   3f46f:	nop
+   3f470:	xor    %edi,%edi
+   3f472:	mov    %rdx,-0x38(%rbp)
+   3f476:	call   5050 <moncontrol@plt>
+   3f47b:	mov    -0x38(%rbp),%rdx
+   3f47f:	jmp    3f3fd <_M0MP27moonfst3fst6Stream7collect+0xed>
+   3f484:	nopl   0x0(%rax)
+   3f488:	xor    %edi,%edi
+   3f48a:	call   5050 <moncontrol@plt>
+   3f48f:	jmp    3f445 <_M0MP27moonfst3fst6Stream7collect+0x135>
+   3f491:	cmp    $0x1f,%ecx
+   3f494:	jle    3f440 <_M0MP27moonfst3fst6Stream7collect+0x130>
+   3f496:	mov    %rdx,%rdi
+   3f499:	call   47550 <moonbit_drop_object>
+   3f49e:	jmp    3f440 <_M0MP27moonfst3fst6Stream7collect+0x130>
+
+Disassembly of section .fini:
+
+
+/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+Disassembly of section .fini:

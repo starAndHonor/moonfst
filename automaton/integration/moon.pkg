@@ -1,0 +1,4 @@
+import {
+  "moonfst/fst",
+  "moonfst/fst/automaton" @a,
+} for "test"

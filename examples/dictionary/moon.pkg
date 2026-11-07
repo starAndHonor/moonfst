@@ -1,0 +1,7 @@
+import {
+  "moonfst/fst",
+  "moonfst/fst/automaton",
+  "moonbitlang/core/encoding/utf8",
+}
+
+pkgtype(kind: "executable")

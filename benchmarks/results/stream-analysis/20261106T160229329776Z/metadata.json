@@ -1,0 +1,50 @@
+{
+  "kind": "instrumented-stream-sampling-diagnostic",
+  "n": 100000,
+  "shapes": [
+    "shared",
+    "random"
+  ],
+  "collect_batches_per_shape": 30,
+  "expected_records_per_shape": 3000000,
+  "cpu": 2,
+  "correctness": "all benchmark checks and callback counts passed",
+  "source_c_sha256": "a47eef65e5bb1c31e2d7f75852dee1c308fe7fb7cfb2e434032928dac18b3343",
+  "source_c": "/media/starandhonor/Data/code/moonbit hack/month11/_build/native/release/build/benchmarks/runner/runner.c",
+  "instrumented_c": "/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.c",
+  "symbols": {
+    "collect": "_M0MP27moonfst3fst6Stream7collect",
+    "callback": "_M0FP47moonfst3fst10benchmarks6runner3runC12813l340"
+  },
+  "commands": [
+    [
+      "cc",
+      "-o",
+      "/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.o",
+      "-I/home/starandhonor/.moon/include",
+      "-c",
+      "-fwrapv",
+      "-fno-strict-aliasing",
+      "-ffp-contract=off",
+      "-O2",
+      "-DMOONBIT_ALLOCATOR=MOONBIT_ALLOCATOR_MIMALLOC",
+      "-pg",
+      "-g",
+      "/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.c"
+    ],
+    [
+      "cc",
+      "-o",
+      "/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.exe",
+      "-O2",
+      "-pg",
+      "/home/starandhonor/.moon/lib/libmoonbitrun.o",
+      "/media/starandhonor/Data/code/moonbit hack/month11/oracle/target/stream-profile/20261106T160229329776Z/profile.o",
+      "/media/starandhonor/Data/code/moonbit hack/month11/_build/native/release/build/libruntime.a",
+      "-lm",
+      "/home/starandhonor/.moon/lib/libbacktrace.a"
+    ]
+  ],
+  "scope": "Only full-range collect invoked from measured stream_owned callback; excludes startup, construction, initial correctness, prefix_owned, other metrics, hashing, and output destruction.",
+  "limitations": "-pg changes execution. Prebuilt runtime/allocator have no mcount call counts, but static code may appear in the histogram; shared-library code is omitted. GCC clones may be misnamed by gprof; inspect line-resolved reports, symbol address/size and disassembly. Fractions are not an elapsed-time decomposition of uninstrumented execution. collect's own mcount precedes enabling profiling; exact batch count is separately checked."
+}
