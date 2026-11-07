@@ -121,3 +121,50 @@ python3 scripts/plot_benchmark.py benchmarks/results/my-run
 本轮使用可复现的合成数据，只测内存中的 native release 操作与最终编码大小。没有测 mmap、真实业务语料、磁盘吞吐、冷启动或峰值 RSS；`fst_bytes` 表示编码大小，不能作为运行时内存占用。实际选型还应在目标语料与部署环境中重新运行。
 
 对原始查询差距的源码对照、结构计数和隔离消融实验见 [历史查询性能分析](results/query-analysis/ANALYSIS.md)。生产查询现已采用经完整验证后的压缩字节直接读取、小节点按字查找和无元组分配路径；遍历采用压缩游标。旧消融结果对应当时的源码快照，不能作为当前实现的消融结果。`query_ablation.py` 会拒绝在优化后的源码上重建旧实验，以免错误标注基线。
+
+
+## 真实词典、随机查询顺序与进程内存
+
+在 Linux 上运行独立的真实负载工具：
+
+```sh
+python3 scripts/workload_benchmark.py \
+  --sizes 10000 100000 200000 --orders sorted shuffled \
+  --samples 7 --warmups 2 --rounds 3 --memory-rounds 3 \
+  --output benchmarks/results/my-real-run
+```
+
+脚本按固定 SHA256 下载 MIT 授权的 Jieba 中文词典，保留真实词频，随后
+在独立 Python 参考实现中准备输入和预期结果。语料许可、固定提交、重复
+记录处理与抽样规则见 [corpora/README.md](corpora/README.md)。下载文件与
+派生工作负载位于被 Git 忽略的 `benchmarks/data/`；报告保留完整来源和指纹。
+
+新增的 `benchmarks/workload` 和 `oracle/src/bin/fst_workload.rs` 使用同一份
+二进制输入。A/B 各 N 条、重叠 N/2；每次按同一规则排序后构建自己的 FST。
+分别测排序查询、固定种子打乱的查询，以及 50% 命中混合查询。查询命中
+checksum、命中数、请求顺序 hash、A/B/并集 hash 均由 Python 独立验证，
+每个 runner 在计时外对样本结果逐条比较。最后导出两边的 FST 作逐字节对照。
+
+内存用独立进程分阶段测量 `memory-baseline`、`memory-build`、
+`memory-load`、`memory-union`。输入/输出一直保留到操作后快照；build 在
+完整装载验证前记录快照，load 从预先导出的 FST 开始，不在该进程构建词典。
+两侧读取 Linux `/proc/self/status` 的 VmRSS 与 VmHWM，记录操作前、操作后
+和内容验证后的数据。高水位包含进程准备历史，RSS 包含输入表示、分配器
+保留与语言运行时，不能把 `peak-before` 解释成精确库内存。
+
+MoonBit 装载验证完整可达图，Rust 对照装载只打开并校验 CRC；报告会明确
+这项工作量差异。真实词典不等于真实查询日志：每词一次请求，未命中在键
+后追加 FF，没有按词频加权，也不宣称覆盖冷缓存或磁盘吞吐。
+
+该工具包只支持 native；其 C 辅助代码仅负责文件 I/O 与 Linux 内存读数，
+不参与 FST 算法，并从发布包中排除。运行库仍然没有 Rust/C FFI 依赖。
+
+不联网的完整工具协议复验：
+
+```sh
+python3 -m unittest scripts/test_benchmark.py scripts/test_workload_benchmark.py
+python3 scripts/workload_smoke.py
+```
+
+第二条构建两个 release runner，在手工 UTF-8 小样本上核对两种查询顺序、
+四种内存模式及最终编码；它验证正确性，不以小样本耗时作为性能结论。

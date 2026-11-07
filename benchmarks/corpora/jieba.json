@@ -1,0 +1,12 @@
+{
+  "name": "jieba-dict",
+  "repository": "https://github.com/fxsjy/jieba",
+  "revision": "67fa2e36e72f69d9134b8a1037b83fbb070b9775",
+  "source_path": "jieba/dict.txt",
+  "url": "https://raw.githubusercontent.com/fxsjy/jieba/67fa2e36e72f69d9134b8a1037b83fbb070b9775/jieba/dict.txt",
+  "license": "MIT",
+  "license_file": "JIEBA-LICENSE.txt",
+  "sha256": "7197c3211ddd98962b036cdf40324d1ea2bfaa12bd028e68faa70111a88e12a8",
+  "bytes": 5071852,
+  "note": "Real Chinese segmentation dictionary. Keep UTF-8 words and frequency values; drop POS tags. Exact corpus preparation is defined by scripts/prepare_workload.py."
+}

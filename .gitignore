@@ -3,6 +3,7 @@
 /.mooncakes/
 /oracle/target/
 /artifacts/
+/benchmarks/data/
 *.core
 __pycache__/
 *.py[cod]

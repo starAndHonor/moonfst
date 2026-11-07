@@ -48,6 +48,19 @@ dependencies, not vendored copies. See the installed toolchain and
 license notices. The project's own `LICENSE` does not replace dependency
 licenses.
 
+## Real dictionary benchmark data
+
+The optional real-workload benchmark downloads `jieba/dict.txt` from
+[`fxsjy/jieba`](https://github.com/fxsjy/jieba) at revision
+`67fa2e36e72f69d9134b8a1037b83fbb070b9775`. This dictionary is distributed
+under the MIT license, **Copyright (c) 2013 Sun Junyi**. Its original notice
+is retained in [benchmarks/corpora/JIEBA-LICENSE.txt](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/corpora/JIEBA-LICENSE.txt).
+The pinned digest, transformation and sampling rules are documented in
+[benchmarks/corpora/README.md](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/corpora/README.md).
+Downloaded data is kept in an ignored development cache and excluded from
+the published Mooncakes library. Word frequencies remain unchanged; the
+identical duplicate entry is coalesced and POS labels are omitted.
+
 ## New contributions
 
 The eight-byte zero-lane test in `packed.mbt` uses the public-domain

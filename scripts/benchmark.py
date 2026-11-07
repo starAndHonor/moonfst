@@ -183,13 +183,13 @@ def fingerprint():
         })
         for name in sorted(names):
             path = Path(directory) / name
-            if path.suffix in {".mbt", ".mbti", ".rs", ".py", ".mod", ".pkg"} or name in {"Cargo.toml", "Cargo.lock"}:
+            if path.suffix in {".mbt", ".mbti", ".rs", ".py", ".c", ".h", ".mod", ".pkg"} or name in {"Cargo.toml", "Cargo.lock"}:
                 files.append(path)
     hashes = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest() for path in files}
     return {"sha256": hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest(), "files": hashes}
 
 
-def environment(cpu):
+def environment(cpu, binaries=None):
     info = read_optional("/proc/cpuinfo") or ""
     model = next((line.split(":", 1)[1].strip() for line in info.splitlines() if line.startswith("model name")), platform.processor())
     cpu_path = f"/sys/devices/system/cpu/cpu{cpu}"
@@ -208,7 +208,7 @@ def environment(cpu):
             "CC", "CFLAGS", "RUSTFLAGS", "CARGO_ENCODED_RUSTFLAGS", "CARGO_PROFILE_RELEASE_OPT_LEVEL",
             "CARGO_PROFILE_RELEASE_LTO", "MOON_CC", "MOON_CFLAGS",
         ) if name in os.environ},
-        "binary_sha256": {name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in BINARIES.items()},
+        "binary_sha256": {name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in (binaries or BINARIES).items()},
         "source": fingerprint(),
         "note": "Single pinned CPU; OS frequency/boost and other system workloads are not controlled.",
     }

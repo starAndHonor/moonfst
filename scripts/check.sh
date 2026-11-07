@@ -50,7 +50,7 @@ fi
 # Check formatting before the scripts temporarily embed their large test data.
 moon fmt --check
 cargo test --locked --manifest-path oracle/Cargo.toml
-python3 -m unittest scripts/test_benchmark.py
+python3 -m unittest scripts/test_benchmark.py scripts/test_workload_benchmark.py
 python3 scripts/generate_fixtures.py --check
 python3 scripts/verify_oracle.py
 
@@ -66,6 +66,7 @@ done
 # Both directions must use real independent decoders and verify checksums.
 python3 scripts/interop.py --target native
 python3 scripts/random_interop.py --target native
+python3 scripts/workload_smoke.py
 
 python3 scripts/count_loc.py --minimum-production "$moonfst_minimum_loc"
 printf 'All validation checks passed. LOC report: oracle/target/validation/loc.json\n'
