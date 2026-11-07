@@ -1,0 +1,288 @@
+{
+  "schema": 1,
+  "kind": "structural-counts-only",
+  "cases": [
+    {
+      "schema": 1,
+      "n": 100000,
+      "shape": "shared",
+      "dataset_hash": "16735726030334534740",
+      "fst_bytes": 214031,
+      "input_key_bytes": "2800000",
+      "prefix_record_count": 50016,
+      "hit_checksum": "3028092406969300912",
+      "miss_checksum": "0",
+      "hit": {
+        "totals": {
+          "read_nodes": 2900000,
+          "implicit_nodes": 100000,
+          "single_nodes": 2300000,
+          "multi_nodes": 500000,
+          "decoded_transitions": 12243264,
+          "indexed_nodes": 100000,
+          "index_validation_slots": 25600000,
+          "index_expected_init_slots": 25600000,
+          "index_expected_fill_writes": 6400000
+        },
+        "per_lookup": {
+          "read_nodes": 29.0,
+          "implicit_nodes": 1.0,
+          "single_nodes": 23.0,
+          "multi_nodes": 5.0,
+          "decoded_transitions": 122.43264,
+          "indexed_nodes": 1.0,
+          "index_validation_slots": 256.0,
+          "index_expected_init_slots": 256.0,
+          "index_expected_fill_writes": 64.0
+        }
+      },
+      "miss": {
+        "totals": {
+          "read_nodes": 2900000,
+          "implicit_nodes": 100000,
+          "single_nodes": 2300000,
+          "multi_nodes": 500000,
+          "decoded_transitions": 12243264,
+          "indexed_nodes": 100000,
+          "index_validation_slots": 25600000,
+          "index_expected_init_slots": 25600000,
+          "index_expected_fill_writes": 6400000
+        },
+        "per_lookup": {
+          "read_nodes": 29.0,
+          "implicit_nodes": 1.0,
+          "single_nodes": 23.0,
+          "multi_nodes": 5.0,
+          "decoded_transitions": 122.43264,
+          "indexed_nodes": 1.0,
+          "index_validation_slots": 256.0,
+          "index_expected_init_slots": 256.0,
+          "index_expected_fill_writes": 64.0
+        }
+      }
+    },
+    {
+      "schema": 1,
+      "n": 100000,
+      "shape": "random",
+      "dataset_hash": "8207647804806519417",
+      "fst_bytes": 3781969,
+      "input_key_bytes": "1600000",
+      "prefix_record_count": 12757,
+      "hit_checksum": "3028092406969300912",
+      "miss_checksum": "0",
+      "hit": {
+        "totals": {
+          "read_nodes": 1700000,
+          "implicit_nodes": 100000,
+          "single_nodes": 1321083,
+          "multi_nodes": 278917,
+          "decoded_transitions": 47144147,
+          "indexed_nodes": 200000,
+          "index_validation_slots": 51200000,
+          "index_expected_init_slots": 51200000,
+          "index_expected_fill_writes": 45591051
+        },
+        "per_lookup": {
+          "read_nodes": 17.0,
+          "implicit_nodes": 1.0,
+          "single_nodes": 13.21083,
+          "multi_nodes": 2.78917,
+          "decoded_transitions": 471.44147,
+          "indexed_nodes": 2.0,
+          "index_validation_slots": 512.0,
+          "index_expected_init_slots": 512.0,
+          "index_expected_fill_writes": 455.91051
+        }
+      },
+      "miss": {
+        "totals": {
+          "read_nodes": 1700000,
+          "implicit_nodes": 100000,
+          "single_nodes": 1321083,
+          "multi_nodes": 278917,
+          "decoded_transitions": 47144147,
+          "indexed_nodes": 200000,
+          "index_validation_slots": 51200000,
+          "index_expected_init_slots": 51200000,
+          "index_expected_fill_writes": 45591051
+        },
+        "per_lookup": {
+          "read_nodes": 17.0,
+          "implicit_nodes": 1.0,
+          "single_nodes": 13.21083,
+          "multi_nodes": 2.78917,
+          "decoded_transitions": 471.44147,
+          "indexed_nodes": 2.0,
+          "index_validation_slots": 512.0,
+          "index_expected_init_slots": 512.0,
+          "index_expected_fill_writes": 455.91051
+        }
+      }
+    }
+  ],
+  "method": {
+    "description": "Isolated native release copy; original Fst::get unchanged; counters in codec.read_node/decode_one/decode_any/validate_index; no timings measured.",
+    "queries": "One sorted full hit batch, then one full near-miss batch with 0xff appended; reset counters immediately before each batch.",
+    "validation": "Original benchmark dataset generator reused; runner verifies Map stream against A, hit wrapping sum, zero miss count; independent Python benchmark.reference checks dataset hash and lookup checksums.",
+    "read_nodes": "Actual codec.read_node calls; includes implicit address-zero terminal reads.",
+    "decoded_transitions": "Sum of outgoing transitions actually decoded/allocated on every node read, including repeated visits.",
+    "index_validation_slots": "Exactly 256 index-table slot checks per validate_index invocation.",
+    "index_expected_init_slots": "256-slot expected array initialized per validate_index invocation.",
+    "index_expected_fill_writes": "One expected-array write per outgoing edge of every indexed decoded node.",
+    "scope": "Structural work counts explain potential costs; they do not establish what fraction of elapsed runtime each operation consumes."
+  },
+  "reproduce": "python3 scripts/query_cost_counts.py --sizes 100000",
+  "small_golden_cases": [
+    {
+      "schema": 1,
+      "n": 100,
+      "shape": "shared",
+      "dataset_hash": "6898778106240362035",
+      "fst_bytes": 2371,
+      "input_key_bytes": "2800",
+      "prefix_record_count": 64,
+      "hit_checksum": "21471693571190",
+      "miss_checksum": "0",
+      "hit": {
+        "totals": {
+          "read_nodes": 2900,
+          "implicit_nodes": 100,
+          "single_nodes": 2628,
+          "multi_nodes": 172,
+          "decoded_transitions": 9172,
+          "indexed_nodes": 100,
+          "index_validation_slots": 25600,
+          "index_expected_init_slots": 25600,
+          "index_expected_fill_writes": 6400
+        },
+        "per_lookup": {
+          "read_nodes": 29.0,
+          "implicit_nodes": 1.0,
+          "single_nodes": 26.28,
+          "multi_nodes": 1.72,
+          "decoded_transitions": 91.72,
+          "indexed_nodes": 1.0,
+          "index_validation_slots": 256.0,
+          "index_expected_init_slots": 256.0,
+          "index_expected_fill_writes": 64.0
+        }
+      },
+      "miss": {
+        "totals": {
+          "read_nodes": 2900,
+          "implicit_nodes": 100,
+          "single_nodes": 2628,
+          "multi_nodes": 172,
+          "decoded_transitions": 9172,
+          "indexed_nodes": 100,
+          "index_validation_slots": 25600,
+          "index_expected_init_slots": 25600,
+          "index_expected_fill_writes": 6400
+        },
+        "per_lookup": {
+          "read_nodes": 29.0,
+          "implicit_nodes": 1.0,
+          "single_nodes": 26.28,
+          "multi_nodes": 1.72,
+          "decoded_transitions": 91.72,
+          "indexed_nodes": 1.0,
+          "index_validation_slots": 256.0,
+          "index_expected_init_slots": 256.0,
+          "index_expected_fill_writes": 64.0
+        }
+      }
+    },
+    {
+      "schema": 1,
+      "n": 100,
+      "shape": "random",
+      "dataset_hash": "18120280097955669974",
+      "fst_bytes": 4033,
+      "input_key_bytes": "1600",
+      "prefix_record_count": 16,
+      "hit_checksum": "21471693571190",
+      "miss_checksum": "0",
+      "hit": {
+        "totals": {
+          "read_nodes": 1700,
+          "implicit_nodes": 100,
+          "single_nodes": 1475,
+          "multi_nodes": 125,
+          "decoded_transitions": 10228,
+          "indexed_nodes": 100,
+          "index_validation_slots": 25600,
+          "index_expected_init_slots": 25600,
+          "index_expected_fill_writes": 8700
+        },
+        "per_lookup": {
+          "read_nodes": 17.0,
+          "implicit_nodes": 1.0,
+          "single_nodes": 14.75,
+          "multi_nodes": 1.25,
+          "decoded_transitions": 102.28,
+          "indexed_nodes": 1.0,
+          "index_validation_slots": 256.0,
+          "index_expected_init_slots": 256.0,
+          "index_expected_fill_writes": 87.0
+        }
+      },
+      "miss": {
+        "totals": {
+          "read_nodes": 1700,
+          "implicit_nodes": 100,
+          "single_nodes": 1475,
+          "multi_nodes": 125,
+          "decoded_transitions": 10228,
+          "indexed_nodes": 100,
+          "index_validation_slots": 25600,
+          "index_expected_init_slots": 25600,
+          "index_expected_fill_writes": 8700
+        },
+        "per_lookup": {
+          "read_nodes": 17.0,
+          "implicit_nodes": 1.0,
+          "single_nodes": 14.75,
+          "multi_nodes": 1.25,
+          "decoded_transitions": 102.28,
+          "indexed_nodes": 1.0,
+          "index_validation_slots": 256.0,
+          "index_expected_init_slots": 256.0,
+          "index_expected_fill_writes": 87.0
+        }
+      }
+    }
+  ],
+  "source_sha256": {
+    "builder.mbt": "fe10afba76ce60ed05d5727afacc8ce8ae5e8b22493015d1247f1330412574a7",
+    "extensions.mbt": "3c8ad6a89563af0f7d27ad2e9d93e57d3f1e97f0a1f583d8bbe7bede5c6fe81c",
+    "fst.mbt": "7b1d03216468960e07410e45515ee77a3194c666f84a729ddf9d67cbfcb02ef4",
+    "index.mbt": "386323d92175f4c326b66ee4d345dd8def89e3dc97d221a96057aa2117b39012",
+    "map.mbt": "44493b3ca0c65ee921bcc83b48cea52f70d05b55c8a811e5984a875624d160f5",
+    "moon.mod": "42fff0fdd2af0ad6a039c36605503f63a37f511e6d034fe9068ca4c452705ebb",
+    "moon.pkg": "52b113f0671e6be4f39532e91c56bb4b0c0fd1054e033e3491c9cd3d6b72c11d",
+    "operations.mbt": "ad9a537677f49fcdb8b51efc28fe4240025226090e48a80deebe338aff244f6e",
+    "reverse.mbt": "fe398085c0d614aa351be6ee8cc3b99fbd332a40c69a70079061455187f4fad7",
+    "search_index.mbt": "60b74bceea004295a9464e7215fb6d3786826e26081e158f38cc91cd7b829224",
+    "set.mbt": "fb089d562ecc54e6da62103148e0f04b90ee5edf21afb7ddc9213d4564478e3e",
+    "source.mbt": "8220a70b30991390130f1c43ab54857321b526d9107051a251a4e883f0c1a493",
+    "stream.mbt": "995f6631645e7ee8689b2ecf4e31264b49ffd0dd00ae1d83896e3861b1bbae3c",
+    "types.mbt": "530263b6dc693b8976e122cabc33e9104bb1065158278083bb71efd965de4e3b",
+    "value_statistics.mbt": "2d0b8dcc28243fddb53833b32b17922c8ccf161da80f440c0bd2e50df3b8c1fe",
+    "codec/bytes.mbt": "8eb2b30433ccb760826101c5b9b73a8d1aa62a09284c87ce2a9b44f83ac3e78b",
+    "codec/common.mbt": "849b572b6eacb4a4f292a1b0ad0f734b99a2c7afb2816492cb197cad71903c6f",
+    "codec/crc32c.mbt": "3c50b777f63f25fb027fe116c8e7fef17a2a59e87fe5a4e20bbb453832a8ac88",
+    "codec/decode.mbt": "8553f6cf3ae12e780b3255ffab1636c392e0c4619f1f4ea4f12811406813fe08",
+    "codec/encode.mbt": "173642c05845b70a9d0ff45454bb2d175ae4a342a6449d3f39dd27063a747dde",
+    "codec/moon.pkg": "f55457e90e133b551bb83a9ac6b3f26b4d21e6678155f918c885105a723bf059",
+    "codec/types.mbt": "2253fd840dcd642e6a446f8f55ad43a0e4ad03beb1362cdd637d4015b98a942b",
+    "codec/verify.mbt": "adc747d9f52be1b24288aac8bafa3c9e94418348992c49940e23afa82736c5a3",
+    "automaton/automaton.mbt": "df14a4e2330d19716166f8de481c424c8f979960e43a82940477c49cf5fe5117",
+    "automaton/dfa.mbt": "d613a1bc5cf13cbbcd6feb364bb7c52b9789cff6ecc12e4c331e03da3194587b",
+    "automaton/extends.mbt": "5854725168244f6983383465fc21ab52d9172f399714fdf6851ecba87a48ca84",
+    "automaton/levenshtein.mbt": "a613edda021a1ad81f1875dc11d3f00ac0333b19d9bd2d8c2d76f1318383d0cd",
+    "automaton/matcher.mbt": "f8870cc5f4bcf3c537af3add9c15f4ba714cbc1349aa6395dc2d548b2d7bd00f",
+    "automaton/moon.pkg": "134c84382c195dd4c417eb5efc6a3ee0152ba2a31bd206bc35ab314200a0b56f"
+  },
+  "moon_toolchain": "moon 0.1.20261104 (940aa18 2026-11-04) ~/.moon/bin/moon\nmoonc v0.10.20+65efd5b93 (2026-11-05) ~/.moon/bin/moonc\nmoonrun 0.1.20261104 (940aa18 2026-11-04) ~/.moon/bin/moonrun\n\nFeature flags enabled: rr_moon_mod,rr_moon_pkg"
+}

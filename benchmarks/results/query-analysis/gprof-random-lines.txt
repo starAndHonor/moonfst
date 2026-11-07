@@ -1,0 +1,171 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ps/call  ps/call  name    
+  7.61      0.14     0.14                             mi_free
+  7.07      0.27     0.13 276057180   470.92   470.92  _M0FP37moonfst3fst5codec6unpack (decode.mbt:65 @ 1bad0)
+  6.52      0.39     0.12                             mi_malloc
+  5.43      0.49     0.10                             _init
+  4.62      0.57     0.09                             _M0FP37moonfst3fst5codec6unpack (bytes.mbt:31 @ 1bb07)
+  4.35      0.66     0.08                             _M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE (array.mbt:408 @ 2cb1e)
+  3.80      0.72     0.07                             _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:58 @ 1bcaf)
+  3.80      0.80     0.07                             _M0MPC14byte4Byte10to__uint64 (byte.mbt:331 @ 1bb0a)
+  3.26      0.85     0.06                             _M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE (array.mbt:418 @ 2cb00)
+  2.72      0.91     0.05 138028590   362.24   362.24  _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:137 @ 1bc70)
+  2.72      0.95     0.05                             _M0FP37moonfst3fst5codec11decode__any (decode.mbt:99 @ 2d073)
+  2.72      1.00     0.05                             _M0FP37moonfst3fst5codec15validate__index (decode.mbt:80 @ 2d5e9)
+  2.45      1.05     0.04                             _M0FP37moonfst3fst5codec6unpack (bytes.mbt:4 @ 1bb05)
+  2.17      1.09     0.04                             _M0FP37moonfst3fst5codec6unpack (bytes.mbt:31 @ 1baed)
+  2.17      1.13     0.04                             _M0FP37moonfst3fst5codec6unpack (bytes.mbt:4 @ 1bb0f)
+  2.17      1.17     0.04                             _M0FP37moonfst3fst5codec6unpack (bytes.mbt:16 @ 1bb24)
+  2.17      1.21     0.04                             _mi_page_malloc_zero
+  1.63      1.24     0.03                             _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:59 @ 1bcca)
+  1.63      1.27     0.03                             _M0FP37moonfst3fst5codec15validate__index (decode.mbt:82 @ 2d584)
+  1.63      1.30     0.03                             moonbit_drop_object (runtime.c:532 @ 46938)
+  1.09      1.32     0.02                             _M0FP37moonfst3fst5codec11decode__any (decode.mbt:124 @ 2d0b4)
+  1.09      1.34     0.02                             _M0FP37moonfst3fst5codec15validate__index (decode.mbt:78 @ 2d59c)
+  1.09      1.36     0.02                             _M0FP37moonfst3fst5codec6unpack (bytes.mbt:41 @ 1bb00)
+  1.09      1.38     0.02                             _M0FP37moonfst3fst5codec6unpack (bytes.mbt:5 @ 1bb15)
+  1.09      1.40     0.02                             moonbit_drop_object (runtime.c:446 @ 468f0)
+  1.09      1.42     0.02                             moonbit_drop_object (runtime.c:448 @ 468f5)
+  1.09      1.44     0.02                             moonbit_drop_object (runtime.c:560 @ 46962)
+  1.09      1.46     0.02                             moonbit_make_ref_array_raw (runtime.c:1292 @ 48200)
+  0.82      1.48     0.01                             _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:24 @ 1bc91)
+  0.82      1.49     0.01                             _M0MPC15array5Array4makeGiE (array.mbt:948 @ 2d787)
+  0.82      1.50     0.01                             moonbit_drop_object (runtime.c:559 @ 4695f)
+  0.54      1.51     0.01                             _M0FP27moonfst3fst10read__node (types.mbt:171 @ 37e8d)
+  0.54      1.52     0.01                             _M0FP27moonfst3fst16find__transition (types.mbt:181 @ 3948a)
+  0.54      1.53     0.01                             _M0FP37moonfst3fst5codec11decode__any (decode.mbt:117 @ 2d0c8)
+  0.54      1.54     0.01                             _M0FP37moonfst3fst5codec11decode__any (decode.mbt:124 @ 2d0ee)
+  0.54      1.55     0.01                             _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:40 @ 1bc9a)
+  0.54      1.56     0.01                             _M0FP37moonfst3fst5codec15validate__index (decode.mbt:84 @ 2d58b)
+  0.54      1.57     0.01                             _M0FP37moonfst3fst5codec15validate__index (decode.mbt:98 @ 2d5c8)
+  0.54      1.58     0.01                             _M0FP37moonfst3fst5codec15validate__index (decode.mbt:85 @ 2d5d3)
+  0.54      1.59     0.01                             _M0FP37moonfst3fst5codec15validate__index (decode.mbt:78 @ 2d5e5)
+  0.54      1.60     0.01                             _M0FP37moonfst3fst5codec15validate__index (decode.mbt:96 @ 2d6e5)
+  0.54      1.61     0.01                             _M0FP37moonfst3fst5codec6unpack (bytes.mbt:31 @ 1bb12)
+  0.54      1.62     0.01                             _M0FP37moonfst3fst5codec6unpack (bytes.mbt:31 @ 1bb18)
+  0.54      1.64     0.01                             _M0FP37moonfst3fst5codec6unpack (bytes.mbt:15 @ 1bb1c)
+  0.54      1.65     0.01                             _M0FP47moonfst3fst10benchmarks6runner11lookup__hit (main.mbt:204 @ 3976c)
+  0.54      1.66     0.01                             _M0MPB18UninitializedArray23make__and__blit_2einnerGRP27moonfst3fst12IndexedValueE (fixedarray_block.mbt:79 @ 2c470)
+  0.54      1.67     0.01                             _M0MPC15array5Array4makeGiE (array.mbt:947 @ 2d55a)
+  0.54      1.68     0.01                             _M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE (array.mbt:418 @ 2cb44)
+  0.54      1.69     0.01                             _mi_deferred_free
+  0.54      1.70     0.01                             _mi_heap_delayed_free_partial
+  0.54      1.71     0.01                             _mi_page_free_collect.constprop.137
+  0.54      1.72     0.01                             moonbit_decref_cycle_free_inlined (profile.c:135 @ 2d650)
+  0.54      1.73     0.01                             moonbit_decref_cycle_free_inlined (profile.c:136 @ 2d652)
+  0.54      1.74     0.01                             moonbit_drop_object (runtime.c:447 @ 468ec)
+  0.54      1.75     0.01                             moonbit_drop_object (runtime.c:546 @ 46955)
+  0.54      1.75     0.01                             moonbit_drop_object (runtime.c:564 @ 46c6b)
+  0.54      1.76     0.01                             moonbit_incref_cycle_free_inlined (profile.c:114 @ 39773)
+  0.54      1.77     0.01                             scan_regular_object (runtime.c:394 @ 465a9)
+  0.27      1.78     0.01                             _M0FP27moonfst3fst16find__transition (types.mbt:186 @ 39520)
+  0.27      1.78     0.01                             _M0FP27moonfst3fst16find__transition (types.mbt:183 @ 39523)
+  0.27      1.79     0.01                             _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:41 @ 1bc9e)
+  0.27      1.79     0.01                             _M0FP37moonfst3fst5codec15validate__index (decode.mbt:78 @ 2d56b)
+  0.27      1.80     0.01                             _M0FP37moonfst3fst5codec15validate__index (decode.mbt:79 @ 2d56e)
+  0.27      1.80     0.01                             _M0MPC15array5Array20unsafe__make__uninitGiE (array.mbt:33 @ 2d533)
+  0.27      1.81     0.01                             moonbit_decref_cycle_free_inlined (profile.c:139 @ 2d772)
+  0.27      1.81     0.01                             moonbit_drop_object (runtime.c:566 @ 4696b)
+  0.27      1.82     0.01                             moonbit_make_ref_array_with_blit (runtime.c:1253 @ 47e10)
+  0.27      1.82     0.01                             moonbit_make_ref_array_with_blit (runtime.c:1254 @ 47e13)
+  0.27      1.83     0.01                             moonbit_malloc_inlined (profile.c:96 @ 2d537)
+  0.27      1.83     0.01                             scan_regular_object (runtime.c:391 @ 46580)
+  0.27      1.84     0.01                             scan_regular_object (runtime.c:393 @ 46582)
+  0.00      1.84     0.00 145142748     0.00     0.00  _M0FPB4failGuE (assert.mbt:50 @ 2c1b0)
+  0.00      1.84     0.00  5100000     0.00     0.00  _M0FP37moonfst3fst5codec12decode__node (crc32c.mbt:45 @ 2cbb0)
+  0.00      1.84     0.00  5100000     0.00     0.00  _M0FP37moonfst3fst5codec13footer__start (decode.mbt:162 @ 1bb80)
+  0.00      1.84     0.00  5100000     0.00     0.00  _M0FPC15debug10to__stringGRP37moonfst3fst5codec10CodecErrorE (delta.mbt:38 @ 37d50)
+  0.00      1.84     0.00   300000     0.00     0.00  _M0MP27moonfst3fst3Fst3get (operations.mbt:61 @ 39400)
+
+			Call graph
+
+
+granularity: each sample hit covers 4 byte(s) for 0.54% of 1.84 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]      7.6    0.14    0.00                 mi_free [1]
+-----------------------------------------------
+                0.00    0.00  559398/276057180     _M0FP37moonfst3fst5codec11decode__one (decode.mbt:26 @ 2d308) [74]
+                0.06    0.00 137469192/276057180     _M0FP37moonfst3fst5codec11decode__any (decode.mbt:99 @ 2d073) [4]
+                0.07    0.00 138028590/276057180     _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:5 @ 1bc80) [10]
+[2]      7.1    0.13    0.00 276057180         _M0FP37moonfst3fst5codec6unpack (decode.mbt:65 @ 1bad0) [2]
+-----------------------------------------------
+                                                 <spontaneous>
+[3]      6.5    0.12    0.00                 mi_malloc [3]
+-----------------------------------------------
+                                                 <spontaneous>
+[5]      5.4    0.10    0.00                 _init [5]
+-----------------------------------------------
+                0.00    0.00  559398/138028590     _M0FP37moonfst3fst5codec11decode__one (decode.mbt:26 @ 2d32c) [75]
+                0.05    0.00 137469192/138028590     _M0FP37moonfst3fst5codec11decode__any (decode.mbt:99 @ 2d08d) [14]
+[12]     2.7    0.05    0.00 138028590         _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:137 @ 1bc70) [12]
+-----------------------------------------------
+                                                 <spontaneous>
+[19]     2.2    0.04    0.00                 _mi_page_malloc_zero [19]
+-----------------------------------------------
+                                                 <spontaneous>
+[26]     1.1    0.02    0.00                 moonbit_make_ref_array_raw (runtime.c:1292 @ 48200) [26]
+-----------------------------------------------
+                                                 <spontaneous>
+[58]     0.5    0.01    0.00                 _mi_deferred_free [58]
+-----------------------------------------------
+                                                 <spontaneous>
+[59]     0.5    0.01    0.00                 _mi_heap_delayed_free_partial [59]
+-----------------------------------------------
+                                                 <spontaneous>
+[60]     0.5    0.01    0.00                 _mi_page_free_collect.constprop.137 [60]
+-----------------------------------------------
+                                                 <spontaneous>
+[66]     0.3    0.01    0.00                 scan_regular_object (runtime.c:391 @ 46580) [66]
+-----------------------------------------------
+                0.00    0.00 3836778/145142748     _M0MPC15array5Array14resize__bufferGRP37moonfst3fst5codec10TransitionE (array.mbt:249 @ 2ca9f) [21781]
+                0.00    0.00 3836778/145142748     _M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE (array.mbt:405 @ 2cb90) [22172]
+                0.00    0.00 137469192/145142748     moonbit_malloc_inlined (profile.c:97 @ 2d0de) [9018]
+[11035   0.0    0.00    0.00 145142748         _M0FPB4failGuE (assert.mbt:50 @ 2c1b0) [11035]
+-----------------------------------------------
+                0.00    0.00 5100000/5100000     _M0FP27moonfst3fst10read__node (types.mbt:171 @ 37e8d) [41]
+[11036   0.0    0.00    0.00 5100000         _M0FP37moonfst3fst5codec12decode__node (crc32c.mbt:45 @ 2cbb0) [11036]
+-----------------------------------------------
+                0.00    0.00 5100000/5100000     _M0FP37moonfst3fst5codec12decode__node (crc32c.mbt:45 @ 2cbcc) [11789]
+[11037   0.0    0.00    0.00 5100000         _M0FP37moonfst3fst5codec13footer__start (decode.mbt:162 @ 1bb80) [11037]
+-----------------------------------------------
+                0.00    0.00  300000/5100000     _M0MP27moonfst3fst3Fst3get (fst.mbt:45 @ 3941e) [19070]
+                0.00    0.00 4800000/5100000     _M0MP27moonfst3fst3Fst3get (fst.mbt:45 @ 3958c) [19082]
+[11038   0.0    0.00    0.00 5100000         _M0FPC15debug10to__stringGRP37moonfst3fst5codec10CodecErrorE (delta.mbt:38 @ 37d50) [11038]
+-----------------------------------------------
+                0.00    0.00  300000/300000      moonbit_incref_cycle_free_inlined (profile.c:116 @ 3977c) [7143]
+[11039   0.0    0.00    0.00  300000         _M0MP27moonfst3fst3Fst3get (operations.mbt:61 @ 39400) [11039]
+-----------------------------------------------
+
+Index by function name
+
+  [41] _M0FP27moonfst3fst10read__node (types.mbt:171 @ 37e8d) [2] _M0FP37moonfst3fst5codec6unpack (decode.mbt:65 @ 1bad0) [60] _mi_page_free_collect.constprop.137
+  [42] _M0FP27moonfst3fst16find__transition (types.mbt:181 @ 3948a) [16] _M0FP37moonfst3fst5codec6unpack (bytes.mbt:31 @ 1baed) [19] _mi_page_malloc_zero
+  [68] _M0FP27moonfst3fst16find__transition (types.mbt:186 @ 39520) [29] _M0FP37moonfst3fst5codec6unpack (bytes.mbt:41 @ 1bb00) [1] mi_free
+  [69] _M0FP27moonfst3fst16find__transition (types.mbt:183 @ 39523) [15] _M0FP37moonfst3fst5codec6unpack (bytes.mbt:4 @ 1bb05) [3] mi_malloc
+   [4] _M0FP37moonfst3fst5codec11decode__any (decode.mbt:99 @ 2d073) [6] _M0FP37moonfst3fst5codec6unpack (bytes.mbt:31 @ 1bb07) [34] moonbit_decref_cycle_free_inlined (profile.c:135 @ 2d650)
+  [27] _M0FP37moonfst3fst5codec11decode__any (decode.mbt:124 @ 2d0b4) [17] _M0FP37moonfst3fst5codec6unpack (bytes.mbt:4 @ 1bb0f) [35] moonbit_decref_cycle_free_inlined (profile.c:136 @ 2d652)
+  [43] _M0FP37moonfst3fst5codec11decode__any (decode.mbt:117 @ 2d0c8) [51] _M0FP37moonfst3fst5codec6unpack (bytes.mbt:31 @ 1bb12) [61] moonbit_decref_cycle_free_inlined (profile.c:139 @ 2d772)
+  [44] _M0FP37moonfst3fst5codec11decode__any (decode.mbt:124 @ 2d0ee) [30] _M0FP37moonfst3fst5codec6unpack (bytes.mbt:5 @ 1bb15) [36] moonbit_drop_object (runtime.c:447 @ 468ec)
+ [11036] _M0FP37moonfst3fst5codec12decode__node (crc32c.mbt:45 @ 2cbb0) [52] _M0FP37moonfst3fst5codec6unpack (bytes.mbt:31 @ 1bb18) [23] moonbit_drop_object (runtime.c:446 @ 468f0)
+  [12] _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:137 @ 1bc70) [53] _M0FP37moonfst3fst5codec6unpack (bytes.mbt:15 @ 1bb1c) [24] moonbit_drop_object (runtime.c:448 @ 468f5)
+  [32] _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:24 @ 1bc91) [18] _M0FP37moonfst3fst5codec6unpack (bytes.mbt:16 @ 1bb24) [20] moonbit_drop_object (runtime.c:532 @ 46938)
+  [45] _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:40 @ 1bc9a) [54] _M0FP47moonfst3fst10benchmarks6runner11lookup__hit (main.mbt:204 @ 3976c) [37] moonbit_drop_object (runtime.c:546 @ 46955)
+  [70] _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:41 @ 1bc9e) [11035] _M0FPB4failGuE (assert.mbt:50 @ 2c1b0) [31] moonbit_drop_object (runtime.c:559 @ 4695f)
+   [8] _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:58 @ 1bcaf) [11038] _M0FPC15debug10to__stringGRP37moonfst3fst5codec10CodecErrorE (delta.mbt:38 @ 37d50) [25] moonbit_drop_object (runtime.c:560 @ 46962)
+  [21] _M0FP37moonfst3fst5codec13decode__delta (decode.mbt:59 @ 1bcca) [11039] _M0MP27moonfst3fst3Fst3get (operations.mbt:61 @ 39400) [62] moonbit_drop_object (runtime.c:566 @ 4696b)
+ [11037] _M0FP37moonfst3fst5codec13footer__start (decode.mbt:162 @ 1bb80) [55] _M0MPB18UninitializedArray23make__and__blit_2einnerGRP27moonfst3fst12IndexedValueE (fixedarray_block.mbt:79 @ 2c470) [38] moonbit_drop_object (runtime.c:564 @ 46c6b)
+  [71] _M0FP37moonfst3fst5codec15validate__index (decode.mbt:78 @ 2d56b) [9] _M0MPC14byte4Byte10to__uint64 (byte.mbt:331 @ 1bb0a) [39] moonbit_incref_cycle_free_inlined (profile.c:114 @ 39773)
+  [72] _M0FP37moonfst3fst5codec15validate__index (decode.mbt:79 @ 2d56e) [73] _M0MPC15array5Array20unsafe__make__uninitGiE (array.mbt:33 @ 2d533) [26] moonbit_make_ref_array_raw (runtime.c:1292 @ 48200)
+  [22] _M0FP37moonfst3fst5codec15validate__index (decode.mbt:82 @ 2d584) [56] _M0MPC15array5Array4makeGiE (array.mbt:947 @ 2d55a) [63] moonbit_make_ref_array_with_blit (runtime.c:1253 @ 47e10)
+  [46] _M0FP37moonfst3fst5codec15validate__index (decode.mbt:84 @ 2d58b) [33] _M0MPC15array5Array4makeGiE (array.mbt:948 @ 2d787) [64] moonbit_make_ref_array_with_blit (runtime.c:1254 @ 47e13)
+  [28] _M0FP37moonfst3fst5codec15validate__index (decode.mbt:78 @ 2d59c) [11] _M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE (array.mbt:418 @ 2cb00) [65] moonbit_malloc_inlined (profile.c:96 @ 2d537)
+  [47] _M0FP37moonfst3fst5codec15validate__index (decode.mbt:98 @ 2d5c8) [7] _M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE (array.mbt:408 @ 2cb1e) [66] scan_regular_object (runtime.c:391 @ 46580)
+  [48] _M0FP37moonfst3fst5codec15validate__index (decode.mbt:85 @ 2d5d3) [57] _M0MPC15array5Array4pushGRP37moonfst3fst5codec10TransitionE (array.mbt:418 @ 2cb44) [67] scan_regular_object (runtime.c:393 @ 46582)
+  [49] _M0FP37moonfst3fst5codec15validate__index (decode.mbt:78 @ 2d5e5) [5] _init [40] scan_regular_object (runtime.c:394 @ 465a9)
+  [13] _M0FP37moonfst3fst5codec15validate__index (decode.mbt:80 @ 2d5e9) [58] _mi_deferred_free
+  [50] _M0FP37moonfst3fst5codec15validate__index (decode.mbt:96 @ 2d6e5) [59] _mi_heap_delayed_free_partial

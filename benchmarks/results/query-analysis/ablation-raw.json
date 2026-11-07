@@ -1,0 +1,897 @@
+{
+  "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+  "cpu": 2,
+  "rounds": 3,
+  "samples_per_process": 7,
+  "warmups_per_process": 2,
+  "binary_sha256": {
+    "baseline": "582520f21a15bcf75d032d36bc98cae9bba685724b25e83b3f1b5f6b630a51b4",
+    "skip_index_validation": "e7d68844210a3f5de1acfa6e7dd17076c4b95beeecd3a1b013299ffd2c889b1c",
+    "direct_lookup": "0e816fa1e65a4cae9f4b8d347feef81868a6db94e3734cedc6bfaa6bb28fa935"
+  },
+  "complete": true,
+  "runs": [
+    {
+      "round": 1,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "baseline",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214031,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              287613.463,
+              285247.566,
+              287606.204,
+              287529.934,
+              286956.669,
+              288821.598,
+              286002.56200000003
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              280209.271,
+              280713.73600000003,
+              281572.33400000003,
+              280431.381,
+              281127.69999999995,
+              282269.735,
+              281485.127
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 1,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "skip_index_validation",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214031,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              253501.73,
+              250392.714,
+              253052.87300000002,
+              251416.589,
+              250654.147,
+              251739.908,
+              254650.483
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              294521.554,
+              259495.727,
+              247620.91,
+              250639.911,
+              248468.31200000003,
+              249827.961,
+              248511.472
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 1,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "direct_lookup",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214031,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              25134.564000000002,
+              26354.522,
+              25296.399,
+              26346.525,
+              26019.737,
+              25736.859,
+              25479.966
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              22591.226,
+              22793.713,
+              22380.602,
+              22912.915,
+              22976.823,
+              22560.952,
+              22935.524
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 1,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "skip_index_validation",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3781969,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              627599.752,
+              635661.187,
+              635808.948,
+              635661.5179999999,
+              632258.984,
+              659754.855,
+              677256.273
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              668430.7409999999,
+              673368.562,
+              674905.818,
+              666524.783,
+              667125.346,
+              674814.371,
+              676426.9639999999
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 1,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "direct_lookup",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3781969,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              19903.525,
+              19847.591,
+              19609.892,
+              19749.719,
+              19714.81,
+              19869.226,
+              20143.64
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              18483.253,
+              18496.41,
+              18541.586,
+              18256.88,
+              18241.595,
+              18079.246,
+              18204.815
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 1,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "baseline",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3781969,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              784858.2779999999,
+              954836.688,
+              784023.652,
+              759670.471,
+              816703.421,
+              753654.214,
+              766596.792
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              729716.473,
+              725431.817,
+              769043.4469999999,
+              745160.737,
+              732312.096,
+              746071.964,
+              740401.977
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 2,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "skip_index_validation",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214031,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              287572.548,
+              277065.639,
+              275842.462,
+              272692.30499999993,
+              278772.01900000003,
+              277571.117,
+              274832.895
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              274924.385,
+              302076.02,
+              322757.443,
+              288665.799,
+              279224.405,
+              276527.551,
+              276688.314
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 2,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "direct_lookup",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214031,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              29017.978,
+              27944.905,
+              28086.812,
+              29215.229,
+              28668.313000000002,
+              28586.394,
+              28830.197
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              24122.775,
+              24261.937,
+              24208.8,
+              24038.788,
+              23471.963,
+              23718.253,
+              23551.972
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 2,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "baseline",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214031,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              317675.30799999996,
+              317095.152,
+              318159.806,
+              314931.25099999993,
+              318064.389,
+              319436.979,
+              316517.253
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              319033.102,
+              316604.311,
+              320032.229,
+              315589.38,
+              312217.22899999993,
+              311191.21,
+              318030.552
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 2,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "direct_lookup",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3781969,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              19292.105,
+              19631.692,
+              19325.139,
+              19540.082000000002,
+              19609.004,
+              19735.664,
+              19671.098
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              18746.447,
+              19044.467,
+              19406.69,
+              19529.775,
+              18901.623,
+              19177.088,
+              18837.983
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 2,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "baseline",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3781969,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              768733.178,
+              772791.936,
+              791881.4839999999,
+              1138661.11,
+              972129.37,
+              803066.42,
+              886170.405
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              770144.684,
+              906514.858,
+              793481.217,
+              782263.749,
+              786395.0160000001,
+              777897.902,
+              767152.008
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 2,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "skip_index_validation",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3781969,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              697450.11,
+              693501.232,
+              691288.925,
+              709587.7679999999,
+              683272.1429999999,
+              677279.506,
+              696974.676
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              676974.8640000001,
+              676298.184,
+              681323.181,
+              674593.686,
+              683188.8489999999,
+              672903.894,
+              678357.602
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 3,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "direct_lookup",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214031,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              29348.973,
+              29259.131,
+              29901.156,
+              29855.971,
+              29503.551,
+              30599.054,
+              27901.613
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              24687.667,
+              24581.777000000002,
+              24233.43,
+              24460.575,
+              24257.203,
+              24168.702,
+              23987.847
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 3,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "baseline",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214031,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              323587.84400000004,
+              324946.484,
+              323612.879,
+              340465.59199999995,
+              324112.544,
+              320070.291,
+              321010.721
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              309387.735,
+              315213.363,
+              309994.746,
+              308528.591,
+              309127.77,
+              310508.844,
+              312856.564
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 3,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "skip_index_validation",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "shared",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "16735726030334534740",
+        "input_key_bytes": 2800000,
+        "fst_bytes": 214031,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              282035.65799999994,
+              282876.207,
+              289690.252,
+              291553.799,
+              293099.281,
+              284742.039,
+              289215.852
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              279393.282,
+              276568.974,
+              280628.476,
+              279752.423,
+              279825.002,
+              284855.235,
+              282513.189
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 3,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "baseline",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3781969,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              818761.237,
+              787293.414,
+              784596.7949999999,
+              780725.702,
+              789525.88,
+              787193.419,
+              777414.533
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              783310.9940000001,
+              778721.178,
+              766041.833,
+              765908.8319999999,
+              765017.165,
+              766288.334,
+              764823.963
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 3,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "skip_index_validation",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3781969,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              694632.378,
+              686771.791,
+              703533.193,
+              682523.315,
+              668809.478,
+              676106.432,
+              676255.877
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              678599.515,
+              674546.012,
+              681202.042,
+              682279.037,
+              681967.4820000001,
+              689367.911,
+              672239.736
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "round": 3,
+      "payload": {
+        "schema": 1,
+        "engine": "moonbit",
+        "variant": "direct_lookup",
+        "diagnostic_prototype": true,
+        "warning": "Diagnostic prototype only; not a production optimization. Full load-time verification is retained. Direct lookup does not repeat complete node/index validation for every query. This experiment is not malformed-input validation.",
+        "shape": "random",
+        "n": 100000,
+        "samples": 7,
+        "warmups": 2,
+        "seed": 12648430,
+        "dataset_hash": "8207647804806519417",
+        "input_key_bytes": 1600000,
+        "fst_bytes": 3781969,
+        "metrics": [
+          {
+            "name": "lookup_hit",
+            "samples_us": [
+              20184.391,
+              20163.23,
+              20207.5,
+              20025.303,
+              20122.844,
+              20112.248,
+              20339.236
+            ],
+            "checksum": "3028092406969300912",
+            "result_count": 100000
+          },
+          {
+            "name": "lookup_miss",
+            "samples_us": [
+              18580.14500000002,
+              18508.332000000002,
+              18555.052,
+              18500.466,
+              18208.235,
+              18286.742000000002,
+              18373.848
+            ],
+            "checksum": "0",
+            "result_count": 0
+          }
+        ]
+      },
+      "stderr": ""
+    }
+  ]
+}

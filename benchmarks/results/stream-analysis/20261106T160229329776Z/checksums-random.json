@@ -1,0 +1,36 @@
+{
+  "diagnostic_only": true,
+  "dataset_hash": "8207647804806519417",
+  "metrics": [
+    {
+      "name": "build",
+      "checksum": "3781969",
+      "result_count": 100000
+    },
+    {
+      "name": "lookup_hit",
+      "checksum": "3028092406969300912",
+      "result_count": 100000
+    },
+    {
+      "name": "lookup_miss",
+      "checksum": "0",
+      "result_count": 0
+    },
+    {
+      "name": "stream_owned",
+      "checksum": "8207647804806519417",
+      "result_count": 100000
+    },
+    {
+      "name": "prefix_owned",
+      "checksum": "1439552381465844154",
+      "result_count": 12757
+    },
+    {
+      "name": "union_owned",
+      "checksum": "16621599248055750364",
+      "result_count": 150000
+    }
+  ]
+}
