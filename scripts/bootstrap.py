@@ -76,6 +76,13 @@ def main():
             staging = Path(temporary) / "moon"
             staging.mkdir()
             extract(compiler, staging)
+            # Official archives store bin files as 0664; the official installer
+            # also restores executable bits after extraction. Do not rely on a
+            # filesystem that happens to make all files executable.
+            for binary in [*(staging / "bin").iterdir(), staging / "bin/internal/tcc"]:
+                if binary.is_file():
+                    binary.chmod(binary.stat().st_mode | 0o111)
+            (staging / "bin/moonx").symlink_to("moon")
             (staging / "lib").mkdir(exist_ok=True)
             extract(core, staging / "lib")
             executable = staging / "bin/moon"
