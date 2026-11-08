@@ -6,10 +6,10 @@
 
 ## 安装与快速运行
 
-在消费项目根目录安装 `starAndHonor/fst@0.1.0`：
+在消费项目根目录安装 `starAndHonor/fst@0.1.1`：
 
 ```sh
-moon add starAndHonor/fst@0.1.0
+moon add starAndHonor/fst@0.1.1
 ```
 
 也可以在 `consumer/moon.mod` 中声明依赖：
@@ -18,7 +18,7 @@ moon add starAndHonor/fst@0.1.0
 name = "demo/consumer"
 
 import {
-  "starAndHonor/fst@0.1.0",
+  "starAndHonor/fst@0.1.1",
 }
 ```
 
