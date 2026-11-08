@@ -113,3 +113,29 @@ Rust oracle、跨语言入口及 CI。Git 中有复现所需内容，不要求�
 发布包保留 `src/` 运行库、单元测试、词典示例、README、架构和许可证。
 
 维护目录和修改 API 的约定见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+## 已执行的独立检出验证
+
+2026-11-08 UTC，对代码提交 `870473a59dab9ae49f51059bc132fb9344954921` 执行独立
+`git clone --no-local`，克隆路径含空格，初始不存在 `_build/`、`oracle/target/`、
+`benchmarks/data/`、`artifacts/` 或 `.mooncakes/`。工具链从已核验 SHA256 的原始压缩包缓存
+重新安装；没有复制项目编译缓存、预生成负载或本机申报文件。实际执行
+`bash scripts/reproduce.sh --bench`，结果如下：
+
+| 检查 | 结果 |
+|---|---|
+| 源码四后端检查、构建、测试 | Native 143/143，其余三后端各 140/140 |
+| Rust / Python 自测 | Rust oracle 3、合成 runner 4、真实 runner 5；Python 27，全部通过 |
+| Native 双向互操作 | 19 组固定、64 组随机样本通过 |
+| 发布归档 | 57 个文件与检出内容逐字节匹配；四后端各 137/137 测试通过 |
+| 仓库外消费者 | 解压归档依赖解析、README 示例四后端各 1/1 通过；词典示例通过 |
+| 合成基准 | 两种分布 × 1千/1万/10万条，3轮各7次采样，全部结果校验通过 |
+| 真实词典与内存 | 首次下载固定 Jieba 词典；1万/10万/20万条，两种查询顺序，3轮各7次；72个独立内存进程，全部校验通过 |
+| 检出洁净性 | 整套流程结束后 `git status --porcelain` 为空 |
+
+同一代码提交的 [GitHub CI](https://github.com/starAndHonor/moonfst/actions/runs/42444231973)
+也通过完整验收及发布归档/消费者检查。CI 默认不采集正式性能数字，避免把共享 runner 的
+时序波动当成性能结论。后续提交的实时状态见仓库 Actions。
+
+本次本地日志、归档清单和新测量保存在被忽略的 `artifacts/reproducibility/`；
+这些是执行结果，不是下一位开发者运行验收所需的输入。
