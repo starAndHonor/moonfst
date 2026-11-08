@@ -16,6 +16,11 @@ __pycache__/
 /fixtures/
 /oracle/
 /scripts/
-/integration/
-/automaton/integration/
+/src/integration/
+/src/automaton/integration/
 /.github/
+/src/benchmarks/
+/rust-toolchain.toml
+/toolchain.json
+/CONTRIBUTING.md
+/REPRODUCING.md

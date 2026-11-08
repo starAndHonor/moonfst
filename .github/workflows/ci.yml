@@ -11,11 +11,8 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
-      # An actual downloadable release, rather than a moving "latest" alias.
-      MOONBIT_INSTALL_VERSION: 0.10.20+65efd5b93
-      MOONFST_EXPECTED_MOONC_VERSION: 0.10.20+65efd5b93
       CARGO_TERM_COLOR: always
     steps:
       - uses: actions/checkout@v4
@@ -28,22 +25,15 @@ jobs:
       - name: Install Rust 1.94.1
         run: |
           rustup toolchain install 1.94.1 --profile minimal
-          rustup default 1.94.1
       - name: Install pinned MoonBit compiler and matching core
         run: |
-          curl -fsSL --retry 3 https://cli.moonbitlang.com/install/unix.sh -o "$RUNNER_TEMP/install-moonbit.sh"
-          for attempt in 1 2 3; do
-            if bash "$RUNNER_TEMP/install-moonbit.sh"; then
-              break
-            fi
-            if [ "$attempt" = 3 ]; then
-              exit 1
-            fi
-            sleep 5
-          done
-          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
-      - name: Four backend tests, Rust differential checks and source size
-        run: bash scripts/check.sh
+          python3 scripts/bootstrap.py --prefix "$RUNNER_TEMP/moonfst-moon"
+          echo "$RUNNER_TEMP/moonfst-moon/bin" >> "$GITHUB_PATH"
+          echo "MOON_HOME=$RUNNER_TEMP/moonfst-moon" >> "$GITHUB_ENV"
+      - name: Fresh checkout acceptance, archive and consumer verification
+        run: bash scripts/reproduce.sh
+      - name: Validation must not modify tracked files
+        run: git diff --exit-code
       - name: Preserve toolchain and LOC evidence
         if: always()
         uses: actions/upload-artifact@v4

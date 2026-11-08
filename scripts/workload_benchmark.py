@@ -25,7 +25,7 @@ BINARIES = {
     "moonbit": ROOT / "_build/native/release/build/benchmarks/workload/workload.exe",
     "rust": ROOT / "oracle/target/release/fst_workload",
 }
-MOON_BUILD = ["moon", "build", "benchmarks/workload", "--target", "native", "--release", "--deny-warn"]
+MOON_BUILD = ["moon", "build", "src/benchmarks/workload", "--target", "native", "--release", "--deny-warn"]
 RUST_BUILD = ["cargo", "build", "--locked", "--release", "--manifest-path", "oracle/Cargo.toml", "--bin", "fst_workload"]
 MEMORY_MODES = ("memory-baseline", "memory-build", "memory-load", "memory-union")
 MEASUREMENT_REVISION = 2

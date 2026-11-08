@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-IGNORED = {".git", ".moon", ".mooncakes", ".repos", "_build", "target", ".venv", "node_modules", "__pycache__"}
+IGNORED = {".git", ".moon", ".mooncakes", ".repos", "_build", "target", "artifacts", ".venv", "node_modules", "__pycache__"}
 
 
 def code_lines(source: str) -> int:
@@ -67,6 +67,8 @@ def code_lines(source: str) -> int:
 
 def classify(path: Path, source: str) -> str:
     relative = path.relative_to(ROOT)
+    if relative.parts[0] == "src":
+        relative = Path(*relative.parts[1:])
     if path.suffix != ".mbt":
         return "tooling_non_moonbit"
     if "generated" in path.name or "@generated" in source[:1000] or "DO NOT EDIT" in source[:1000]:

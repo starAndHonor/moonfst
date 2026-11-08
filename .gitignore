@@ -1,9 +1,17 @@
+# Rebuilt by MoonBit / Cargo; no binary output is required by a checkout.
 /_build/
 /target/
 /.mooncakes/
 /oracle/target/
-/artifacts/
+
+# Pinned corpus download and prepared inputs; see benchmarks/corpora/jieba.json.
 /benchmarks/data/
+
+# Local toolchains, caches, fresh measurements and private submission material.
+# Fixed fixtures, corpus manifests and archived reports remain tracked.
+/artifacts/
+
+# Interpreter caches and crash dumps.
 *.core
 __pycache__/
 *.py[cod]

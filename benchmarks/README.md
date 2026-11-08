@@ -7,7 +7,7 @@
 在仓库根目录执行：
 
 ```sh
-python3 scripts/benchmark.py --cpu 2 --output benchmarks/results/my-run
+python3 scripts/benchmark.py --cpu 2 --output artifacts/benchmarks/my-run
 ```
 
 完整采样参数如下；选择本机可用的 CPU 和尚未存在的输出目录：
@@ -17,7 +17,7 @@ python3 scripts/benchmark.py \
   --sizes 1000 10000 100000 \
   --shapes shared random \
   --samples 7 --warmups 2 --rounds 3 \
-  --cpu 2 --output benchmarks/results/my-run
+  --cpu 2 --output artifacts/benchmarks/my-run
 ```
 
 脚本构建并运行两个 **native release** 执行文件：MoonBit runner 和 Rust runner。构建使用当前工具链，Rust 依赖受 `oracle/Cargo.lock` 与精确版本约束；复现时应一起保留结果中的机器、工具链和运行参数信息。
@@ -113,7 +113,7 @@ JSON 中的 64 位 checksum、dataset hash 使用十进制字符串，以保留�
 脚本拒绝覆盖已有结果；再次测量请选择新的 `--output` 目录。本轮优化见 [优化后报告](results/optimized-v1/REPORT.md) 和 [优化与验收说明](results/optimized-v1/OPTIMIZATION.md)，原始慢版本见 [优化前报告](results/latest/REPORT.md)。可选图表需要 Matplotlib，正式计时结束后运行：
 
 ```sh
-python3 scripts/plot_benchmark.py benchmarks/results/my-run
+python3 scripts/plot_benchmark.py artifacts/benchmarks/my-run
 ```
 
 生成的 `comparison.png` 与 `comparison.svg` 展示最大规模下两种数据的耗时比值。采样和统计脚本本身只依赖 Python 标准库。
@@ -131,7 +131,7 @@ python3 scripts/plot_benchmark.py benchmarks/results/my-run
 python3 scripts/workload_benchmark.py \
   --sizes 10000 100000 200000 --orders sorted shuffled \
   --samples 7 --warmups 2 --rounds 3 --memory-rounds 3 \
-  --output benchmarks/results/my-real-run
+  --output artifacts/benchmarks/my-real-run
 ```
 
 脚本按固定 SHA256 下载 MIT 授权的 Jieba 中文词典，保留真实词频，随后
@@ -139,7 +139,7 @@ python3 scripts/workload_benchmark.py \
 记录处理与抽样规则见 [corpora/README.md](corpora/README.md)。下载文件与
 派生工作负载位于被 Git 忽略的 `benchmarks/data/`；报告保留完整来源和指纹。
 
-新增的 `benchmarks/workload` 和 `oracle/src/bin/fst_workload.rs` 使用同一份
+新增的 `src/benchmarks/workload` 和 `oracle/src/bin/fst_workload.rs` 使用同一份
 二进制输入。A/B 各 N 条、重叠 N/2；每次按同一规则排序后构建自己的 FST。
 分别测排序查询、固定种子打乱的查询，以及 50% 命中混合查询。查询命中
 checksum、命中数、请求顺序 hash、A/B/并集 hash 均由 Python 独立验证，

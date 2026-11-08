@@ -163,9 +163,8 @@ def draw(directory, n, panels):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "directory", nargs="?", type=Path,
-        default=ROOT / "benchmarks/results/latest",
-        help="directory containing summary.json (default: benchmarks/results/latest)",
+        "directory", type=Path,
+        help="explicit directory containing summary.json; plots are written there",
     )
     args = parser.parse_args(argv)
     directory = args.directory.resolve()

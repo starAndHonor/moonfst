@@ -27,7 +27,7 @@ BINARIES = {
     "moonbit": ROOT / "_build/native/release/build/benchmarks/runner/runner.exe",
     "rust": ROOT / "oracle/target/release/fst_bench",
 }
-MOON_BUILD = ["moon", "build", "benchmarks/runner", "--target", "native", "--release", "--deny-warn"]
+MOON_BUILD = ["moon", "build", "src/benchmarks/runner", "--target", "native", "--release", "--deny-warn"]
 RUST_BUILD = ["cargo", "build", "--locked", "--release", "--manifest-path", "oracle/Cargo.toml", "--bin", "fst_bench"]
 
 
@@ -183,7 +183,7 @@ def fingerprint():
         })
         for name in sorted(names):
             path = Path(directory) / name
-            if path.suffix in {".mbt", ".mbti", ".rs", ".py", ".c", ".h", ".mod", ".pkg"} or name in {"Cargo.toml", "Cargo.lock"}:
+            if path.suffix in {".mbt", ".mbti", ".rs", ".py", ".c", ".h", ".mod", ".pkg"} or name in {"Cargo.toml", "Cargo.lock", "rust-toolchain.toml", "toolchain.json", ".moonignore", ".gitignore", "ci.yml"}:
                 files.append(path)
     hashes = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest() for path in files}
     return {"sha256": hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest(), "files": hashes}
@@ -339,7 +339,7 @@ def parse_args(argv=None):
     parser.add_argument("--cpu", type=int)
     parser.add_argument("--no-affinity", action="store_true")
     parser.add_argument("--skip-build", action="store_true")
-    parser.add_argument("--output", type=Path, default=ROOT / "benchmarks/results/latest")
+    parser.add_argument("--output", type=Path, default=ROOT / "artifacts/benchmarks" / datetime.now(timezone.utc).strftime("synthetic-%Y%m%dT%H%M%S%fZ"))
     args = parser.parse_args(argv)
     if any(n < 2 or n % 2 or n > 1431655764 for n in args.sizes):
         parser.error("sizes must be even, >= 2 and <= 1431655764")

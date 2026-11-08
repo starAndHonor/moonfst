@@ -1,5 +1,7 @@
 # 本地验收记录
 
+本文件保留 0.1.0 发布前的历史验收证据。后续源码目录统一迁移至 `src/`；当前复现入口、工具链锁定与发布归档检查见 [REPRODUCING.md](REPRODUCING.md)。历史性能数字不代表目录整理后的重新采样。
+
 2026-11-07，使用 **moonc v0.10.20+65efd5b93**，moon / moonrun 为
 **0.1.20261104 (940aa18)**，对 `starAndHonor/fst` 完成发布前本地验收。
 CI 配置固定同一编译器与匹配 core；本记录不声称远程 CI 已运行。
@@ -101,7 +103,7 @@ bash scripts/check.sh
 python3 scripts/interop.py --target native --target js --target wasm-gc
 python3 scripts/random_interop.py --target native --target js --target wasm-gc
 python3 scripts/workload_smoke.py
-moon run examples/dictionary --target wasm-gc
+moon run src/examples/dictionary --target wasm-gc
 ```
 
 列表提供完整复验入口，不表示其中额外的三后端对拍和词典示例均已在本轮

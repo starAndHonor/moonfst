@@ -85,6 +85,20 @@ test {
 
 在消费项目根目录运行 `moon test . --target wasm-gc --deny-warn`。
 
+### 源码仓库与复现
+
+运行库及 MoonBit 测试、示例统一放在 `src/`，Rust 参考工具放在 `oracle/`，生成和验收入口放在 `scripts/`。固定样本、数据来源清单与历史报告提交到 Git；下载缓存和新测量输出可以从源码重新生成。
+
+在 Linux x86_64 安装 Python 3.12+、Node.js 22、Rustup、`cc`、`curl` 后，从全新检出运行：
+
+```sh
+python3 scripts/bootstrap.py
+. artifacts/env.sh
+bash scripts/reproduce.sh
+```
+
+工具链版本与下载摘要固定在 `toolchain.json`，Rust 版本固定在 `rust-toolchain.toml`。验收覆盖四后端、Rust 双向互操作，以及实际发布归档与仓库外消费者。完整性能复现使用 `bash scripts/reproduce.sh --bench`；新结果写入忽略的 `artifacts/benchmarks/`。目录职责与维护约定见 [CONTRIBUTING.md](https://github.com/starAndHonor/moonfst/blob/main/CONTRIBUTING.md)，缓存重建及离线条件见 [REPRODUCING.md](https://github.com/starAndHonor/moonfst/blob/main/REPRODUCING.md)。这两个开发文档在源码仓库提供，不随 Mooncakes 包发布。
+
 ### 本地工作区
 
 发布前或需要修改源码时，可以使用本地工作区。将仓库 `moonfst/` 与消费项目 `consumer/` 放在同一目录，在它们的父目录创建 `moon.work`：
@@ -103,7 +117,7 @@ members = [
 在源码仓库根目录运行：
 
 ```sh
-moon run examples/dictionary --target wasm-gc
+moon run src/examples/dictionary --target wasm-gc
 ```
 
 示例演示建表、中文前缀、Unicode 模糊查询、rank/page、最高词频和词频合计。也可以用 `--target native` 或 `--target js`。
@@ -161,7 +175,7 @@ Levenshtein 只接受严格有效的 UTF-8：截断、多余 continuation byte�
 与 Rust `fst 0.4.7` 的可复现 native release 基准：
 
 ```sh
-python3 scripts/benchmark.py --output benchmarks/results/my-run
+python3 scripts/benchmark.py --output artifacts/benchmarks/my-run
 ```
 
 覆盖构建、命中/近似未命中查询、完整遍历、前缀查询、并集和编码大小；默认两种数据分布、三个规模，每项 21 个样本，并验证两边结果。测量方法见 [benchmarks/README.md](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/README.md)，2026-11-06 查询优化后的实测见[基准报告](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/results/optimized-v1/REPORT.md)，原始慢版本的[基线报告](https://github.com/starAndHonor/moonfst/blob/main/benchmarks/results/latest/REPORT.md)保留用于对照。
@@ -176,7 +190,7 @@ python3 scripts/benchmark.py --output benchmarks/results/my-run
 python3 scripts/workload_benchmark.py \
   --sizes 10000 100000 200000 --orders sorted shuffled \
   --samples 7 --warmups 2 --rounds 3 --memory-rounds 3 \
-  --output benchmarks/results/my-real-run
+  --output artifacts/benchmarks/my-real-run
 ```
 
 工具按固定提交与 SHA256 读取 MIT 授权的 Jieba 词典，保留词频，从 349,045 个唯一词条中抽样；A/B 各 N 条、重叠 N/2。每词一次查询，比较排序与固定种子打乱的顺序，以及 50% 命中混合请求。近似未命中是在完整 UTF-8 词条后追加 `FF`；这些请求不是实际查询日志，也没有按词频加权。Python 独立校验 A/B、并集、查询顺序及操作结果。

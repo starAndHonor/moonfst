@@ -100,12 +100,19 @@ def replace_once(text, before, after):
 
 
 def prepare():
+    if "packed_lookup" in (ROOT / "src/fst.mbt").read_text():
+        raise ValueError(
+            "These historical counters instrument the pre-optimization decoder. "
+            "Current lookups use packed_lookup; check out the source revision "
+            "recorded in the historical report, or run scripts/benchmark.py."
+        )
     WORK.mkdir(parents=True, exist_ok=True)
     if SNAPSHOT.exists():
         shutil.rmtree(SNAPSHOT)
     SNAPSHOT.mkdir()
     hashes = {}
-    for relative in (Path("."), Path("codec"), Path("automaton")):
+    shutil.copy2(ROOT / "moon.mod", SNAPSHOT / "moon.mod")
+    for relative in (Path("src"), Path("src/codec"), Path("src/automaton")):
         destination = SNAPSHOT / relative
         destination.mkdir(parents=True, exist_ok=True)
         for source in sorted((ROOT / relative).iterdir()):
@@ -118,7 +125,7 @@ def prepare():
                 shutil.copy2(source, target)
                 hashes[str(source.relative_to(ROOT))] = hashlib.sha256(source.read_bytes()).hexdigest()
 
-    decode = SNAPSHOT / "codec/decode.mbt"
+    decode = SNAPSHOT / "src/codec/decode.mbt"
     source = decode.read_text()
     source = replace_once(source,
         "  let (input, input_size) = state_input(data, address, state)",
@@ -146,15 +153,15 @@ def prepare():
         "  query_cost_counters[0] = query_cost_counters[0] + 1UL\n"
         "  decode_node(data, header, address).node\n")
     decode.write_text(source)
-    (SNAPSHOT / "codec/query_cost_counters.mbt").write_text(COUNTERS)
+    (SNAPSHOT / "src/codec/query_cost_counters.mbt").write_text(COUNTERS)
 
     # Reuse exactly the current benchmark's generator, key/value checksum,
     # builder, and sorted lookup loops, excluding all timing/benchmark code.
-    original = (ROOT / "benchmarks/runner/main.mbt").read_text()
+    original = (ROOT / "src/benchmarks/runner/main.mbt").read_text()
     prefix = original.split("///|\nfn prefix_owned(", 1)
     if len(prefix) != 2:
         raise RuntimeError("benchmark generator anchor changed")
-    runner = SNAPSHOT / "query_cost_runner"
+    runner = SNAPSHOT / "src/query_cost_runner"
     runner.mkdir()
     (runner / "main.mbt").write_text(prefix[0] + MAIN)
     (runner / "moon.pkg").write_text('''import {
@@ -198,7 +205,7 @@ def main():
     if any(n < 2 or n % 2 for n in args.sizes):
         parser.error("sizes must be even integers >= 2")
     prepare()
-    build = ["moon", "build", "query_cost_runner", "--target", "native", "--release", "--deny-warn"]
+    build = ["moon", "build", "src/query_cost_runner", "--target", "native", "--release", "--deny-warn"]
     print("Building isolated counter runner (not a timing benchmark).", flush=True)
     result = invoke(build)
     (WORK / "build.log").write_text(result.stdout + result.stderr)

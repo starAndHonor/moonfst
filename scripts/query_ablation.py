@@ -265,11 +265,11 @@ def run_command(args, *, cwd, **kwargs):
 
 
 def source_files():
-    paths = [ROOT / "moon.mod", ROOT / "moon.pkg", ROOT / "README.md", ROOT / "LICENSE"]
-    for path in ROOT.glob("*.mbt"):
+    paths = [ROOT / "moon.mod", ROOT / "src/moon.pkg", ROOT / "README.md", ROOT / "LICENSE"]
+    for path in (ROOT / "src").glob("*.mbt"):
         if not path.name.endswith(("_test.mbt", "_wbtest.mbt")):
             paths.append(path)
-    for package in ("codec", "automaton", "benchmarks/runner"):
+    for package in ("src/codec", "src/automaton", "src/benchmarks/runner"):
         paths.append(ROOT / package / "moon.pkg")
         for path in (ROOT / package).glob("*.mbt"):
             if not path.name.endswith(("_test.mbt", "_wbtest.mbt")):
@@ -278,7 +278,7 @@ def source_files():
 
 
 def prepare():
-    current = (ROOT / "fst.mbt").read_text()
+    current = (ROOT / "src/fst.mbt").read_text()
     start, _, end = function_span(current, "Fst::get")
     if "packed_lookup" in current[start:end]:
         raise ValueError(
@@ -298,25 +298,25 @@ def prepare():
             target = directory / path.relative_to(ROOT)
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(path, target)
-        runner = directory / "benchmarks/runner/main.mbt"
+        runner = directory / "src/benchmarks/runner/main.mbt"
         runner.write_text(edit_runner(runner.read_text(), variant))
         if variant == "skip_index_validation":
-            decoder = directory / "codec/decode.mbt"
+            decoder = directory / "src/codec/decode.mbt"
             decoder.write_text(skip_repeated_validation(decoder.read_text()))
         elif variant == "direct_lookup":
-            (directory / "codec/diagnostic_lookup.mbt").write_text(DIRECT_LOOKUP)
-            fst = directory / "fst.mbt"
+            (directory / "src/codec/diagnostic_lookup.mbt").write_text(DIRECT_LOOKUP)
+            fst = directory / "src/fst.mbt"
             source = fst.read_text()
             start, _, end = function_span(source, "Fst::get")
             fst.write_text(source[:start] + LOOKUP_GET + source[end:])
-        (directory / "query_ablation_wbtest.mbt").write_text(tests)
+        (directory / "src/query_ablation_wbtest.mbt").write_text(tests)
         (directory / "DIAGNOSTIC_ONLY.md").write_text(f"# {variant}\n\n{WARNING}\n")
         print(f"prepare/build: {variant}", flush=True)
         log = []
         for command in (
             ["moon", "fmt"],
-            ["moon", "build", "benchmarks/runner", "--target", "native", "--release", "--deny-warn"],
-            ["moon", "test", "query_ablation_wbtest.mbt", "--target", "native", "--release", "--deny-warn"],
+            ["moon", "build", "src/benchmarks/runner", "--target", "native", "--release", "--deny-warn"],
+            ["moon", "test", "src/query_ablation_wbtest.mbt", "--target", "native", "--release", "--deny-warn"],
         ):
             result = run_command(command, cwd=directory)
             log.append("$ " + " ".join(command) + "\n" + result.stdout + result.stderr)

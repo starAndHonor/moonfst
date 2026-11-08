@@ -167,7 +167,7 @@ def main():
     if not hasattr(os, "sched_getaffinity") or args.cpu not in os.sched_getaffinity(0):
         parser.error("a permitted Linux CPU is required")
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
-    output = args.output.resolve() if args.output else ROOT / "benchmarks/results/stream-analysis" / stamp
+    output = args.output.resolve() if args.output else ROOT / "artifacts/profiles/stream-analysis" / stamp
     output.mkdir(parents=True, exist_ok=False)
     work = ROOT / "oracle/target/stream-profile" / stamp
     work.mkdir(parents=True, exist_ok=False)

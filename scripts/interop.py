@@ -51,7 +51,7 @@ def bridge_source(cases: list[tuple[dict[str, Any], dict[str, Any], bytes]]) -> 
 @contextmanager
 def embedded_cases(cases: list[tuple[dict[str, Any], dict[str, Any], bytes]]):
     """Restore the small tracked placeholder after every success or failure."""
-    destination = ROOT / "integration" / "fixtures_generated.mbt"
+    destination = ROOT / "src" / "integration" / "fixtures_generated.mbt"
     original = destination.read_bytes()
     try:
         destination.write_text(bridge_source(cases))
@@ -61,7 +61,7 @@ def embedded_cases(cases: list[tuple[dict[str, Any], dict[str, Any], bytes]]):
 
 
 def run_moon(target: str) -> list[dict[str, Any]]:
-    command = ["moon", "run", "integration", "--target", target, "--release", "--deny-warn"]
+    command = ["moon", "run", "src/integration", "--target", target, "--release", "--deny-warn"]
     result = subprocess.run(command, cwd=ROOT, text=True, encoding="utf-8", capture_output=True)
     if result.returncode:
         sys.stderr.write(result.stderr)
@@ -116,8 +116,8 @@ def main() -> int:
             parser.error("unknown fixtures: " + ", ".join(sorted(unknown)))
         cases = [case for case in cases if case[0]["name"] in args.names]
     if args.generate_only:
-        (ROOT / "integration" / "fixtures_embedded.mbt.txt").write_text(bridge_source(cases))
-        print(f"Wrote {len(cases)} fixtures to integration/fixtures_embedded.mbt.txt")
+        (ROOT / "src" / "integration" / "fixtures_embedded.mbt.txt").write_text(bridge_source(cases))
+        print(f"Wrote {len(cases)} fixtures to src/integration/fixtures_embedded.mbt.txt")
         return 0
     targets = args.target or ["native"]
     with Oracle() as oracle, embedded_cases(cases):

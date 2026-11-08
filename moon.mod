@@ -2,6 +2,8 @@ name = "starAndHonor/fst"
 
 version = "0.1.0"
 
+source = "src"
+
 readme = "README.md"
 
 repository = "https://github.com/starAndHonor/moonfst"

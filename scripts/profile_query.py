@@ -51,7 +51,7 @@ def main():
     parser.add_argument("--n", type=int, default=100000)
     parser.add_argument("--samples", type=int, default=3)
     parser.add_argument("--cpu", type=int, default=2)
-    parser.add_argument("--output", type=Path, default=ROOT / "benchmarks/results/query-analysis")
+    parser.add_argument("--output", type=Path, default=ROOT / "artifacts/profiles/query-analysis")
     args = parser.parse_args()
     if args.n < 2 or args.n % 2 or args.samples < 1:
         parser.error("n must be even and >= 2; samples must be positive")

@@ -1,0 +1,23 @@
+{
+  "moonbit": {
+    "version": "0.10.20+65efd5b93",
+    "moon_version": "0.1.20261104",
+    "archives": {
+      "linux-x86_64": {
+        "url": "https://cli.moonbitlang.com/binaries/0.10.20%2B65efd5b93/moonbit-linux-x86_64.tar.gz",
+        "sha256": "80d987523308fa490eba9f1baf98df996a5a7891e118357553b7c2608c0597c5",
+        "bytes": 101202397
+      }
+    },
+    "core": {
+      "url": "https://cli.moonbitlang.com/cores/core-0.10.20%2B65efd5b93.tar.gz",
+      "sha256": "8ec2a2c01335501d703867bb4eef5f92d3cd7e1ae1ee5f7f14d54d16d2c7c2b5",
+      "bytes": 2811618
+    }
+  },
+  "rust": "1.94.1",
+  "python_minimum": "3.12",
+  "node_major": 22,
+  "native_cc": "cc",
+  "validation_os": "Linux"
+}

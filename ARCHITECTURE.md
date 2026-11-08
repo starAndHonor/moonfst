@@ -17,8 +17,8 @@ runtime API. The Rust oracle is acceptance tooling only.
 
 | Area | Responsibility |
 |---|---|
-| `codec/` | Header/footer, packed integers, node encoding and decoding, common input labels, CRC32C, reachable-graph validation |
-| `builder.mbt` | Sorted incremental construction, output factoring, bounded equivalent-node registry |
+| `src/codec/` | Header/footer, packed integers, node encoding and decoding, common input labels, CRC32C, reachable-graph validation |
+| `src/builder.mbt` | Sorted incremental construction, output factoring, bounded equivalent-node registry |
 | `fst.mbt`, `packed.mbt`, `set.mbt`, `map.mbt`, `types.mbt` | Validated immutable bytes, lookup, string adapters, collection construction and inspection |
 | `stream.mbt`, `traversal.mbt` | Iterative lexicographic traversal, byte ranges and automaton pruning |
 | `reverse.mbt` | Descending traversal wrappers and reverse index pagination |
@@ -27,8 +27,8 @@ runtime API. The Rust oracle is acceptance tooling only.
 | `index.mbt` | Optional rank/select and suffix-summary cache, reversible cursors; MoonBit extensions |
 | `search_index.mbt` | Bounded FST/automaton product counts, matching rank/select and pagination |
 | `value_statistics.mbt` | Subtree value summaries, interval aggregation and best-first top-value queries |
-| `automaton/` | Composable byte matchers, explicit DFA construction, Unicode Levenshtein lowering |
-| `oracle/`, `fixtures/`, `integration/`, `scripts/` | Reproducible reference and differential checks; outside the production library |
+| `src/automaton/` | Composable byte matchers, explicit DFA construction, Unicode Levenshtein lowering |
+| `oracle/`, `fixtures/`, `src/integration/`, `scripts/` | Reproducible reference and differential checks; outside the production library |
 
 ## Graph and output model
 
